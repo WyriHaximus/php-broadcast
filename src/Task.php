@@ -2,8 +2,8 @@
 
 namespace WyriHaximus\Broadcast;
 
-use Psr\EventDispatcher\MessageInterface;
+use Psr\EventDispatcher\TaskInterface;
 
-abstract class Task implements MessageInterface
+abstract class Task implements TaskInterface
 {
 }
