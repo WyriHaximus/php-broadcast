@@ -2,8 +2,8 @@
 
 namespace WyriHaximus\Broadcast;
 
-use Psr\Event\Dispatcher\EventInterface;
-use Psr\Event\Dispatcher\ListenerProviderInterface;
+use Psr\EventDispatcher\EventInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 
 final class ArrayListenerProvider implements ListenerProviderInterface
 {

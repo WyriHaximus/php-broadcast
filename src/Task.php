@@ -2,7 +2,7 @@
 
 namespace WyriHaximus\Broadcast;
 
-use Psr\Event\Dispatcher\MessageInterface;
+use Psr\EventDispatcher\MessageInterface;
 
 abstract class Task implements MessageInterface
 {

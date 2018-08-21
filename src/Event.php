@@ -2,7 +2,7 @@
 
 namespace WyriHaximus\Broadcast;
 
-use Psr\Event\Dispatcher\EventInterface;
+use Psr\EventDispatcher\EventInterface;
 
 abstract class Event implements EventInterface
 {

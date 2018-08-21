@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "22c20c8d5414c50a9e8bebe762f1d0d3",
+    "content-hash": "15654fcf225ea26d048a1f9b2b05c729",
     "packages": [
         {
             "name": "psr/event-dispatcher",
-            "version": "0.3.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/event-dispatcher.git",
-                "reference": "ba7f8a4012b3527dcbb194ed6acf5470b6b484d3"
+                "reference": "909879458094ebe1491f04de5782366e056b66e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/ba7f8a4012b3527dcbb194ed6acf5470b6b484d3",
-                "reference": "ba7f8a4012b3527dcbb194ed6acf5470b6b484d3",
+                "url": "https://api.github.com/repos/php-fig/event-dispatcher/zipball/909879458094ebe1491f04de5782366e056b66e7",
+                "reference": "909879458094ebe1491f04de5782366e056b66e7",
                 "shasum": ""
             },
             "require": {
@@ -31,7 +31,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Event\\Dispatcher\\": "src/"
+                    "Psr\\EventDispatcher\\": "src/"
                 }
             },
             "license": [
@@ -50,10 +50,10 @@
                 "psr-14"
             ],
             "support": {
-                "source": "https://github.com/php-fig/event-dispatcher/tree/alpha3",
+                "source": "https://github.com/php-fig/event-dispatcher/tree/0.4.0",
                 "issues": "https://github.com/php-fig/event-dispatcher/issues"
             },
-            "time": "2018-08-03T04:05:55+00:00"
+            "time": "2018-08-20T08:14:46+00:00"
         },
         {
             "name": "psr/log",
