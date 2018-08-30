@@ -19,6 +19,6 @@ final class ListenerPromisedTask extends Task
     public function getFor(object $object): ?PromiseInterface
     {
         $hash = spl_object_hash($object);
-        return $this->promises[$object] ?? null;
+        return $this->promises[$hash] ?? null;
     }
 }
