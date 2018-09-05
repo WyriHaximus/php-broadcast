@@ -25,10 +25,14 @@ final class AsyncProcessor implements TaskProcessorInterface
             return (new Processor($this->listeners))->process($event);
         }
 
-        return new PromisedTask(new Promise(function ($resolve, $reject) use ($event) {
-            $listeners = iterator_to_array($this->listeners->getListenersForEvent($event));
-            return $this->call($event, $listeners)->done($resolve, $reject);
-        }));
+        $listeners = iterator_to_array($this->listeners->getListenersForEvent($event));
+        $this->call($event, $listeners)->done(function ($v) use ($event) {
+            $event->resolve($v);
+        }, function ($e) use ($event) {
+            $event->reject($e);
+        });
+
+        return $event;
     }
 
     private function call(ListenerPromisedTask $event, array $listeners): PromiseInterface
