@@ -16,7 +16,7 @@ final class CrellAsyncProcessor implements TaskProcessorInterface
 
     public function __construct(ListenerProviderInterface $listeners)
     {
-        $this->processor = new Processor($this->listeners);
+        $this->processor = new Processor($listeners);
     }
 
     public function process(TaskInterface $event): TaskInterface
