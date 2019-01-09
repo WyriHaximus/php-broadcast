@@ -11,7 +11,7 @@
             "version": "0.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/event-dispatcher.git",
+                "url": "git@github.com:php-fig/event-dispatcher.git",
                 "reference": "14a25ea9045cfc34c9edc31ad468a5cc6e914a8c"
             },
             "dist": {
@@ -49,10 +49,6 @@
                 "psr",
                 "psr-14"
             ],
-            "support": {
-                "source": "https://github.com/php-fig/event-dispatcher/tree/0.6.0",
-                "issues": "https://github.com/php-fig/event-dispatcher/issues"
-            },
             "time": "2018-09-27T17:52:39+00:00"
         },
         {
@@ -3214,16 +3210,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v3.4.14",
+            "version": "v3.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "6debc476953a45969ab39afe8dee0b825f356dc7"
+                "reference": "8a10e36ffd04c0c551051594952304d34ecece71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/6debc476953a45969ab39afe8dee0b825f356dc7",
-                "reference": "6debc476953a45969ab39afe8dee0b825f356dc7",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/8a10e36ffd04c0c551051594952304d34ecece71",
+                "reference": "8a10e36ffd04c0c551051594952304d34ecece71",
                 "shasum": ""
             },
             "require": {
@@ -3264,7 +3260,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2018-07-26T08:45:46+00:00"
+            "time": "2019-01-01T13:45:19+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
