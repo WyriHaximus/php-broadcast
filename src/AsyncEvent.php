@@ -2,6 +2,6 @@
 
 namespace WyriHaximus\Broadcast;
 
-final class Event
+final class AsyncEvent
 {
 }

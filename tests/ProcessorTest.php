@@ -5,48 +5,51 @@ namespace WyriHaximus\Tests\Broadcast;
 use ApiClients\Tools\TestUtilities\TestCase;
 use TheOrville\Exceptions\HappyArborDayException;
 use WyriHaximus\Broadcast\ArrayListenerProvider;
-use WyriHaximus\Broadcast\Processor;
+use WyriHaximus\Broadcast\Dispatcher;
 
+/**
+ * @internal
+ */
 final class ProcessorTest extends TestCase
 {
-    public function testNoErrorDuringProcess()
+    public function testNoErrorDuringProcess(): void
     {
         $flip = false;
         $listenerProvider = new ArrayListenerProvider([
             TestTask::class => [
-                function () use (&$flip) {
+                function () use (&$flip): void {
                     $flip = true;
                 },
             ],
         ]);
 
-        (new Processor($listenerProvider))->process(new TestTask());
+        (new Dispatcher($listenerProvider))->process(new TestTask());
 
         self::assertTrue($flip);
     }
 
-    public function testErrorDuringProcess()
+    public function testErrorDuringProcess(): void
     {
         $this->expectException(HappyArborDayException::class);
         $this->expectExceptionMessage('wood');
 
         $listenerProvider = new ArrayListenerProvider([
             TestTask::class => [
-                function () {
+                function (): void {
                     throw new HappyArborDayException('wood');
                 },
             ],
         ]);
 
-        (new Processor($listenerProvider))->process(new TestTask());
+        (new Dispatcher($listenerProvider))->process(new TestTask());
     }
 
-    public function testProcessReturnsTheSameInstanceItWasPassed()
+    public function testProcessReturnsTheSameInstanceItWasPassed(): void
     {
         $task = new TestTask();
         $listenerProvider = new ArrayListenerProvider([
             TestTask::class => [
-                function (TestTask $task) {
+                function (TestTask $task): void {
                     $task->flip = true;
                 },
             ],
@@ -54,7 +57,7 @@ final class ProcessorTest extends TestCase
 
         self::assertFalse($task->flip);
 
-        $returnedTask = (new Processor($listenerProvider))->process($task);
+        $returnedTask = (new Dispatcher($listenerProvider))->process($task);
 
         self::assertTrue($task->flip);
         self::assertSame($task, $returnedTask);

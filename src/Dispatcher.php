@@ -2,11 +2,10 @@
 
 namespace WyriHaximus\Broadcast;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
-use Psr\EventDispatcher\TaskInterface;
-use Psr\EventDispatcher\TaskProcessorInterface;
 
-final class Processor implements TaskProcessorInterface
+final class Dispatcher implements EventDispatcherInterface
 {
     /**
      * @var ListenerProviderInterface
@@ -21,7 +20,7 @@ final class Processor implements TaskProcessorInterface
         $this->listeners = $listeners;
     }
 
-    public function process(TaskInterface $event): TaskInterface
+    public function dispatch(object $event)
     {
         foreach ($this->listeners->getListenersForEvent($event) as $listener) {
             $listener($event);

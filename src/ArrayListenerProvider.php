@@ -2,7 +2,6 @@
 
 namespace WyriHaximus\Broadcast;
 
-use Psr\EventDispatcher\EventInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 final class ArrayListenerProvider implements ListenerProviderInterface
@@ -14,14 +13,14 @@ final class ArrayListenerProvider implements ListenerProviderInterface
         $this->events = $events;
     }
 
-    public function getListenersForEvent(EventInterface $event): iterable
+    public function getListenersForEvent(object $event): iterable
     {
-        $eventName = get_class($event);
+        $eventName = \get_class($event);
 
         if (isset($this->events[$eventName])) {
             yield from $this->events[$eventName];
         }
 
-        return [];
+        yield from [];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace WyriHaximus\Broadcast;
 
-use Psr\EventDispatcher\TaskInterface;
 use React\Promise\PromiseInterface;
 
 final class PromisedTask extends Task implements PromiseInterface

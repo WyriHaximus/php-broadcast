@@ -2,7 +2,6 @@
 
 namespace WyriHaximus\Broadcast;
 
-use Psr\EventDispatcher\TaskInterface;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 
@@ -16,13 +15,14 @@ final class ListenerPromisedTask extends Task
 
     public function promise(object $object, PromiseInterface $promise): void
     {
-        $hash = spl_object_hash($object);
+        $hash = \spl_object_hash($object);
         $this->promises[$hash] = $promise;
     }
 
     public function getFor(object $object): ?PromiseInterface
     {
-        $hash = spl_object_hash($object);
+        $hash = \spl_object_hash($object);
+
         return $this->promises[$hash] ?? null;
     }
 

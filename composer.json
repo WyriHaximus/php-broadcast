@@ -2,12 +2,13 @@
   "name": "wyrihaximus/broadcast",
   "license": "MIT",
   "require": {
-    "php": "~7.1",
-    "psr/event-dispatcher": "^0.6.0",
-    "psr/log": "^1.0"
+    "php": "^7.2",
+    "psr/event-dispatcher": "^0.7",
+    "psr/log": "^1.0",
+    "wyrihaximus/iterator-or-array-to-array": "^1.1"
   },
   "require-dev": {
-    "api-clients/test-utilities": "^4.3",
+    "api-clients/test-utilities": "^5.4",
     "the-orville/exceptions": "dev-master"
   },
   "autoload": {
@@ -23,7 +24,7 @@
   "config": {
     "sort-packages": true,
     "platform": {
-      "php": "7.1"
+      "php": "7.2"
     }
   },
   "scripts": {

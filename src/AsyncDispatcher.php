@@ -2,14 +2,13 @@
 
 namespace WyriHaximus\Broadcast;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
-use Psr\EventDispatcher\TaskInterface;
-use Psr\EventDispatcher\TaskProcessorInterface;
-use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 use function React\Promise\resolve;
+use function WyriHaximus\iteratorOrArrayToArray;
 
-final class AsyncProcessor implements TaskProcessorInterface
+final class AsyncDispatcher implements EventDispatcherInterface
 {
     /** @var ListenerProviderInterface */
     private $listeners;
@@ -19,20 +18,19 @@ final class AsyncProcessor implements TaskProcessorInterface
         $this->listeners = $listeners;
     }
 
-    public function process(TaskInterface $event): TaskInterface
+    /**
+     * @param  object                   $event
+     * @return PromiseInterface<object>
+     */
+    public function dispatch(object $event)
     {
         if (!($event instanceof ListenerPromisedTask)) {
-            return (new Processor($this->listeners))->process($event);
+            return (new Dispatcher($this->listeners))->process($event);
         }
 
-        $listeners = iterator_to_array($this->listeners->getListenersForEvent($event));
-        $this->call($event, $listeners)->done(function ($v) use ($event) {
-            $event->resolve($v);
-        }, function ($e) use ($event) {
-            $event->reject($e);
-        });
+        $listeners = iteratorOrArrayToArray($this->listeners->getListenersForEvent($event));
 
-        return $event;
+        return $this->call($event, $listeners);
     }
 
     private function call(ListenerPromisedTask $event, array $listeners): PromiseInterface
@@ -41,7 +39,7 @@ final class AsyncProcessor implements TaskProcessorInterface
             return resolve($event);
         }
 
-        $listener = array_shift($listeners);
+        $listener = \array_shift($listeners);
         $listener($event);
 
         $promise = $event->getFor($listener);

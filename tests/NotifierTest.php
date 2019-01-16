@@ -9,15 +9,18 @@ use TheOrville\Exceptions\LatchcombException;
 use WyriHaximus\Broadcast\ArrayListenerProvider;
 use WyriHaximus\Broadcast\Notifier;
 
+/**
+ * @internal
+ */
 final class NotifierTest extends TestCase
 {
-    public function testMessageNoErrors()
+    public function testMessageNoErrors(): void
     {
         $flip = false;
         $message = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
             TestMessage::class => [
-                function () use (&$flip) {
+                function () use (&$flip): void {
                     $flip = true;
                 },
             ],
@@ -28,16 +31,16 @@ final class NotifierTest extends TestCase
         self::assertTrue($flip);
     }
 
-    public function testMessageErrorOnFirstSecondStillRunsNoErrorHandler()
+    public function testMessageErrorOnFirstSecondStillRunsNoErrorHandler(): void
     {
         $flip = false;
         $message = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
             TestMessage::class => [
-                function () {
+                function (): void {
                     throw new LatchcombException();
                 },
-                function () use (&$flip) {
+                function () use (&$flip): void {
                     $flip = true;
                 },
             ],
@@ -48,7 +51,7 @@ final class NotifierTest extends TestCase
         self::assertTrue($flip);
     }
 
-    public function testMessageOnErrorLogs()
+    public function testMessageOnErrorLogs(): void
     {
         $exception = new HappyArborDayException();
         $logger = $this->prophesize(LoggerInterface::class);
@@ -56,7 +59,7 @@ final class NotifierTest extends TestCase
         $message = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
             TestMessage::class => [
-                function () use ($exception) {
+                function () use ($exception): void {
                     throw $exception;
                 },
             ],
