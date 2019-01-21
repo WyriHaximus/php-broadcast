@@ -186,31 +186,22 @@
         },
         {
             "name": "api-clients/test-utilities",
-            "version": "5.4.0",
+            "version": "5.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/test-utilities.git",
-                "reference": "fb3a310d6d6e5cf3ad3e3e03e8edea03bd38f491"
+                "reference": "692e7d3f30a06dbb1b8981ce9a85b6e4459b91de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/test-utilities/zipball/fb3a310d6d6e5cf3ad3e3e03e8edea03bd38f491",
-                "reference": "fb3a310d6d6e5cf3ad3e3e03e8edea03bd38f491",
+                "url": "https://api.github.com/repos/php-api-clients/test-utilities/zipball/692e7d3f30a06dbb1b8981ce9a85b6e4459b91de",
+                "reference": "692e7d3f30a06dbb1b8981ce9a85b6e4459b91de",
                 "shasum": ""
             },
             "require": {
                 "api-clients/cs-fixer-config": "^1.1.1",
-                "clue/block-react": "^1.3",
-                "composer/composer": "^1.8",
-                "friendsofphp/php-cs-fixer": "^2.13",
-                "infection/infection": "^0.11.4",
-                "jakub-onderka/php-console-highlighter": "^0.4",
-                "jakub-onderka/php-parallel-lint": "^1.0.0",
-                "localheinz/composer-normalize": "^1.0.0",
-                "nunomaduro/collision": "^2.1",
                 "php": "^7.2",
-                "phpstan/phpstan": "^0.10.7",
-                "phpunit/phpunit": "^7.5"
+                "wyrihaximus/async-test-utilities": "^1.0.1"
             },
             "type": "library",
             "autoload": {
@@ -229,7 +220,7 @@
                 }
             ],
             "description": "Test utilities for api-clients packages",
-            "time": "2018-12-31T11:09:06+00:00"
+            "time": "2019-01-20T18:52:18+00:00"
         },
         {
             "name": "clue/block-react",
@@ -2753,16 +2744,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.10.8",
+            "version": "0.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "4f828460a0276180da76c670a0a6e592e7c38b71"
+                "reference": "a138b8a2731b2c19f1dffa2f1411984a638fe977"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4f828460a0276180da76c670a0a6e592e7c38b71",
-                "reference": "4f828460a0276180da76c670a0a6e592e7c38b71",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a138b8a2731b2c19f1dffa2f1411984a638fe977",
+                "reference": "a138b8a2731b2c19f1dffa2f1411984a638fe977",
                 "shasum": ""
             },
             "require": {
@@ -2785,17 +2776,17 @@
                 "brianium/paratest": "^2.0",
                 "consistence/coding-standard": "^3.5",
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-                "ext-gd": "*",
                 "ext-intl": "*",
                 "ext-mysqli": "*",
+                "ext-soap": "*",
                 "ext-zip": "*",
                 "jakub-onderka/php-parallel-lint": "^1.0",
-                "localheinz/composer-normalize": "~0.9.0",
+                "localheinz/composer-normalize": "^1.1.0",
                 "phing/phing": "^2.16.0",
-                "phpstan/phpstan-deprecation-rules": "^0.10.2",
-                "phpstan/phpstan-php-parser": "^0.10",
-                "phpstan/phpstan-phpunit": "^0.10",
-                "phpstan/phpstan-strict-rules": "^0.10",
+                "phpstan/phpstan-deprecation-rules": "^0.11",
+                "phpstan/phpstan-php-parser": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-strict-rules": "^0.11",
                 "phpunit/phpunit": "^7.0",
                 "slevomat/coding-standard": "^4.7.2",
                 "squizlabs/php_codesniffer": "^3.3.2"
@@ -2806,7 +2797,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.10-dev"
+                    "dev-master": "0.11-dev"
                 }
             },
             "autoload": {
@@ -2822,7 +2813,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-01-08T09:51:19+00:00"
+            "time": "2019-01-19T20:23:08+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4454,7 +4445,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -4927,6 +4918,134 @@
                 "validate"
             ],
             "time": "2018-12-25T11:19:39+00:00"
+        },
+        {
+            "name": "wyrihaximus/async-test-utilities",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WyriHaximus/php-async-test-utilities.git",
+                "reference": "c8ac9644151ef72cca87a993288db5b4a413c8bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WyriHaximus/php-async-test-utilities/zipball/c8ac9644151ef72cca87a993288db5b4a413c8bf",
+                "reference": "c8ac9644151ef72cca87a993288db5b4a413c8bf",
+                "shasum": ""
+            },
+            "require": {
+                "clue/block-react": "^1.3",
+                "php": "^7.2",
+                "wyrihaximus/cs-fixer-config": "^1.0.1",
+                "wyrihaximus/test-utilities": "^1.0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WyriHaximus\\AsyncTestUtilities\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "ceesjank@gmail.com"
+                }
+            ],
+            "description": "Test utilities for api-clients packages",
+            "time": "2019-01-20T18:10:41+00:00"
+        },
+        {
+            "name": "wyrihaximus/cs-fixer-config",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WyriHaximus/php-cs-fixer-config.git",
+                "reference": "a36a4f35c8b499252518ec6094a1de5f010fc999"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WyriHaximus/php-cs-fixer-config/zipball/a36a4f35c8b499252518ec6094a1de5f010fc999",
+                "reference": "a36a4f35c8b499252518ec6094a1de5f010fc999",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "wyrihaximus/test-utilities": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WyriHaximus\\CsFixerConfig\\": "src/"
+                },
+                "files": [
+                    "src/rules_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "ceesjank@gmail.com"
+                }
+            ],
+            "description": "friendsofphp/php-cs-fixer config",
+            "time": "2019-01-20T17:38:15+00:00"
+        },
+        {
+            "name": "wyrihaximus/test-utilities",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WyriHaximus/php-test-utilities.git",
+                "reference": "d292de1799f96de76c794a516ab13b19057d2e9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WyriHaximus/php-test-utilities/zipball/d292de1799f96de76c794a516ab13b19057d2e9a",
+                "reference": "d292de1799f96de76c794a516ab13b19057d2e9a",
+                "shasum": ""
+            },
+            "require": {
+                "composer/composer": "^1.8",
+                "friendsofphp/php-cs-fixer": "^2.14",
+                "infection/infection": "^0.11.4",
+                "jakub-onderka/php-console-highlighter": "^0.4",
+                "jakub-onderka/php-parallel-lint": "^1.0.0",
+                "localheinz/composer-normalize": "^1.0.0",
+                "nunomaduro/collision": "^2.1",
+                "php": "^7.2",
+                "phpstan/phpstan": "^0.10.7 || ^0.11.0",
+                "phpunit/phpunit": "^7.5",
+                "wyrihaximus/cs-fixer-config": "^1.0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WyriHaximus\\TestUtilities\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "ceesjank@gmail.com"
+                }
+            ],
+            "description": "Test utilities for api-clients packages",
+            "time": "2019-01-20T17:45:21+00:00"
         }
     ],
     "aliases": [],
