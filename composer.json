@@ -3,7 +3,7 @@
   "license": "MIT",
   "require": {
     "php": "^7.2",
-    "psr/event-dispatcher": "^0.7",
+    "psr/event-dispatcher": "^0.7 || ^1.0",
     "psr/log": "^1.0",
     "wyrihaximus/iterator-or-array-to-array": "^1.1"
   },
