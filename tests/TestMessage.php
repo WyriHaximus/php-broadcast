@@ -2,8 +2,6 @@
 
 namespace WyriHaximus\Tests\Broadcast;
 
-use WyriHaximus\Broadcast\Message;
-
-final class TestMessage extends Message
+final class TestMessage
 {
 }

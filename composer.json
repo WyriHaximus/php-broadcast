@@ -5,6 +5,7 @@
     "php": "^7.2",
     "psr/event-dispatcher": "^0.7",
     "psr/log": "^1.0",
+    "react/promise": "^2.7",
     "wyrihaximus/iterator-or-array-to-array": "^1.1"
   },
   "require-dev": {

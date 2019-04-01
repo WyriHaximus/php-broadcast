@@ -7,12 +7,12 @@ use Psr\Log\LoggerInterface;
 use TheOrville\Exceptions\HappyArborDayException;
 use TheOrville\Exceptions\LatchcombException;
 use WyriHaximus\Broadcast\ArrayListenerProvider;
-use WyriHaximus\Broadcast\Notifier;
+use WyriHaximus\Broadcast\Dispatcher;
 
 /**
  * @internal
  */
-final class NotifierTest extends TestCase
+final class DispatcherTest extends TestCase
 {
     public function testMessageNoErrors(): void
     {
@@ -26,7 +26,7 @@ final class NotifierTest extends TestCase
             ],
         ]);
 
-        (new Notifier($listenerProvider))->notify($message);
+        (new Dispatcher($listenerProvider))->dispatch($message);
 
         self::assertTrue($flip);
     }
@@ -46,7 +46,7 @@ final class NotifierTest extends TestCase
             ],
         ]);
 
-        (new Notifier($listenerProvider))->notify($message);
+        (new Dispatcher($listenerProvider))->dispatch($message);
 
         self::assertTrue($flip);
     }
@@ -55,7 +55,9 @@ final class NotifierTest extends TestCase
     {
         $exception = new HappyArborDayException();
         $logger = $this->prophesize(LoggerInterface::class);
-        $logger->error((string)$exception)->shouldBeCalled();
+        $logger->error('Unhandled throwable caught: ' . \get_class($exception), [
+            'exception' => (string)$exception,
+        ])->shouldBeCalled();
         $message = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
             TestMessage::class => [
@@ -65,6 +67,6 @@ final class NotifierTest extends TestCase
             ],
         ]);
 
-        (new Notifier($listenerProvider, $logger->reveal()))->notify($message);
+        (new Dispatcher($listenerProvider, $logger->reveal()))->dispatch($message);
     }
 }
