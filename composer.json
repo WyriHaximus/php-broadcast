@@ -3,10 +3,13 @@
   "license": "MIT",
   "require": {
     "php": "^7.2",
+    "psr/container": "^1.0",
     "psr/event-dispatcher": "^0.7 || ^1.0",
     "psr/log": "^1.0",
     "react/promise": "^2.7",
-    "wyrihaximus/iterator-or-array-to-array": "^1.1"
+    "wyrihaximus/get-in-packages-composer.jason": "^1.0",
+    "wyrihaximus/iterator-or-array-to-array": "^1.1",
+    "wyrihaximus/list-classes-in-directory": "^1.3"
   },
   "require-dev": {
     "api-clients/test-utilities": "^5.4",
@@ -26,6 +29,17 @@
     "sort-packages": true,
     "platform": {
       "php": "7.2"
+    }
+  },
+  "extra": {
+    "wyrihaximus": {
+      "broadcast":{
+        "testing": {
+          "stdClass": [
+            "tests/DummyEventListener.php"
+          ]
+        }
+      }
     }
   },
   "scripts": {
@@ -80,11 +94,5 @@
     "ci-coverage": [
       "if [ -f ./build/logs/clover.xml ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi"
     ]
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/php-fig/event-dispatcher"
-    }
-  ]
+  }
 }
