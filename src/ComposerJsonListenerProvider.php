@@ -28,6 +28,8 @@ final class ComposerJsonListenerProvider implements ListenerProviderInterface
 
         if (!isset($this->events[$eventName])) {
             yield from [];
+
+            return;
         }
 
         foreach ($this->events[$eventName] as $listener) {
