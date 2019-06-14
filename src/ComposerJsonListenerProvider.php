@@ -47,7 +47,7 @@ final class ComposerJsonListenerProvider implements ListenerProviderInterface
     private function locateEvents(AbstractPackage $package, iterable $events): iterable
     {
         foreach ($events as $event => $listeners) {
-            yield $event => $this->locateListeners($package, $listeners);
+            yield $event => iteratorOrArrayToArray($this->locateListeners($package, $listeners));
         }
     }
 
