@@ -19,7 +19,7 @@ final class ComposerJsonListenerProvider implements ListenerProviderInterface
     public function __construct(string $path, ContainerInterface $container)
     {
         $this->container = $container;
-        $this->events = iteratorOrArrayToArray($this->iteratePackages(get_in_packages_composer($path)));
+        $this->iteratePackages(get_in_packages_composer($path));
     }
 
     public function getListenersForEvent(object $event): iterable
@@ -37,17 +37,19 @@ final class ComposerJsonListenerProvider implements ListenerProviderInterface
         }
     }
 
-    private function iteratePackages(iterable $packages): iterable
+    private function iteratePackages(iterable $packages): void
     {
         foreach ($packages as $package => $events) {
-            yield from $this->locateEvents($package, $events);
+            $this->locateEvents($package, $events);
         }
     }
 
-    private function locateEvents(AbstractPackage $package, iterable $events): iterable
+    private function locateEvents(AbstractPackage $package, iterable $events): void
     {
-        foreach ($events as $event => $listeners) {
-            yield $event => iteratorOrArrayToArray($this->locateListeners($package, $listeners));
+        foreach ($events as $eventName => $listeners) {
+            foreach ($this->locateListeners($package, $listeners) as $event) {
+                $this->events[$eventName][] = $event;
+            }
         }
     }
 
