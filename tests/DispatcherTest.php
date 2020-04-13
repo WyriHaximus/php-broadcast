@@ -2,12 +2,13 @@
 
 namespace WyriHaximus\Tests\Broadcast;
 
-use ApiClients\Tools\TestUtilities\TestCase;
 use Psr\Log\LoggerInterface;
 use TheOrville\Exceptions\HappyArborDayException;
 use TheOrville\Exceptions\LatchcombException;
 use WyriHaximus\Broadcast\ArrayListenerProvider;
 use WyriHaximus\Broadcast\Dispatcher;
+use WyriHaximus\TestUtilities\TestCase;
+use function get_class;
 
 /**
  * @internal
@@ -16,55 +17,49 @@ final class DispatcherTest extends TestCase
 {
     public function testMessageNoErrors(): void
     {
-        $flip = false;
-        $message = new TestMessage();
+        $flip             = new Flip();
+        $message          = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
-            TestMessage::class => [
-                function () use (&$flip): void {
-                    $flip = true;
-                },
-            ],
+            TestMessage::class => [$flip],
         ]);
 
-        (new Dispatcher($listenerProvider))->dispatch($message);
+        Dispatcher::createFromListenerProvider($listenerProvider)->dispatch($message);
 
-        self::assertTrue($flip);
+        self::assertTrue($flip->flip());
     }
 
     public function testMessageErrorOnFirstSecondStillRunsNoErrorHandler(): void
     {
-        $flip = false;
-        $message = new TestMessage();
+        $throw            = static function (): void {
+            throw new LatchcombException();
+        };
+        $flip             = new Flip();
+        $message          = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
             TestMessage::class => [
-                function (): void {
-                    throw new LatchcombException();
-                },
-                function () use (&$flip): void {
-                    $flip = true;
-                },
+                $throw,
+                $flip,
             ],
         ]);
 
-        (new Dispatcher($listenerProvider))->dispatch($message);
+        Dispatcher::createFromListenerProvider($listenerProvider)->dispatch($message);
 
-        self::assertTrue($flip);
+        self::assertTrue($flip->flip());
     }
 
     public function testMessageOnErrorLogs(): void
     {
         $exception = new HappyArborDayException();
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->error('Unhandled throwable caught: ' . \get_class($exception), [
-            'exception' => (string)$exception,
+        $throw     = static function () use ($exception): void {
+            throw $exception;
+        };
+        $logger    = $this->prophesize(LoggerInterface::class);
+        $logger->error('Unhandled throwable caught: ' . get_class($exception), [
+            'exception' => (string) $exception,
         ])->shouldBeCalled();
-        $message = new TestMessage();
+        $message          = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
-            TestMessage::class => [
-                function () use ($exception): void {
-                    throw $exception;
-                },
-            ],
+            TestMessage::class => [$throw],
         ]);
 
         (new Dispatcher($listenerProvider, $logger->reveal()))->dispatch($message);
