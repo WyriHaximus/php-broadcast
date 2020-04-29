@@ -1,19 +1,44 @@
 {
   "name": "wyrihaximus/broadcast",
+  "type": "composer-plugin",
+  "description": "✨ Staticly on composer install/update compiled event dispatcher",
   "license": "MIT",
   "require": {
-    "php": "^7.2",
-    "psr/container": "^1.0",
-    "psr/event-dispatcher": "^0.7 || ^1.0",
-    "psr/log": "^1.0",
+    "php": "^7.4",
+    "api-clients/rx": "^2.2",
+    "composer-plugin-api": "^1.1",
+    "psr/event-dispatcher": "^1.0",
+    "psr/log": "^1.1",
     "react/promise": "^2.7",
+    "reactivex/rxphp": "^2.0",
+    "roave/better-reflection": "^4.0",
+    "thecodingmachine/safe": "^1.1",
+    "wyrihaximus/broadcast-contracts": "dev-master",
+    "wyrihaximus/constants": "^1.5",
     "wyrihaximus/get-in-packages-composer.jason": "^1.0",
     "wyrihaximus/iterator-or-array-to-array": "^1.1",
-    "wyrihaximus/list-classes-in-directory": "^1.3"
+    "wyrihaximus/list-classes-in-directory": "^1.3",
+    "wyrihaximus/string-get-in": "^1.0"
   },
   "require-dev": {
-    "api-clients/test-utilities": "^5.4",
-    "the-orville/exceptions": "dev-master"
+    "composer/composer": "^1.10",
+    "psr/container": "^1.0",
+    "the-orville/exceptions": "dev-master",
+    "wyrihaximus/test-utilities": "^2.2"
+  },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "class": "WyriHaximus\\Broadcast\\Composer\\Installer",
+    "wyrihaximus": {
+      "broadcast": {
+        "has-listeners": true
+      }
+    }
   },
   "autoload": {
     "psr-4": {
@@ -25,74 +50,15 @@
       "WyriHaximus\\Tests\\Broadcast\\": "tests"
     }
   },
-  "config": {
-    "sort-packages": true,
-    "platform": {
-      "php": "7.2"
-    }
-  },
-  "extra": {
-    "wyrihaximus": {
-      "broadcast":{
-        "testing": {
-          "stdClass": [
-            "tests/DummyEventListener.php"
-          ]
-        }
-      }
-    }
-  },
   "scripts": {
-    "ensure-installed": "composer install --ansi -n -q",
-    "cs": [
-      "@ensure-installed",
-      "php-cs-fixer fix --config=.php_cs --ansi --dry-run --diff --verbose --allow-risky=yes --show-progress=estimating"
+    "post-install-cmd": [
+      "composer normalize"
     ],
-    "cs-fix": [
-      "@ensure-installed",
-      "php-cs-fixer fix --config=.php_cs --ansi --verbose --allow-risky=yes --show-progress=estimating"
+    "post-update-cmd": [
+      "composer normalize"
     ],
-    "unit": [
-      "@ensure-installed",
-      "phpunit --colors=always -c phpunit.xml.dist"
-    ],
-    "unit-coverage": [
-      "@ensure-installed",
-      "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml --coverage-clover ./build/logs/clover.xml"
-    ],
-    "lint-php": [
-      "@ensure-installed",
-      "parallel-lint --exclude vendor ."
-    ],
-    "qa-all": [
-      "@lint-php",
-      "@cs",
-      "@unit"
-    ],
-    "qa-all-coverage": [
-      "@lint-php",
-      "@cs",
-      "@unit-coverage"
-    ],
-    "qa-windows": [
-      "@lint-php",
-      "@cs",
-      "@unit"
-    ],
-    "qa-ci": [
-      "@unit"
-    ],
-    "qa-ci-extended": [
-      "@qa-all-coverage"
-    ],
-    "qa-ci-windows": [
-      "@qa-windows"
-    ],
-    "qa-contrib": [
-      "@qa-all"
-    ],
-    "ci-coverage": [
-      "if [ -f ./build/logs/clover.xml ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi"
+    "pre-autoload-dump": [
+      "WyriHaximus\\Broadcast\\Composer\\Installer::findEventListeners"
     ]
   }
 }

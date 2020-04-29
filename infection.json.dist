@@ -1,0 +1,20 @@
+{
+    "timeout": 120,
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "infection-log.txt"
+    },
+    "mutators": {
+        "@default": true,
+        "ArrayItemRemoval": false,
+        "MethodCallRemoval": {
+            "ignore": [
+                "Mammatus\\ContainerFactory::create"
+            ]
+        }
+    }
+}

@@ -7,36 +7,38 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Throwable;
+use function assert;
+use function get_class;
+use function is_callable;
 
 final class Dispatcher implements EventDispatcherInterface
 {
-    /** @var ListenerProviderInterface */
-    private $listenerProvider;
+    private ListenerProviderInterface $listenerProvider;
 
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /**
-     * @param ListenerProviderInterface $listenerProvider
-     * @param LoggerInterface           $logger
-     */
-    public function __construct(ListenerProviderInterface $listenerProvider, ?LoggerInterface $logger = null)
+    public static function createFromListenerProvider(ListenerProviderInterface $listenerProvider): self
     {
-        $this->listenerProvider = $listenerProvider;
-        $this->logger = $logger ?? new NullLogger();
+        return new self($listenerProvider, new NullLogger());
     }
 
-    public function dispatch(object $event): void
+    public function __construct(ListenerProviderInterface $listenerProvider, LoggerInterface $logger)
     {
-        /** @var callable $listener */
+        $this->listenerProvider = $listenerProvider;
+        $this->logger           = $logger;
+    }
+
+    public function dispatch(object $event): object
+    {
         foreach ($this->listenerProvider->getListenersForEvent($event) as $listener) {
+            assert(is_callable($listener));
             try {
                 $listener($event);
             } catch (Throwable $throwable) {
-                $this->logger->error('Unhandled throwable caught: ' . \get_class($throwable), [
-                    'exception' => (string)$throwable,
-                ]);
+                $this->logger->error('Unhandled throwable caught: ' . get_class($throwable), ['exception' => $throwable]);
             }
         }
+
+        return $event;
     }
 }
