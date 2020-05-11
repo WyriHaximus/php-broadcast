@@ -13,7 +13,7 @@
     "reactivex/rxphp": "^2.0",
     "roave/better-reflection": "^4.0",
     "thecodingmachine/safe": "^1.1",
-    "wyrihaximus/broadcast-contracts": "dev-master",
+    "wyrihaximus/broadcast-contracts": "^1.0",
     "wyrihaximus/constants": "^1.5",
     "wyrihaximus/get-in-packages-composer.jason": "^1.0",
     "wyrihaximus/iterator-or-array-to-array": "^1.1",

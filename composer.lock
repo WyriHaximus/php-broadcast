@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff6ae5c00eb8543d470948aac7aff2ca",
+    "content-hash": "35e80690ac757bc29ac376db200b960a",
     "packages": [
         {
             "name": "api-clients/rx",
@@ -416,7 +416,6 @@
                     "Psr\\EventDispatcher\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -432,6 +431,10 @@
                 "psr",
                 "psr-14"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/event-dispatcher/tree/master",
+                "issues": "https://github.com/php-fig/event-dispatcher/issues"
+            },
             "time": "2019-01-08T18:20:26+00:00"
         },
         {
@@ -954,16 +957,16 @@
         },
         {
             "name": "wyrihaximus/broadcast-contracts",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-broadcast-contracts.git",
-                "reference": "98d20dcd4e462ecf434d8d39ee5807fa8d43f4bd"
+                "reference": "86e8abb0e1a793b09e5bf0d867f56c061e53ae6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-broadcast-contracts/zipball/98d20dcd4e462ecf434d8d39ee5807fa8d43f4bd",
-                "reference": "98d20dcd4e462ecf434d8d39ee5807fa8d43f4bd",
+                "url": "https://api.github.com/repos/WyriHaximus/php-broadcast-contracts/zipball/86e8abb0e1a793b09e5bf0d867f56c061e53ae6b",
+                "reference": "86e8abb0e1a793b09e5bf0d867f56c061e53ae6b",
                 "shasum": ""
             },
             "require": {
@@ -980,7 +983,13 @@
                 "MIT"
             ],
             "description": "✨ Contracts for wyrihaximus/broadcast",
-            "time": "2020-04-20T22:13:16+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/WyriHaximus",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-05-11T16:20:52+00:00"
         },
         {
             "name": "wyrihaximus/constants",
@@ -1473,6 +1482,16 @@
                 "autoload",
                 "dependency",
                 "package"
+            ],
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-04-10T09:44:22+00:00"
         },
@@ -2114,6 +2133,24 @@
                 "PHPStan",
                 "phpstan-extreme-rules",
                 "phpstan-rules"
+            ],
+            "funding": [
+                {
+                    "url": "https://paypal.me/localheinz",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.amazon.de/hz/wishlist/ls/2NCHMSJ4BC1OW",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.buymeacoffee.com/localheinz",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/localheinz",
+                    "type": "github"
+                }
             ],
             "time": "2020-03-13T20:00:07+00:00"
         },
@@ -3061,6 +3098,20 @@
                 "laravel-zero",
                 "php",
                 "symfony"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/nunomaduro",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/nunomaduro",
+                    "type": "patreon"
+                }
             ],
             "time": "2020-04-04T19:56:08+00:00"
         },
@@ -4030,6 +4081,12 @@
                 "filesystem",
                 "iterator"
             ],
+            "funding": [
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
+            ],
             "time": "2020-04-18T05:02:12+00:00"
         },
         {
@@ -4756,6 +4813,12 @@
                 "Xdebug",
                 "environment",
                 "hhvm"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
             ],
             "time": "2020-04-14T13:36:52+00:00"
         },
@@ -6368,7 +6431,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "wyrihaximus/broadcast-contracts": 20,
         "the-orville/exceptions": 20
     },
     "prefer-stable": false,
