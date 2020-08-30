@@ -1,4 +1,6 @@
 parameters:
+	excludes_analyse:
+		- src/Generated/*
 	ignoreErrors:
 		- '#Method WyriHaximus\\Broadcast\\ContainerListenerProvider::__construct\(\) has a parameter \$container with a type declaration of Psr\\Container\\ContainerInterface, but containers should not be injected.#'
 		- '#Generator expects value type callable\(\): mixed, string given.#'

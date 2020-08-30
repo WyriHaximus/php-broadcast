@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast;
 
@@ -22,6 +24,8 @@ final class ContainerListenerProvider extends AbstractListenerProvider implement
      * @param array<array{class: string, method: string, static: bool}> $listeners
      *
      * @return iterable<callable>
+     *
+     * @psalm-suppress InvalidReturnType
      */
     protected function prepareCallable(array $listeners): iterable
     {

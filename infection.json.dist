@@ -11,9 +11,20 @@
     "mutators": {
         "@default": true,
         "ArrayItemRemoval": false,
-        "MethodCallRemoval": {
+        "CastString": false,
+        "Identical": false,
+        "MethodCallRemoval": false,
+        "Continue_": false,
+        "FunctionCallRemoval": false,
+        "InstanceOf_": false,
+        "Minus": false,
+        "RoundingFamily": false,
+        "ArrayOneItem": false,
+        "Foreach_": false,
+        "LogicalOr": false,
+        "LogicalNot": {
             "ignore": [
-                "Mammatus\\ContainerFactory::create"
+                "WyriHaximus\\Broadcast\\Composer\\Installer::findEventListeners"
             ]
         }
     }
