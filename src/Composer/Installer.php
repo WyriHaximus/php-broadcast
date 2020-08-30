@@ -53,7 +53,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        return [ScriptEvents::PRE_AUTOLOAD_DUMP => 'findEventListeners'];
+        return [ScriptEvents::PRE_AUTOLOAD_DUMP => ['findEventListeners', PHP_INT_MIN]];
     }
 
     public function activate(Composer $composer, IOInterface $io): void
