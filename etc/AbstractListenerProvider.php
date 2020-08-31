@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // phpcs:disable
 namespace WyriHaximus\Broadcast\Generated;
@@ -21,6 +23,7 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
     {
         $className = get_class($event);
         if (array_key_exists($className, self::LISTENERS)) {
+            /** @psalm-suppress EmptyArrayAccess */
             yield from $this->prepareCallable(self::LISTENERS[$className]);
         }
 

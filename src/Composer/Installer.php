@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast\Composer;
 
@@ -11,6 +13,7 @@ use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use JetBrains\PHPStormStub\PhpStormStubsMap;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\ClassReflector;
@@ -20,13 +23,19 @@ use Roave\BetterReflection\SourceLocator\Type\Composer\Psr\Exception\InvalidPref
 use Rx\Observable;
 use Throwable;
 use WyriHaximus\Broadcast\Contracts\Listener;
+
 use function ApiClients\Tools\Rx\observableFromArray;
+use function array_filter;
 use function array_key_exists;
+use function class_exists;
 use function count;
+use function defined;
 use function dirname;
 use function explode;
 use function file_exists;
-use function is_array;
+use function function_exists;
+use function is_dir;
+use function is_file;
 use function is_string;
 use function microtime;
 use function round;
@@ -42,14 +51,20 @@ use function var_export;
 use function WyriHaximus\getIn;
 use function WyriHaximus\iteratorOrArrayToArray;
 use function WyriHaximus\listClassesInDirectories;
+use function WyriHaximus\listClassesInFiles;
+
 use const DIRECTORY_SEPARATOR;
+use const PHP_INT_MIN;
+use const WyriHaximus\Constants\Boolean\FALSE_;
+use const WyriHaximus\Constants\Boolean\TRUE_;
 use const WyriHaximus\Constants\Numeric\ONE;
+use const WyriHaximus\Constants\Numeric\TWO;
 use const WyriHaximus\Constants\Numeric\ZERO;
 
 final class Installer implements PluginInterface, EventSubscriberInterface
 {
     /**
-     * @return array<string, string>
+     * @return array<string, array<string|int>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -79,26 +94,61 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         $start    = microtime(true);
         $io       = $event->getIO();
         $composer = $event->getComposer();
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/react/promise/src/functions_include.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/api-clients/rx/src/functions_include.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/iterator-or-array-to-array/src/functions_include.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/list-classes-in-directory/src/functions_include.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/string-get-in/src/functions_include.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/constants/src/Numeric/constants_include.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/igorw/get-in/src/get_in.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/jetbrains/phpstorm-stubs/PhpStormStubsMap.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/thecodingmachine/safe/generated/filesystem.php';
-        /** @psalm-suppress UnresolvableInclude */
-        require_once $composer->getConfig()->get('vendor-dir') . '/thecodingmachine/safe/generated/strings.php';
+
+        if (! function_exists('React\Promise\Resolve')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/react/promise/src/functions_include.php';
+        }
+
+        if (! function_exists('ApiClients\Tools\Rx\observableFromArray')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/api-clients/rx/src/functions_include.php';
+        }
+
+        if (! function_exists('WyriHaximus\iteratorOrArrayToArray')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/iterator-or-array-to-array/src/functions_include.php';
+        }
+
+        if (! function_exists('WyriHaximus\listClassesInDirectories')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/list-classes-in-directory/src/functions_include.php';
+        }
+
+        if (! function_exists('WyriHaximus\getIn')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/string-get-in/src/functions_include.php';
+        }
+
+        if (! defined('WyriHaximus\Constants\Numeric\ONE')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/constants/src/Numeric/constants_include.php';
+        }
+
+        if (! defined('WyriHaximus\Constants\Boolean\TRUE')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/constants/src/Boolean/constants_include.php';
+        }
+
+        if (! function_exists('igorw\get_in')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/igorw/get-in/src/get_in.php';
+        }
+
+        if (! class_exists(PhpStormStubsMap::class)) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/jetbrains/phpstorm-stubs/PhpStormStubsMap.php';
+        }
+
+        if (! function_exists('Safe\file_get_contents')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/thecodingmachine/safe/generated/filesystem.php';
+        }
+
+        if (! function_exists('Safe\sprintf')) {
+            /** @psalm-suppress UnresolvableInclude */
+            require_once $composer->getConfig()->get('vendor-dir') . '/thecodingmachine/safe/generated/strings.php';
+        }
 
         $io->write('<info>wyrihaximus/broadcast:</info> Locating listeners');
 
@@ -114,7 +164,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                     self::locateRootPackageInstallPath($composer->getConfig(), $composer->getPackage()) . '/etc/AbstractListenerProvider.php'
                 )
             ),
-            var_export($listeners, true)
+            var_export($listeners, TRUE_)
         );
         $installPath   = self::locateRootPackageInstallPath($composer->getConfig(), $composer->getPackage())
             . '/src/Generated/AbstractListenerProvider.php';
@@ -124,7 +174,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
 
         $io->write(sprintf(
             '<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in %s second(s)',
-            round(microtime(true) - $start, 2)
+            round(microtime(TRUE_) - $start, TWO)
         ));
     }
 
@@ -155,7 +205,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 (new MakeLocatorForComposerJsonAndInstalledJson())(dirname($vendorDir), (new BetterReflection())->astLocator()),
             );
         } catch (InvalidPrefixMapping $invalidPrefixMapping) {
-            mkdir(explode('" is not a', explode('" for prefix "', $invalidPrefixMapping->getMessage())[1])[0]);
+            mkdir(explode('" is not a', explode('" for prefix "', $invalidPrefixMapping->getMessage())[ONE])[ZERO]);
             goto retry;
         }
 
@@ -163,40 +213,38 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         $packages   = $composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
         $packages[] = $composer->getPackage();
         observableFromArray($packages)->filter(static function (PackageInterface $package): bool {
-            return count($package->getAutoload()) > 0;
+            return (bool) count($package->getAutoload());
         })->filter(static function (PackageInterface $package): bool {
-            return getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', false);
+            return getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', FALSE_);
         })->filter(static function (PackageInterface $package): bool {
             return array_key_exists('classmap', $package->getAutoload()) || array_key_exists('psr-4', $package->getAutoload());
         })->flatMap(static function (PackageInterface $package) use ($vendorDir): Observable {
             $packageName = $package->getName();
             $autoload    = $package->getAutoload();
             $paths       = [];
-            foreach (['classmap', 'psr-4'] as $item) {
-                if (! array_key_exists($item, $autoload)) {
-                    continue;
-                }
 
-                foreach ($autoload[$item] as $path) {
+            if (array_key_exists('psr-4', $autoload)) {
+                foreach ($autoload['psr-4'] as $path) {
                     if (is_string($path)) {
                         if ($package instanceof RootPackageInterface) {
                             $paths[] = dirname($vendorDir) . DIRECTORY_SEPARATOR . $path;
-                        } else {
-                            $paths[] = $vendorDir . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $path;
+                            continue;
                         }
-                    }
 
-                    if (! is_array($path)) {
+                        $paths[] = $vendorDir . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $path;
+                        continue;
+                    }
+                }
+            }
+
+            if (array_key_exists('classmap', $autoload)) {
+                foreach ($autoload['classmap'] as $path) {
+                    if ($package instanceof RootPackageInterface) {
+                        $paths[] = dirname($vendorDir) . DIRECTORY_SEPARATOR . $path;
                         continue;
                     }
 
-                    foreach ($path as $p) {
-                        if ($package instanceof RootPackageInterface) {
-                            $paths[] = dirname($vendorDir) . DIRECTORY_SEPARATOR . $p;
-                        } else {
-                            $paths[] = $vendorDir . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $p;
-                        }
-                    }
+                    $paths[] = $vendorDir . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $path;
                 }
             }
 
@@ -207,9 +255,14 @@ final class Installer implements PluginInterface, EventSubscriberInterface
             return file_exists($path);
         })->toArray()->flatMap(static function (array $paths): Observable {
             return observableFromArray(
-                iteratorOrArrayToArray(
-                    listClassesInDirectories(...$paths)
-                )
+                iteratorOrArrayToArray((static function () use ($paths): iterable {
+                    yield from listClassesInDirectories(...array_filter($paths, static function (string $path): bool {
+                        return is_dir($path);
+                    }));
+                    yield from listClassesInFiles(...array_filter($paths, static function (string $path): bool {
+                        return is_file($path);
+                    }));
+                })())
             );
         })->flatMap(static function (string $class) use ($classReflector, $io): Observable {
             try {
@@ -252,7 +305,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 }
 
                 $events[] = [
-                    'event' => (string) $method->getParameters()[0]->getType(),
+                    'event' => (string) $method->getParameters()[ZERO]->getType(),
                     'class' => $class->getName(),
                     'method' => $method->getName(),
                     'static' => $method->isStatic(),

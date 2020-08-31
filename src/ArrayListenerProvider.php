@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
+
 use function array_key_exists;
 use function get_class;
 
