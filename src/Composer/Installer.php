@@ -13,6 +13,7 @@ use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Illuminate\Support\Collection;
 use JetBrains\PHPStormStub\PhpStormStubsMap;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
@@ -20,12 +21,8 @@ use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Factory\MakeLocatorForComposerJsonAndInstalledJson;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Psr\Exception\InvalidPrefixMapping;
-use Rx\Observable;
-use Throwable;
 use WyriHaximus\Broadcast\Contracts\Listener;
 
-use function ApiClients\Tools\Rx\observableFromArray;
-use function array_filter;
 use function array_key_exists;
 use function class_exists;
 use function count;
@@ -94,16 +91,6 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         $start    = microtime(true);
         $io       = $event->getIO();
         $composer = $event->getComposer();
-
-        if (! function_exists('React\Promise\Resolve')) {
-            /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/react/promise/src/functions_include.php';
-        }
-
-        if (! function_exists('ApiClients\Tools\Rx\observableFromArray')) {
-            /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/api-clients/rx/src/functions_include.php';
-        }
 
         if (! function_exists('WyriHaximus\iteratorOrArrayToArray')) {
             /** @psalm-suppress UnresolvableInclude */
@@ -194,7 +181,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * @return array<string, array<array{class: string, method: string, static: bool}>>
+     * @return array<string, non-empty-list<array{class: mixed, method: mixed, static: mixed}>>
      */
     private static function getRegisteredListeners(Composer $composer, IOInterface $io): array
     {
@@ -209,72 +196,74 @@ final class Installer implements PluginInterface, EventSubscriberInterface
             goto retry;
         }
 
-        $result     = [];
         $packages   = $composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
         $packages[] = $composer->getPackage();
-        observableFromArray($packages)->filter(static function (PackageInterface $package): bool {
-            return (bool) count($package->getAutoload());
-        })->filter(static function (PackageInterface $package): bool {
-            return getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', FALSE_);
-        })->filter(static function (PackageInterface $package): bool {
-            return array_key_exists('classmap', $package->getAutoload()) || array_key_exists('psr-4', $package->getAutoload());
-        })->flatMap(static function (PackageInterface $package) use ($vendorDir): Observable {
-            $packageName = $package->getName();
-            $autoload    = $package->getAutoload();
-            $paths       = [];
+        $flatEvents = (new Collection(
+            (new Collection($packages))->filter(static function (PackageInterface $package): bool {
+                return (bool) count($package->getAutoload());
+            })->filter(static function (PackageInterface $package): bool {
+                return getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', FALSE_);
+            })->filter(static function (PackageInterface $package): bool {
+                return array_key_exists('classmap', $package->getAutoload()) || array_key_exists('psr-4', $package->getAutoload());
+            })->flatMap(static function (PackageInterface $package) use ($vendorDir): array {
+                $packageName = $package->getName();
+                $autoload    = $package->getAutoload();
+                $paths       = [];
 
-            if (array_key_exists('psr-4', $autoload)) {
-                foreach ($autoload['psr-4'] as $path) {
-                    if (is_string($path)) {
+                if (array_key_exists('psr-4', $autoload)) {
+                    foreach ($autoload['psr-4'] as $path) {
+                        if (is_string($path)) {
+                            if ($package instanceof RootPackageInterface) {
+                                $paths[] = dirname($vendorDir) . DIRECTORY_SEPARATOR . $path;
+                                continue;
+                            }
+
+                            $paths[] = $vendorDir . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $path;
+                            continue;
+                        }
+                    }
+                }
+
+                if (array_key_exists('classmap', $autoload)) {
+                    foreach ($autoload['classmap'] as $path) {
                         if ($package instanceof RootPackageInterface) {
                             $paths[] = dirname($vendorDir) . DIRECTORY_SEPARATOR . $path;
                             continue;
                         }
 
                         $paths[] = $vendorDir . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $path;
-                        continue;
                     }
                 }
-            }
 
-            if (array_key_exists('classmap', $autoload)) {
-                foreach ($autoload['classmap'] as $path) {
-                    if ($package instanceof RootPackageInterface) {
-                        $paths[] = dirname($vendorDir) . DIRECTORY_SEPARATOR . $path;
-                        continue;
-                    }
-
-                    $paths[] = $vendorDir . DIRECTORY_SEPARATOR . $packageName . DIRECTORY_SEPARATOR . $path;
+                return $paths;
+            })->map(static function (string $path): string {
+                return rtrim($path, '/');
+            })->filter(static function (string $path): bool {
+                return file_exists($path);
+            })->toArray()
+        ))->flatMap(static function (string $path): array {
+            return iteratorOrArrayToArray((static function () use ($path): iterable {
+                // phpcs:disable
+                if (is_dir($path)) {
+                    yield from listClassesInDirectories($path);
                 }
-            }
 
-            return observableFromArray($paths);
-        })->map(static function (string $path): string {
-            return rtrim($path, '/');
-        })->filter(static function (string $path): bool {
-            return file_exists($path);
-        })->toArray()->flatMap(static function (array $paths): Observable {
-            return observableFromArray(
-                iteratorOrArrayToArray((static function () use ($paths): iterable {
-                    yield from listClassesInDirectories(...array_filter($paths, static function (string $path): bool {
-                        return is_dir($path);
-                    }));
-                    yield from listClassesInFiles(...array_filter($paths, static function (string $path): bool {
-                        return is_file($path);
-                    }));
-                })())
-            );
-        })->flatMap(static function (string $class) use ($classReflector, $io): Observable {
+                if (is_file($path)) {
+                    yield from listClassesInFiles($path);
+                }
+                // phpcs:enable
+            })());
+        })->flatMap(static function (string $class) use ($classReflector, $io): array {
             try {
                 /** @psalm-suppress PossiblyUndefinedVariable */
-                return observableFromArray([
+                return [
                     (static function (ReflectionClass $reflectionClass): ReflectionClass {
                         $reflectionClass->getInterfaces();
                         $reflectionClass->getMethods();
 
                         return $reflectionClass;
                     })($classReflector->reflect($class)),
-                ]);
+                ];
             } catch (IdentifierNotFound $identifierNotFound) {
                 $io->write(sprintf(
                     '<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>%s</>": <fg=yellow>%s</>',
@@ -283,12 +272,12 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 ));
             }
 
-            return observableFromArray([]);
+            return [];
         })->filter(static function (ReflectionClass $class): bool {
             return $class->isInstantiable();
         })->filter(static function (ReflectionClass $class): bool {
             return $class->implementsInterface(Listener::class);
-        })->flatMap(static function (ReflectionClass $class): Observable {
+        })->flatMap(static function (ReflectionClass $class): array {
             $events = [];
 
             foreach ($class->getMethods() as $method) {
@@ -312,24 +301,20 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 ];
             }
 
-            return observableFromArray($events);
-        })->toArray()->toPromise()->then(static function (array $flatEvents) use (&$result, $io): void {
-            $io->write(sprintf('<info>wyrihaximus/broadcast:</info> Found %s listener(s)', count($flatEvents)));
-            $events = [];
+            return $events;
+        })->toArray();
 
-            foreach ($flatEvents as $flatEvent) {
-                $events[(string) $flatEvent['event']][] = [
-                    'class' => $flatEvent['class'],
-                    'method' => $flatEvent['method'],
-                    'static' => $flatEvent['static'],
-                ];
-            }
+        $io->write(sprintf('<info>wyrihaximus/broadcast:</info> Found %s listener(s)', count($flatEvents)));
+        $events = [];
 
-            $result = $events;
-        })->then(null, static function (Throwable $throwable) use ($io): void {
-            $io->write(sprintf('<info>wyrihaximus/broadcast:</info> Unexpected error: <fg=red>%s</>', $throwable->getMessage()));
-        });
+        foreach ($flatEvents as $flatEvent) {
+            $events[(string) $flatEvent['event']][] = [
+                'class' => $flatEvent['class'],
+                'method' => $flatEvent['method'],
+                'static' => $flatEvent['static'],
+            ];
+        }
 
-        return $result;
+        return $events;
     }
 }
