@@ -1,31 +1,28 @@
 {
   "name": "wyrihaximus/broadcast",
   "type": "composer-plugin",
-  "description": "✨ Staticly on composer install/update compiled event dispatcher",
+  "description": "✨ Statically on composer install/update compiled event dispatcher",
   "license": "MIT",
   "require": {
     "php": "^7.4",
-    "api-clients/rx": "^2.2",
-    "composer-plugin-api": "^1.1",
+    "composer-plugin-api": "^2",
+    "illuminate/collections": "^8.11",
     "pimple/pimple": "^3.3",
-    "psr/event-dispatcher": "^1.0",
+    "psr/event-dispatcher": "^1",
     "psr/log": "^1.1",
-    "react/promise": "^2.7",
-    "reactivex/rxphp": "^2.0",
-    "roave/better-reflection": "^4.0",
+    "roave/better-reflection": "^4",
     "thecodingmachine/safe": "^1.1",
-    "wyrihaximus/broadcast-contracts": "^1.0",
+    "wyrihaximus/broadcast-contracts": "^1",
     "wyrihaximus/constants": "^1.5",
-    "wyrihaximus/get-in-packages-composer.jason": "^1.0",
+    "wyrihaximus/get-in-packages-composer.jason": "^1",
     "wyrihaximus/iterator-or-array-to-array": "^1.1",
     "wyrihaximus/list-classes-in-directory": "^1.3",
     "wyrihaximus/string-get-in": "^1.0"
   },
   "require-dev": {
-    "composer/composer": "^1.10",
-    "psr/container": "^1.0",
+    "psr/container": "^1",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/test-utilities": "^2.6"
+    "wyrihaximus/test-utilities": "^2.9"
   },
   "config": {
     "platform": {
