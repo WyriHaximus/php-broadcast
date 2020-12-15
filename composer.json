@@ -22,7 +22,7 @@
   "require-dev": {
     "psr/container": "^1",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/test-utilities": "^2.9"
+    "wyrihaximus/test-utilities": "^2.9 || ^3.0"
   },
   "config": {
     "platform": {
