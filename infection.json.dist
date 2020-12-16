@@ -22,6 +22,7 @@
         "ArrayOneItem": false,
         "Foreach_": false,
         "LogicalOr": false,
+        "UnwrapRtrim": false,
         "LogicalNot": {
             "ignore": [
                 "WyriHaximus\\Broadcast\\Composer\\Installer::findEventListeners"
