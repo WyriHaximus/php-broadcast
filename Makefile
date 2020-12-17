@@ -21,7 +21,7 @@ else
 		-v "`pwd`:`pwd`" \
 		-v "${COMPOSER_CACHE_DIR}:/home/app/.composer/cache" \
 		-w "`pwd`" \
-		"wyrihaximusnet/php:7.4-nts-alpine3.12-dev"
+		"wyrihaximusnet/php:8.0-nts-buster-dev"
 endif
 
 all: ## Runs everything ###

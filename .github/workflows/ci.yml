@@ -24,12 +24,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4]
+        php: [7.4, "8.0"]
         composer: [current, highest]
     needs: lint
     runs-on: ubuntu-latest
     container:
-      image: wyrihaximusnet/php:${{ matrix.php }}-zts-alpine3.12-dev-root
+      image: wyrihaximusnet/php:${{ matrix.php }}-nts-buster-dev-root
     steps:
       - uses: actions/checkout@v1
       - name: Cache composer packages
@@ -50,7 +50,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4]
+        php: [7.4, "8.0"]
         composer: [current, highest]
         check: ${{ fromJson(needs.generate-checks-strategy.outputs.check) }}
     needs:
@@ -58,7 +58,7 @@ jobs:
       - generate-checks-strategy
     runs-on: ubuntu-latest
     container:
-      image: wyrihaximusnet/php:${{ matrix.php }}-zts-alpine3.12-dev-root
+      image: wyrihaximusnet/php:${{ matrix.php }}-nts-buster-dev-root
     steps:
       - uses: actions/checkout@v1
       - name: Cache composer packages
