@@ -51,6 +51,44 @@ $event = new Event();
 (new Dispatcher(new ContainerListenerProvider($container), $logger))->dispatch($event)
 ```
 
+## Listener
+
+The following listener is from one of my apps and listeners both on intialize and shutdown events. The logic has been 
+taken out, but logging is left intact to demonstracte a simple listener example.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace WyriHaximus\Apps\WyriHaximusNet\GitHub\Ingest;
+
+use Mammatus\LifeCycleEvents\Initialize;
+use Mammatus\LifeCycleEvents\Shutdown;
+use Psr\Log\LoggerInterface;
+use WyriHaximus\Broadcast\Contracts\Listener;
+
+final class Consumer implements Listener
+{
+    private LoggerInterface $logger;
+
+    public function __construct(ConsumerContract $consumer, Producer $producer, LoggerInterface $logger)
+    {
+        $this->logger   = $logger;
+    }
+
+    public function start(Initialize $event): void
+    {
+        $this->logger->debug('Starting to consume ingested GitHub WebHook events');
+    }
+
+    public function stop(Shutdown $event): void
+    {
+        $this->logger->debug('Stopping to consume ingested GitHub WebHook events');
+    }
+}
+```
+
 # License
 
 The MIT License (MIT)
