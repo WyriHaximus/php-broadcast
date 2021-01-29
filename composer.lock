@@ -57,16 +57,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.21.0",
+            "version": "v8.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "4647141880c193a0edaa91754004d8bc7471e56b"
+                "reference": "3c968b76c395c4ac94d378d4bdeea1af0e8ad44c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/4647141880c193a0edaa91754004d8bc7471e56b",
-                "reference": "4647141880c193a0edaa91754004d8bc7471e56b",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/3c968b76c395c4ac94d378d4bdeea1af0e8ad44c",
+                "reference": "3c968b76c395c4ac94d378d4bdeea1af0e8ad44c",
                 "shasum": ""
             },
             "require": {
@@ -107,20 +107,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-12-08T17:15:16+00:00"
+            "time": "2021-01-20T14:16:15+00:00"
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.21.0",
+            "version": "v8.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "073109b521aec104f11c5cf5aded97aa0e63f313"
+                "reference": "b91459a9a0bd0de204c3cae6859ebd02dbcee6c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/073109b521aec104f11c5cf5aded97aa0e63f313",
-                "reference": "073109b521aec104f11c5cf5aded97aa0e63f313",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/b91459a9a0bd0de204c3cae6859ebd02dbcee6c6",
+                "reference": "b91459a9a0bd0de204c3cae6859ebd02dbcee6c6",
                 "shasum": ""
             },
             "require": {
@@ -155,11 +155,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-12-18T14:24:20+00:00"
+            "time": "2021-01-20T14:18:13+00:00"
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.21.0",
+            "version": "v8.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
