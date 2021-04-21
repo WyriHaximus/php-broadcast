@@ -39,6 +39,10 @@ jobs:
         env:
           MILESTONES: ${{ steps.milestones.outputs.milestones }}
           MILESTONE: ${{ steps.semvers.outputs.minor }}
+      - name: 'Set Milestone through Chores.Dev'
+        uses: "chores-dev/set-milestone-action@main"
+        with:
+          milestone: ${{ steps.semvers.outputs.minor }}
       - name: 'Create Milestone'
         if: github.event.pull_request.milestone == null && steps.querymilestone.outputs.number == ''
         id: createmilestone
