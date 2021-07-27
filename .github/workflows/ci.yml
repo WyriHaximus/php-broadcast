@@ -29,7 +29,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     container:
-      image: wyrihaximusnet/php:${{ matrix.php }}-nts-buster-dev-root
+      image: wyrihaximusnet/php:${{ matrix.php }}-nts-alpine-slim-dev-root
     steps:
       - uses: actions/checkout@v1
       - name: Cache composer packages
@@ -58,7 +58,7 @@ jobs:
       - generate-checks-strategy
     runs-on: ubuntu-latest
     container:
-      image: wyrihaximusnet/php:${{ matrix.php }}-nts-buster-dev-root
+      image: wyrihaximusnet/php:${{ matrix.php }}-nts-alpine-slim-dev-root
     steps:
       - uses: actions/checkout@v1
       - name: Cache composer packages
