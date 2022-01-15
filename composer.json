@@ -1,8 +1,8 @@
 {
   "name": "wyrihaximus/broadcast",
-  "type": "composer-plugin",
   "description": "✨ Statically on composer install/update compiled event dispatcher",
   "license": "MIT",
+  "type": "composer-plugin",
   "require": {
     "php": "^8 || ^7.4",
     "composer-plugin-api": "^2",
@@ -10,7 +10,7 @@
     "pimple/pimple": "^3.3",
     "psr/event-dispatcher": "^1",
     "psr/log": "^1.1",
-    "roave/better-reflection": "^4",
+    "roave/better-reflection": "^5 || ^4",
     "thecodingmachine/safe": "^1.1",
     "wyrihaximus/broadcast-contracts": "^1",
     "wyrihaximus/constants": "^1.5",
@@ -24,20 +24,6 @@
     "the-orville/exceptions": "dev-master",
     "wyrihaximus/test-utilities": "^2.9 || ^3.0"
   },
-  "config": {
-    "platform": {
-      "php": "7.4.7"
-    },
-    "sort-packages": true
-  },
-  "extra": {
-    "class": "WyriHaximus\\Broadcast\\Composer\\Installer",
-    "wyrihaximus": {
-      "broadcast": {
-        "has-listeners": true
-      }
-    }
-  },
   "autoload": {
     "psr-4": {
       "WyriHaximus\\Broadcast\\": "src"
@@ -50,6 +36,27 @@
   "autoload-dev": {
     "psr-4": {
       "WyriHaximus\\Tests\\Broadcast\\": "tests"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "ergebnis/composer-normalize": true,
+      "composer/package-versions-deprecated": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "icanhazstring/composer-unused": true,
+      "infection/extension-installer": true
+    },
+    "platform": {
+      "php": "7.4.7"
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "class": "WyriHaximus\\Broadcast\\Composer\\Installer",
+    "wyrihaximus": {
+      "broadcast": {
+        "has-listeners": true
+      }
     }
   },
   "scripts": {

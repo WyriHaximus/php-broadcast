@@ -202,6 +202,9 @@ final class Installer implements PluginInterface, EventSubscriberInterface
             (new Collection($packages))->filter(static function (PackageInterface $package): bool {
                 return (bool) count($package->getAutoload());
             })->filter(static function (PackageInterface $package): bool {
+                /**
+                 * @psalm-suppress NullableReturnStatement
+                 */
                 return getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', FALSE_);
             })->filter(static function (PackageInterface $package): bool {
                 return array_key_exists('classmap', $package->getAutoload()) || array_key_exists('psr-4', $package->getAutoload());
