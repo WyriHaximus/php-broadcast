@@ -1165,20 +1165,20 @@
         },
         {
             "name": "wyrihaximus/broadcast-contracts",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-broadcast-contracts.git",
-                "reference": "86e8abb0e1a793b09e5bf0d867f56c061e53ae6b"
+                "reference": "e3913d3e57f60f6ea6ab20f83eb6fcbc2ab643f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-broadcast-contracts/zipball/86e8abb0e1a793b09e5bf0d867f56c061e53ae6b",
-                "reference": "86e8abb0e1a793b09e5bf0d867f56c061e53ae6b",
+                "url": "https://api.github.com/repos/WyriHaximus/php-broadcast-contracts/zipball/e3913d3e57f60f6ea6ab20f83eb6fcbc2ab643f4",
+                "reference": "e3913d3e57f60f6ea6ab20f83eb6fcbc2ab643f4",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4"
+                "php": "^8 || ^7.4"
             },
             "type": "library",
             "autoload": {
@@ -1193,7 +1193,7 @@
             "description": "✨ Contracts for wyrihaximus/broadcast",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-broadcast-contracts/issues",
-                "source": "https://github.com/WyriHaximus/php-broadcast-contracts/tree/master"
+                "source": "https://github.com/WyriHaximus/php-broadcast-contracts/tree/1.1.0"
             },
             "funding": [
                 {
@@ -1201,7 +1201,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-05-11T16:20:52+00:00"
+            "time": "2021-09-04T15:31:57+00:00"
         },
         {
             "name": "wyrihaximus/constants",
