@@ -11,7 +11,6 @@ use Psr\Log\NullLogger;
 use Throwable;
 
 use function assert;
-use function get_class;
 use function is_callable;
 
 final class Dispatcher implements EventDispatcherInterface
@@ -38,7 +37,7 @@ final class Dispatcher implements EventDispatcherInterface
             try {
                 $listener($event);
             } catch (Throwable $throwable) {
-                $this->logger->error('Unhandled throwable caught: ' . get_class($throwable), ['exception' => $throwable]);
+                $this->logger->error('Unhandled throwable caught: ' . $throwable::class, ['exception' => $throwable]);
             }
         }
 

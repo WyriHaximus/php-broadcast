@@ -16,8 +16,6 @@ use WyriHaximus\Broadcast\Dummy\Event;
 use WyriHaximus\Broadcast\Dummy\Listener;
 use WyriHaximus\TestUtilities\TestCase;
 
-use function get_class;
-
 final class DispatcherTest extends TestCase
 {
     public function testMessageNoErrors(): void
@@ -60,7 +58,7 @@ final class DispatcherTest extends TestCase
             throw $exception;
         };
         $logger    = $this->prophesize(LoggerInterface::class);
-        $logger->error('Unhandled throwable caught: ' . get_class($exception), [
+        $logger->error('Unhandled throwable caught: ' . $exception::class, [
             'exception' => (string) $exception,
         ])->shouldBeCalled();
         $message          = new TestMessage();

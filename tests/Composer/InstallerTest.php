@@ -6,10 +6,11 @@ namespace WyriHaximus\Tests\Broadcast\Composer;
 
 use Composer\Composer;
 use Composer\Config;
+use Composer\Factory;
 use Composer\IO\IOInterface;
 use Composer\Package\RootPackage;
+use Composer\Repository\InstalledRepositoryInterface;
 use Composer\Repository\RepositoryManager;
-use Composer\Repository\WritableRepositoryInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Prophecy\Argument;
@@ -56,6 +57,9 @@ final class InstallerTest extends TestCase
             'psr-4' => ['WyriHaximus\\Broadcast\\' => 'src'],
         ]);
         $io = $this->prophesize(IOInterface::class);
+        $io->debug('Checked CA file /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a file.')->shouldBeCalled();
+        $io->debug('Checked directory /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a directory.')->shouldBeCalled();
+        $io->debug('Checked CA file /etc/ssl/certs/ca-certificates.crt: valid')->shouldBeCalled();
         $io->write('<info>wyrihaximus/broadcast:</info> Locating listeners')->shouldBeCalled();
         $io->write('<info>wyrihaximus/broadcast:</info> Found 1 event(s)')->shouldBeCalled();
         $io->write(Argument::containingString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in '))->shouldBeCalled();
@@ -64,8 +68,8 @@ final class InstallerTest extends TestCase
 
         $io->write('<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>')->shouldBeCalled();
 
-        $repository        = $this->prophesize(WritableRepositoryInterface::class);
-        $repositoryManager = new RepositoryManager($io->reveal(), $composerConfig);
+        $repository        = $this->prophesize(InstalledRepositoryInterface::class);
+        $repositoryManager = new RepositoryManager($io->reveal(), $composerConfig, Factory::createHttpDownloader($io->reveal(), $composerConfig));
         $repositoryManager->setLocalRepository($repository->reveal());
         $composer = new Composer();
         $composer->setConfig($composerConfig);

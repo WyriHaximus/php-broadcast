@@ -7,7 +7,6 @@ namespace WyriHaximus\Broadcast;
 use Psr\EventDispatcher\ListenerProviderInterface;
 
 use function array_key_exists;
-use function get_class;
 
 final class ArrayListenerProvider implements ListenerProviderInterface
 {
@@ -27,7 +26,7 @@ final class ArrayListenerProvider implements ListenerProviderInterface
      */
     public function getListenersForEvent(object $event): iterable
     {
-        $eventName = get_class($event);
+        $eventName = $event::class;
 
         if (array_key_exists($eventName, $this->events)) {
             yield from $this->events[$eventName];
