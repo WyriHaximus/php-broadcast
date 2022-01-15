@@ -1412,24 +1412,24 @@
         },
         {
             "name": "wyrihaximus/string-get-in",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-string-get-in.git",
-                "reference": "649eea6067e1caed118ea9e67b9ed703ad1a1ba8"
+                "reference": "d62f191ad8464dceeb0d80bed181c45c440318c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-string-get-in/zipball/649eea6067e1caed118ea9e67b9ed703ad1a1ba8",
-                "reference": "649eea6067e1caed118ea9e67b9ed703ad1a1ba8",
+                "url": "https://api.github.com/repos/WyriHaximus/php-string-get-in/zipball/d62f191ad8464dceeb0d80bed181c45c440318c6",
+                "reference": "d62f191ad8464dceeb0d80bed181c45c440318c6",
                 "shasum": ""
             },
             "require": {
                 "igorw/get-in": "^1.0.3",
-                "php": "^7.2"
+                "php": "^8 || ^7.4"
             },
             "require-dev": {
-                "api-clients/test-utilities": "^5.1"
+                "wyrihaximus/test-utilities": "^3.7.6"
             },
             "type": "library",
             "autoload": {
@@ -1450,9 +1450,15 @@
             "description": "Wrapper around igorw/get-in using strings rather then arrays are keys",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-string-get-in/issues",
-                "source": "https://github.com/WyriHaximus/php-string-get-in/tree/master"
+                "source": "https://github.com/WyriHaximus/php-string-get-in/tree/1.1.0"
             },
-            "time": "2018-10-14T15:34:54+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/WyriHaximus",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-11-28T14:22:02+00:00"
         }
     ],
     "packages-dev": [
