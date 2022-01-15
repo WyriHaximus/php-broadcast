@@ -1260,25 +1260,25 @@
         },
         {
             "name": "wyrihaximus/get-in-packages-composer.jason",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-get-in-packages-composer.json.git",
-                "reference": "8f65f3297fb9cf00803141e6e8b8c0926bf93998"
+                "reference": "de9a41e18da813e370b8e1948284dbef18f1401d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-get-in-packages-composer.json/zipball/8f65f3297fb9cf00803141e6e8b8c0926bf93998",
-                "reference": "8f65f3297fb9cf00803141e6e8b8c0926bf93998",
+                "url": "https://api.github.com/repos/WyriHaximus/php-get-in-packages-composer.json/zipball/de9a41e18da813e370b8e1948284dbef18f1401d",
+                "reference": "de9a41e18da813e370b8e1948284dbef18f1401d",
                 "shasum": ""
             },
             "require": {
                 "igorw/get-in": "^1.0",
                 "joshdifabio/composed": "^1.0",
-                "php": "^7.2"
+                "php": "^8 || ^7.4"
             },
             "require-dev": {
-                "api-clients/test-utilities": "^5.4"
+                "wyrihaximus/test-utilities": "^5 || ^3.7.6"
             },
             "type": "library",
             "autoload": {
@@ -1300,9 +1300,15 @@
             "description": "Functions around joshdifabio/composed and igorw/get-in to gather configuration from composer.json",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-get-in-packages-composer.json/issues",
-                "source": "https://github.com/WyriHaximus/php-get-in-packages-composer.json/tree/master"
+                "source": "https://github.com/WyriHaximus/php-get-in-packages-composer.json/tree/1.1.0"
             },
-            "time": "2019-01-01T21:52:30+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/WyriHaximus",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-01-14T23:06:40+00:00"
         },
         {
             "name": "wyrihaximus/iterator-or-array-to-array",
