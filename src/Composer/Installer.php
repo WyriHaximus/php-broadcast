@@ -13,11 +13,12 @@ use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Exception;
 use Illuminate\Support\Collection;
 use JetBrains\PHPStormStub\PhpStormStubsMap;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
-use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Factory\MakeLocatorForComposerJsonAndInstalledJson;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Psr\Exception\InvalidPrefixMapping;
@@ -174,7 +175,12 @@ final class Installer implements PluginInterface, EventSubscriberInterface
     ): string {
         // You're on your own
         if ($rootPackage->getName() === 'wyrihaximus/broadcast') {
-            return dirname($composerConfig->get('vendor-dir'));
+            $vendorDir = $composerConfig->get('vendor-dir');
+            if (! is_string($vendorDir)) {
+                throw new Exception('vendor-dir most be a string'); // @phpstan-ignore-line
+            }
+
+            return dirname($vendorDir);
         }
 
         return $composerConfig->get('vendor-dir') . '/wyrihaximus/broadcast';
@@ -186,9 +192,13 @@ final class Installer implements PluginInterface, EventSubscriberInterface
     private static function getRegisteredListeners(Composer $composer, IOInterface $io): array
     {
         $vendorDir = $composer->getConfig()->get('vendor-dir');
+        if (! is_string($vendorDir)) {
+            throw new Exception('vendor-dir most be a string'); // @phpstan-ignore-line
+        }
+
         retry:
         try {
-            $classReflector = new ClassReflector(
+            $classReflector = new DefaultReflector(
                 (new MakeLocatorForComposerJsonAndInstalledJson())(dirname($vendorDir), (new BetterReflection())->astLocator()),
             );
         } catch (InvalidPrefixMapping $invalidPrefixMapping) {
@@ -204,6 +214,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
             })->filter(static function (PackageInterface $package): bool {
                 /**
                  * @psalm-suppress NullableReturnStatement
+                 * @phpstan-ignore-next-line
                  */
                 return getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', FALSE_);
             })->filter(static function (PackageInterface $package): bool {
@@ -265,7 +276,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                         $reflectionClass->getMethods();
 
                         return $reflectionClass;
-                    })($classReflector->reflect($class)),
+                    })($classReflector->reflectClass($class)),
                 ];
             } catch (IdentifierNotFound $identifierNotFound) {
                 $io->write(sprintf(

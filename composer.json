@@ -4,25 +4,25 @@
   "license": "MIT",
   "type": "composer-plugin",
   "require": {
-    "php": "^8 || ^7.4",
+    "php": "^8",
     "composer-plugin-api": "^2",
     "illuminate/collections": "^8.11",
     "pimple/pimple": "^3.3",
     "psr/event-dispatcher": "^1",
     "psr/log": "^1.1",
-    "roave/better-reflection": "^5 || ^4",
+    "roave/better-reflection": "^5",
     "thecodingmachine/safe": "^1.1",
     "wyrihaximus/broadcast-contracts": "^1",
     "wyrihaximus/constants": "^1.5",
     "wyrihaximus/get-in-packages-composer.jason": "^1",
     "wyrihaximus/iterator-or-array-to-array": "^1.1",
-    "wyrihaximus/list-classes-in-directory": "^1.3",
+    "wyrihaximus/list-classes-in-directory": "^1.5.1",
     "wyrihaximus/string-get-in": "^1.0"
   },
   "require-dev": {
     "psr/container": "^1",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/test-utilities": "^2.9 || ^3.0"
+    "wyrihaximus/test-utilities": "^5"
   },
   "autoload": {
     "psr-4": {
@@ -47,7 +47,7 @@
       "infection/extension-installer": true
     },
     "platform": {
-      "php": "7.4.7"
+      "php": "8.0.12"
     },
     "sort-packages": true
   },
