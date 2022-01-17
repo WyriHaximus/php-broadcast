@@ -3,6 +3,27 @@ on:
   push:
   pull_request:
 jobs:
+  package-name:
+    name: Package Name
+    runs-on: ubuntu-latest
+    outputs:
+      package-name: ${{ steps.package-name.outputs.package-name }}
+    steps:
+      - uses: actions/checkout@v1
+      - id: package-name
+        run: |
+          printf "::set-output name=package-name::[\"%s\"]" $(docker run --rm -v "`pwd`:`pwd`" jess/jq jq -r -c '.name' "${GITHUB_WORKSPACE}/composer.json")
+  supported-versions-matrix:
+    name: Supported Versions Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.supported-versions-matrix.outputs.version }}
+    steps:
+      - uses: actions/checkout@v1
+      - id: supported-versions-matrix
+        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
+        with:
+          upcomingReleases: true
   generate-checks-strategy:
     name: Generate Checks
     runs-on: ubuntu-latest
@@ -15,18 +36,14 @@ jobs:
         run: |
           printf "Checks found: %s\r\n" $(make task-list-ci)
           printf "::set-output name=check::%s" $(make task-list-ci)
-  lint:
-   runs-on: ubuntu-latest
-   steps:
-     - name: Lint Code Base
-       uses: docker://github/super-linter:v2.2.0
   composer-install:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.0", 8.1]
+        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
         composer: [current, highest]
-    needs: lint
+    needs:
+      - supported-versions-matrix
     runs-on: ubuntu-latest
     container:
       image: wyrihaximusnet/php:${{ matrix.php }}-nts-alpine-slim-dev-root
@@ -46,14 +63,38 @@ jobs:
       - name: Install Dependencies
         run: composer update --ansi --no-progress --no-interaction --prefer-dist -o
         if: matrix.composer == 'highest'
+  can-require:
+    name: Test we can require "${{ matrix.package-name }}" on PHP ${{ matrix.php }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
+        package-name: ${{ fromJson(needs.package-name.outputs.package-name) }}
+    needs:
+      - package-name
+      - supported-versions-matrix
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/wyrihaximusnet/php:${{ matrix.php }}-nts-buster-dev-root
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: checked_out_package
+      - name: Set Up composer.json
+        run: |
+          echo "{\"repositories\": [{\"name\": \"${{ matrix.package-name }}\",\"type\": \"path\",\"url\": \"./checked_out_package\"}]}" > composer.json
+      - name: Require package
+        run: |
+          composer require "${{ matrix.package-name }}:dev-${GITHUB_SHA}" --no-progress --ansi --no-interaction --prefer-dist -o || composer require "${{ matrix.package-name }}:dev-${GITHUB_REF_NAME}" --no-progress --ansi --no-interaction --prefer-dist -o
   qa:
     strategy:
       fail-fast: false
       matrix:
-        php: ["8.0", 8.1]
+        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
         composer: [current, highest]
         check: ${{ fromJson(needs.generate-checks-strategy.outputs.check) }}
     needs:
+      - supported-versions-matrix
       - composer-install
       - generate-checks-strategy
     runs-on: ubuntu-latest
