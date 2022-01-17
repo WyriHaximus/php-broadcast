@@ -85,7 +85,7 @@ jobs:
           echo "{\"repositories\": [{\"name\": \"${{ matrix.package-name }}\",\"type\": \"path\",\"url\": \"./checked_out_package\"}]}" > composer.json
       - name: Require package
         run: |
-          composer require "${{ matrix.package-name }}:dev-${GITHUB_SHA}" --no-progress --ansi --no-interaction --prefer-dist -o || composer require "${{ matrix.package-name }}:dev-${GITHUB_REF_NAME}" --no-progress --ansi --no-interaction --prefer-dist -o
+          composer require "${{ matrix.package-name }}:dev-${GITHUB_SHA}" --no-progress --ansi --no-interaction --prefer-dist -o -vvv || composer require "${{ matrix.package-name }}:dev-${GITHUB_REF_NAME}" --no-progress --ansi --no-interaction --prefer-dist -o -vvv
   qa:
     strategy:
       fail-fast: false
