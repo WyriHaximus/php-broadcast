@@ -14,7 +14,7 @@
     "thecodingmachine/safe": "^1.1",
     "wyrihaximus/broadcast-contracts": "^1",
     "wyrihaximus/constants": "^1.5",
-    "wyrihaximus/get-in-packages-composer.jason": "^1",
+    "wyrihaximus/get-in-packages-composer.jason": "^2 || ^1",
     "wyrihaximus/iterator-or-array-to-array": "^1.1",
     "wyrihaximus/list-classes-in-directory": "^1.5.1",
     "wyrihaximus/string-get-in": "^1.0"
@@ -40,11 +40,13 @@
   },
   "config": {
     "allow-plugins": {
-      "ergebnis/composer-normalize": true,
       "composer/package-versions-deprecated": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
+      "drupol/composer-packages": true,
+      "ergebnis/composer-normalize": true,
       "icanhazstring/composer-unused": true,
-      "infection/extension-installer": true
+      "infection/extension-installer": true,
+      "mindplay/composer-locator": true
     },
     "platform": {
       "php": "8.0.12"
