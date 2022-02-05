@@ -27,11 +27,7 @@
   "autoload": {
     "psr-4": {
       "WyriHaximus\\Broadcast\\": "src"
-    },
-    "classmap": [
-      "dummy/event",
-      "dummy/listener/Listener.php"
-    ]
+    }
   },
   "autoload-dev": {
     "psr-4": {
