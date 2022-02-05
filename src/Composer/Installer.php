@@ -22,6 +22,7 @@ use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Factory\MakeLocatorForComposerJsonAndInstalledJson;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Psr\Exception\InvalidPrefixMapping;
+use WyriHaximus\Broadcast\Contracts\AsyncListener;
 use WyriHaximus\Broadcast\Contracts\Listener;
 
 use function array_key_exists;
@@ -290,7 +291,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         })->filter(static function (ReflectionClass $class): bool {
             return $class->isInstantiable();
         })->filter(static function (ReflectionClass $class): bool {
-            return $class->implementsInterface(Listener::class);
+            return $class->implementsInterface(Listener::class) || $class->implementsInterface(AsyncListener::class);
         })->flatMap(static function (ReflectionClass $class): array {
             $events = [];
 
@@ -312,6 +313,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                     'class' => $class->getName(),
                     'method' => $method->getName(),
                     'static' => $method->isStatic(),
+                    'async' => $class->implementsInterface(AsyncListener::class),
                 ];
             }
 
@@ -326,6 +328,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 'class' => $flatEvent['class'],
                 'method' => $flatEvent['method'],
                 'static' => $flatEvent['static'],
+                'async' => $flatEvent['async'],
             ];
         }
 

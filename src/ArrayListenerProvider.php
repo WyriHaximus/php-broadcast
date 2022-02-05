@@ -10,15 +10,11 @@ use function array_key_exists;
 
 final class ArrayListenerProvider implements ListenerProviderInterface
 {
-    /** @var array<string, array<int, callable>> */
-    private array $events = [];
-
     /**
      * @param array<string, array<int, callable>> $events
      */
-    public function __construct(array $events)
+    public function __construct(private array $events)
     {
-        $this->events = $events;
     }
 
     /**

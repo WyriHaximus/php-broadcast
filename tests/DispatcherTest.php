@@ -9,26 +9,34 @@ use Pimple\Psr11\Container as PsrContainer;
 use Psr\Log\LoggerInterface;
 use TheOrville\Exceptions\HappyArborDayException;
 use TheOrville\Exceptions\LatchcombException;
+use WyriHaximus\AsyncTestUtilities\AsyncTestCase;
 use WyriHaximus\Broadcast\ArrayListenerProvider;
 use WyriHaximus\Broadcast\ContainerListenerProvider;
 use WyriHaximus\Broadcast\Dispatcher;
+use WyriHaximus\Broadcast\Dummy\AsyncListener;
 use WyriHaximus\Broadcast\Dummy\Event;
 use WyriHaximus\Broadcast\Dummy\Listener;
-use WyriHaximus\TestUtilities\TestCase;
 
-final class DispatcherTest extends TestCase
+use function React\Promise\Timer\sleep;
+
+final class DispatcherTest extends AsyncTestCase
 {
     public function testMessageNoErrors(): void
     {
-        $container                  = new Container();
-        $flip                       = new Flip();
-        $message                    = new Event();
-        $container[Listener::class] = new Listener($flip);
-        $listenerProvider           = new ContainerListenerProvider(new PsrContainer($container));
+        $container                       = new Container();
+        $flip                            = new Flip();
+        $asyncFlip                       = new Flip();
+        $message                         = new Event();
+        $container[Listener::class]      = new Listener($flip);
+        $container[AsyncListener::class] = new AsyncListener($asyncFlip);
+        $listenerProvider                = new ContainerListenerProvider(new PsrContainer($container));
 
         Dispatcher::createFromListenerProvider($listenerProvider)->dispatch($message);
 
+        $this->await(sleep(0.001));
+
         self::assertTrue($flip->flip());
+        self::assertTrue($asyncFlip->flip());
     }
 
     public function testMessageErrorOnFirstSecondStillRunsNoErrorHandler(): void

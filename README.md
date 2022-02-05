@@ -53,8 +53,8 @@ $event = new Event();
 
 ## Listener
 
-The following listener is from one of my apps and listeners both on intialize and shutdown events. The logic has been 
-taken out, but logging is left intact to demonstracte a simple listener example.
+The following listener is from one of my apps and listeners both on initialize and shutdown events. The logic has been
+taken out, but logging is left intact to demonstrate a simple listener example.
 
 ```php
 <?php
@@ -89,11 +89,19 @@ final class Consumer implements Listener
 }
 ```
 
+## Async & Await
+
+Besides synchronous PHP event dispatching this package also supports async & await through
+[`ReactPHP`](https://reactphp.org/async)'s async package.
+
+To mark a class's listeners to run inside a fiber and have the dispatcher wait for each one to complete before
+continuing, use the `WyriHaximus\Broadcast\Contracts\AsyncListener` marker interface instead of `Listener`.
+
 # License
 
 The MIT License (MIT)
 
-Copyright (c) 2020 Cees-Jan Kiewiet
+Copyright (c) 2022 Cees-Jan Kiewiet
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
