@@ -1,9 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast\Dummy;
 
 use WyriHaximus\Broadcast\Contracts\Listener as ListenerContract;
 
+/**
+ * @internal
+ */
 final class Listener implements ListenerContract
 {
     /** @var callable $handler */

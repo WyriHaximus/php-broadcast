@@ -7,7 +7,6 @@
 >
     <projectFiles>
         <directory name="src"/>
-        <directory name="dummy"/>
         <ignoreFiles>
             <directory name="vendor"/>
         </ignoreFiles>
