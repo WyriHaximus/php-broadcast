@@ -6,7 +6,7 @@
   "require": {
     "php": "^8",
     "composer-plugin-api": "^2",
-    "illuminate/collections": "^8.11",
+    "illuminate/collections": "^8.11 || ^9.0",
     "pimple/pimple": "^3.3",
     "psr/event-dispatcher": "^1",
     "psr/log": "^3 || ^2 || ^1.1",
