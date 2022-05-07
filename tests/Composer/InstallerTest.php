@@ -64,7 +64,7 @@ final class InstallerTest extends TestCase
         $io->write('<info>wyrihaximus/broadcast:</info> Found 1 event(s)')->shouldBeCalled();
         $io->write(Argument::containingString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in '))->shouldBeCalled();
         $io->write(Argument::containingString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in -'))->shouldNotBeCalled();
-        $io->write('<info>wyrihaximus/broadcast:</info> Found 1 listener(s)')->shouldBeCalled();
+        $io->write('<info>wyrihaximus/broadcast:</info> Found 2 listener(s)')->shouldBeCalled();
 
         $io->write('<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>')->shouldBeCalled();
 
@@ -110,6 +110,7 @@ final class InstallerTest extends TestCase
         self::assertStringContainsStringIgnoringCase('\'class\' => \'WyriHaximus\\\\Broadcast\\\\Dummy\\\\Listener\'', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'method\' => \'handle\'', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'static\' => false', $fileContents);
+        self::assertStringContainsStringIgnoringCase('\'async\' => false', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'WyriHaximus\\\\Broadcast\\\\Dummy\\\\Event\' => ', $fileContents);
     }
 

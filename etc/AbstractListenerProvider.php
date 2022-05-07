@@ -31,7 +31,7 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
     }
 
     /**
-     * @param array<array{class: string, method: string, static: bool}> $listeners
+     * @param array<array{class: string, method: string, static: bool, async: bool}> $listeners
      *
      * @return iterable<callable>
      */

@@ -1,18 +1,21 @@
 {
   "name": "wyrihaximus/broadcast",
-  "description": "✨ Statically on composer install/update compiled event dispatcher",
+  "description": "✨ Statically on composer install/update compiled (async) event dispatcher",
   "license": "MIT",
   "type": "composer-plugin",
   "require": {
-    "php": "^8",
+    "php": "^8.1",
     "composer-plugin-api": "^2",
     "illuminate/collections": "^8.11 || ^9.0",
     "pimple/pimple": "^3.3",
     "psr/event-dispatcher": "^1",
     "psr/log": "^3 || ^2 || ^1.1",
+    "react/async": "^4@dev",
+    "react/promise": "^2.8",
+    "react/promise-timer": "^1.8",
     "roave/better-reflection": "^5",
     "thecodingmachine/safe": "^1.1",
-    "wyrihaximus/broadcast-contracts": "^1",
+    "wyrihaximus/broadcast-contracts": "^1.2",
     "wyrihaximus/constants": "^1.5",
     "wyrihaximus/get-in-packages-composer.jason": "^2",
     "wyrihaximus/iterator-or-array-to-array": "^1.1",
@@ -22,7 +25,7 @@
   "require-dev": {
     "psr/container": "^1",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/test-utilities": "^5"
+    "wyrihaximus/async-test-utilities": "^4.2"
   },
   "autoload": {
     "psr-4": {
@@ -45,7 +48,7 @@
       "mindplay/composer-locator": true
     },
     "platform": {
-      "php": "8.0.12"
+      "php": "8.1.1"
     },
     "sort-packages": true
   },
