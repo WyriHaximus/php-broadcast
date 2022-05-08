@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80faf35bd0d3b469085f1f05d90aa0a8",
+    "content-hash": "51b31292ae37d74172b8e7a502188efc",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1415,16 +1415,16 @@
         },
         {
             "name": "react/event-loop",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/event-loop.git",
-                "reference": "be6dee480fc4692cec0504e65eb486e3be1aa6f2"
+                "reference": "187fb56f46d424afb6ec4ad089269c72eec2e137"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/be6dee480fc4692cec0504e65eb486e3be1aa6f2",
-                "reference": "be6dee480fc4692cec0504e65eb486e3be1aa6f2",
+                "url": "https://api.github.com/repos/reactphp/event-loop/zipball/187fb56f46d424afb6ec4ad089269c72eec2e137",
+                "reference": "187fb56f46d424afb6ec4ad089269c72eec2e137",
                 "shasum": ""
             },
             "require": {
@@ -1477,7 +1477,7 @@
             ],
             "support": {
                 "issues": "https://github.com/reactphp/event-loop/issues",
-                "source": "https://github.com/reactphp/event-loop/tree/v1.2.0"
+                "source": "https://github.com/reactphp/event-loop/tree/v1.3.0"
             },
             "funding": [
                 {
@@ -1489,7 +1489,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-07-11T12:31:24+00:00"
+            "time": "2022-03-17T11:10:22+00:00"
         },
         {
             "name": "react/promise",
@@ -10156,25 +10156,25 @@
         },
         {
             "name": "wyrihaximus/async-test-utilities",
-            "version": "4.2.0",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-async-test-utilities.git",
-                "reference": "5d4dce1dd4c8d567411758d80ae0817d61c48d32"
+                "reference": "85d0a8f64ea86c09c05a61768f9b281e6c5759d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-async-test-utilities/zipball/5d4dce1dd4c8d567411758d80ae0817d61c48d32",
-                "reference": "5d4dce1dd4c8d567411758d80ae0817d61c48d32",
+                "url": "https://api.github.com/repos/WyriHaximus/php-async-test-utilities/zipball/85d0a8f64ea86c09c05a61768f9b281e6c5759d1",
+                "reference": "85d0a8f64ea86c09c05a61768f9b281e6c5759d1",
                 "shasum": ""
             },
             "require": {
                 "clue/block-react": "^1.5",
-                "php": "^8 || ^7.4",
+                "php": "^8",
                 "phpunit/phpunit": "^9.5",
-                "react/event-loop": "^1.2",
-                "react/promise": "^2.8",
-                "wyrihaximus/test-utilities": "^5 || ^4 || ^3.7.6"
+                "react/event-loop": "^1.3",
+                "react/promise": "^2.9",
+                "wyrihaximus/test-utilities": "^5"
             },
             "require-dev": {
                 "wyrihaximus/iterator-or-array-to-array": "^1.2"
@@ -10198,7 +10198,7 @@
             "description": "Test utilities for api-clients packages",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-async-test-utilities/issues",
-                "source": "https://github.com/WyriHaximus/php-async-test-utilities/tree/4.2.0"
+                "source": "https://github.com/WyriHaximus/php-async-test-utilities/tree/5.0.0"
             },
             "funding": [
                 {
@@ -10206,7 +10206,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-08T21:01:32+00:00"
+            "time": "2022-05-02T14:21:47+00:00"
         },
         {
             "name": "wyrihaximus/coding-standard",
