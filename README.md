@@ -66,6 +66,7 @@ namespace WyriHaximus\Apps\WyriHaximusNet\GitHub\Ingest;
 use Mammatus\LifeCycleEvents\Initialize;
 use Mammatus\LifeCycleEvents\Shutdown;
 use Psr\Log\LoggerInterface;
+use WyriHaximus\Broadcast\Contracts\DoNotHandle;
 use WyriHaximus\Broadcast\Contracts\Listener;
 
 final class Consumer implements Listener
@@ -85,6 +86,12 @@ final class Consumer implements Listener
     public function stop(Shutdown $event): void
     {
         $this->logger->debug('Stopping to consume ingested GitHub WebHook events');
+    }
+
+    #[DoNotHandle]
+    public function doNotHandle(Event $event): void
+    {
+        // Even through this method accepts a single object we mark not to handle it with the DoNotHandle attribute.
     }
 }
 ```

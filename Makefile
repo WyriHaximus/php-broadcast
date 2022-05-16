@@ -55,7 +55,7 @@ composer-require-checker: ## Ensure we require every package used in this packag
 	$(DOCKER_RUN) vendor/bin/composer-require-checker --ignore-parse-errors --ansi -vvv --config-file=composer-require-checker.json
 
 composer-unused: ## Ensure we don't require any package we don't use in this package directly
-	$(DOCKER_RUN) composer unused --ansi
+	$(DOCKER_RUN) vendor/bin/composer-unused --ansi
 
 backward-compatibility-check: ## Check code for backwards incompatible changes
 	$(DOCKER_RUN) vendor/bin/roave-backward-compatibility-check || true

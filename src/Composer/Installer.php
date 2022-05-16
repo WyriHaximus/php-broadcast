@@ -17,15 +17,18 @@ use Exception;
 use Illuminate\Support\Collection;
 use JetBrains\PHPStormStub\PhpStormStubsMap;
 use Roave\BetterReflection\BetterReflection;
+use Roave\BetterReflection\Reflection\ReflectionAttribute;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Factory\MakeLocatorForComposerJsonAndInstalledJson;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Psr\Exception\InvalidPrefixMapping;
 use WyriHaximus\Broadcast\Contracts\AsyncListener;
+use WyriHaximus\Broadcast\Contracts\DoNotHandle;
 use WyriHaximus\Broadcast\Contracts\Listener;
 
 use function array_key_exists;
+use function array_map;
 use function class_exists;
 use function count;
 use function defined;
@@ -33,6 +36,7 @@ use function dirname;
 use function explode;
 use function file_exists;
 use function function_exists;
+use function in_array;
 use function is_dir;
 use function is_file;
 use function is_string;
@@ -305,6 +309,10 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 }
 
                 if ($method->getNumberOfParameters() !== ONE) {
+                    continue;
+                }
+
+                if (in_array(DoNotHandle::class, array_map(static fn (ReflectionAttribute $ra): string => $ra->getName(), $method->getAttributes()), true)) {
                     continue;
                 }
 
