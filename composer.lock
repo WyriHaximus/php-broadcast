@@ -669,16 +669,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v9.12.2",
+            "version": "v9.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "32badf046bfc187afacbee37b9820c5e200285d0"
+                "reference": "7d7617afdca6f15c881856c679da4e76820e7674"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/32badf046bfc187afacbee37b9820c5e200285d0",
-                "reference": "32badf046bfc187afacbee37b9820c5e200285d0",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/7d7617afdca6f15c881856c679da4e76820e7674",
+                "reference": "7d7617afdca6f15c881856c679da4e76820e7674",
                 "shasum": ""
             },
             "require": {
@@ -720,11 +720,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-05-02T14:05:19+00:00"
+            "time": "2022-05-16T15:20:45+00:00"
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v9.12.2",
+            "version": "v9.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -770,7 +770,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v9.12.2",
+            "version": "v9.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -818,7 +818,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v9.12.2",
+            "version": "v9.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -10156,16 +10156,16 @@
         },
         {
             "name": "wyrihaximus/async-test-utilities",
-            "version": "5.0.0",
+            "version": "5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-async-test-utilities.git",
-                "reference": "85d0a8f64ea86c09c05a61768f9b281e6c5759d1"
+                "reference": "b9d3172d63e51964a13a5526bdf9978ccba446c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-async-test-utilities/zipball/85d0a8f64ea86c09c05a61768f9b281e6c5759d1",
-                "reference": "85d0a8f64ea86c09c05a61768f9b281e6c5759d1",
+                "url": "https://api.github.com/repos/WyriHaximus/php-async-test-utilities/zipball/b9d3172d63e51964a13a5526bdf9978ccba446c6",
+                "reference": "b9d3172d63e51964a13a5526bdf9978ccba446c6",
                 "shasum": ""
             },
             "require": {
@@ -10198,7 +10198,7 @@
             "description": "Test utilities for api-clients packages",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-async-test-utilities/issues",
-                "source": "https://github.com/WyriHaximus/php-async-test-utilities/tree/5.0.0"
+                "source": "https://github.com/WyriHaximus/php-async-test-utilities/tree/5.0.2"
             },
             "funding": [
                 {
@@ -10206,7 +10206,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-02T14:21:47+00:00"
+            "time": "2022-05-15T08:23:59+00:00"
         },
         {
             "name": "wyrihaximus/coding-standard",
@@ -10249,16 +10249,16 @@
         },
         {
             "name": "wyrihaximus/phpstan-rules-wrapper",
-            "version": "2.3.0",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-phpstan-rules-wrapper.git",
-                "reference": "9fc1928c6434bc89eed03969719ddfc461dea6a5"
+                "reference": "11d6a9f9da3917004f255320a862eedd537eed7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-phpstan-rules-wrapper/zipball/9fc1928c6434bc89eed03969719ddfc461dea6a5",
-                "reference": "9fc1928c6434bc89eed03969719ddfc461dea6a5",
+                "url": "https://api.github.com/repos/WyriHaximus/php-phpstan-rules-wrapper/zipball/11d6a9f9da3917004f255320a862eedd537eed7b",
+                "reference": "11d6a9f9da3917004f255320a862eedd537eed7b",
                 "shasum": ""
             },
             "require": {
@@ -10287,7 +10287,7 @@
             "description": "🌯 PHPStan rules wrapper",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-phpstan-rules-wrapper/issues",
-                "source": "https://github.com/WyriHaximus/php-phpstan-rules-wrapper/tree/2.3.0"
+                "source": "https://github.com/WyriHaximus/php-phpstan-rules-wrapper/tree/2.4.0"
             },
             "funding": [
                 {
@@ -10295,20 +10295,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-27T22:54:22+00:00"
+            "time": "2022-05-05T06:14:19+00:00"
         },
         {
             "name": "wyrihaximus/test-utilities",
-            "version": "5.0.7",
+            "version": "5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-test-utilities.git",
-                "reference": "a61e377784bb16b1d4ac6750a78bb4584f6a0494"
+                "reference": "fbcb1ec7efb1e1cc3f073c0cea3bbb1fc4a16171"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-test-utilities/zipball/a61e377784bb16b1d4ac6750a78bb4584f6a0494",
-                "reference": "a61e377784bb16b1d4ac6750a78bb4584f6a0494",
+                "url": "https://api.github.com/repos/WyriHaximus/php-test-utilities/zipball/fbcb1ec7efb1e1cc3f073c0cea3bbb1fc4a16171",
+                "reference": "fbcb1ec7efb1e1cc3f073c0cea3bbb1fc4a16171",
                 "shasum": ""
             },
             "require": {
@@ -10326,7 +10326,7 @@
                 "php-standard-library/psalm-plugin": "^1.1",
                 "phpspec/prophecy": "^1.15",
                 "phpspec/prophecy-phpunit": "^2.0.1",
-                "phpstan/phpstan": "^1.6.7",
+                "phpstan/phpstan": "^1.6.8",
                 "phpunit/phpunit": "^9.5.19",
                 "psalm/plugin-phpunit": "^0.16.1",
                 "roave/backward-compatibility-check": "^6",
@@ -10376,7 +10376,7 @@
             "description": "🛠️ Test utilities for api-clients packages",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-test-utilities/issues",
-                "source": "https://github.com/WyriHaximus/php-test-utilities/tree/5.0.7"
+                "source": "https://github.com/WyriHaximus/php-test-utilities/tree/5.0.8"
             },
             "funding": [
                 {
@@ -10384,7 +10384,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-08T22:37:47+00:00"
+            "time": "2022-05-14T21:39:21+00:00"
         }
     ],
     "aliases": [],
