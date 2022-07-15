@@ -41,8 +41,10 @@ final class DispatcherTest extends AsyncTestCase
 
     public function testMessageErrorOnFirstSecondStillRunsNoErrorHandler(): void
     {
-        $throw = static function (): void {
-            throw new LatchcombException();
+        $exception = new LatchcombException();
+        self::expectException($exception::class);
+        $throw = static function () use ($exception): void {
+            throw $exception;
         };
 
         $flip             = new Flip();
@@ -62,10 +64,11 @@ final class DispatcherTest extends AsyncTestCase
     public function testMessageOnErrorLogs(): void
     {
         $exception = new HappyArborDayException();
-        $throw     = static function () use ($exception): void {
+        self::expectException($exception::class);
+        $throw  = static function () use ($exception): void {
             throw $exception;
         };
-        $logger    = $this->prophesize(LoggerInterface::class);
+        $logger = $this->prophesize(LoggerInterface::class);
         $logger->error('Unhandled throwable caught: ' . $exception::class, [
             'exception' => (string) $exception,
         ])->shouldBeCalled();
