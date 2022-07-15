@@ -38,6 +38,8 @@ final class Dispatcher implements EventDispatcherInterface
                 $listener($event);
             } catch (Throwable $throwable) {
                 $this->logger->error('Unhandled throwable caught: ' . $throwable::class, ['exception' => $throwable]);
+
+                throw $throwable;
             }
         }
 
