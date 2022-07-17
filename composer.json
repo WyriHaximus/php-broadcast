@@ -9,7 +9,7 @@
     "illuminate/collections": "^8.11 || ^9.0",
     "psr/event-dispatcher": "^1",
     "psr/log": "^3 || ^2 || ^1.1",
-    "react/async": "^4@dev",
+    "react/async": "^4",
     "react/promise": "^2.8",
     "roave/better-reflection": "^5",
     "thecodingmachine/safe": "^1.1",

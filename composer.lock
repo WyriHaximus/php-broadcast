@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3d5d25868709e0aee9dda1da068af5d",
+    "content-hash": "fc9aa8ea761df0b738330893211070eb",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1287,28 +1287,26 @@
         },
         {
             "name": "react/async",
-            "version": "4.x-dev",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/async.git",
-                "reference": "cfd52ac426a765a593a3a5c03fceb5a31c9d9edc"
+                "reference": "2aa8d89057e1059f59666e4204100636249b7be0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/async/zipball/cfd52ac426a765a593a3a5c03fceb5a31c9d9edc",
-                "reference": "cfd52ac426a765a593a3a5c03fceb5a31c9d9edc",
+                "url": "https://api.github.com/repos/reactphp/async/zipball/2aa8d89057e1059f59666e4204100636249b7be0",
+                "reference": "2aa8d89057e1059f59666e4204100636249b7be0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "react/event-loop": "^1.2",
-                "react/promise": "^2.8 || ^1.2.1"
+                "react/promise": "^3.0 || ^2.8 || ^1.2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.3",
-                "react/promise-timer": "^1.8"
+                "phpunit/phpunit": "^9.3"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -1344,14 +1342,14 @@
                     "homepage": "https://cboden.dev/"
                 }
             ],
-            "description": "Async utilities for ReactPHP",
+            "description": "Async utilities and fibers for ReactPHP",
             "keywords": [
                 "async",
                 "reactphp"
             ],
             "support": {
                 "issues": "https://github.com/reactphp/async/issues",
-                "source": "https://github.com/reactphp/async/tree/4.x"
+                "source": "https://github.com/reactphp/async/tree/v4.0.0"
             },
             "funding": [
                 {
@@ -1363,7 +1361,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-21T19:26:01+00:00"
+            "time": "2022-07-11T14:21:02+00:00"
         },
         {
             "name": "react/event-loop",
@@ -10312,7 +10310,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "react/async": 20,
         "the-orville/exceptions": 20
     },
     "prefer-stable": false,
