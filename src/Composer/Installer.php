@@ -64,6 +64,7 @@ use const WyriHaximus\Constants\Numeric\ONE;
 use const WyriHaximus\Constants\Numeric\TWO;
 use const WyriHaximus\Constants\Numeric\ZERO;
 
+// phpcs:disable
 final class Installer implements PluginInterface, EventSubscriberInterface
 {
     /**
@@ -255,12 +256,12 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 }
 
                 return $paths;
-            })->map(static function (string $path): string {
+            })->map(static function (string $path): string { /** @phpstan-ignore-line */
                 return rtrim($path, '/');
             })->filter(static function (string $path): bool {
                 return file_exists($path);
             })->toArray()
-        ))->flatMap(static function (string $path): array {
+        ))->flatMap(static function (string $path): array { /** @phpstan-ignore-line */
             return iteratorOrArrayToArray((static function () use ($path): iterable {
                 // phpcs:disable
                 if (is_dir($path)) {
@@ -272,7 +273,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 }
                 // phpcs:enable
             })());
-        })->flatMap(static function (string $class) use ($classReflector, $io): array {
+        })->flatMap(static function (string $class) use ($classReflector, $io): array { /** @phpstan-ignore-line */ // phpcs:disabled
             try {
                 /** @psalm-suppress PossiblyUndefinedVariable */
                 return [
@@ -292,11 +293,11 @@ final class Installer implements PluginInterface, EventSubscriberInterface
             }
 
             return [];
-        })->filter(static function (ReflectionClass $class): bool {
+        })->filter(static function (ReflectionClass $class): bool { /** @phpstan-ignore-line */ // phpcs:disabled
             return $class->isInstantiable();
-        })->filter(static function (ReflectionClass $class): bool {
+        })->filter(static function (ReflectionClass $class): bool { /** @phpstan-ignore-line */ // phpcs:disabled
             return $class->implementsInterface(Listener::class) || $class->implementsInterface(AsyncListener::class);
-        })->flatMap(static function (ReflectionClass $class): array {
+        })->flatMap(static function (ReflectionClass $class): array { /** @phpstan-ignore-line */ // phpcs:disabled
             $events = [];
 
             foreach ($class->getMethods() as $method) {
@@ -332,14 +333,15 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         $events = [];
 
         foreach ($flatEvents as $flatEvent) {
-            $events[(string) $flatEvent['event']][] = [
-                'class' => $flatEvent['class'],
-                'method' => $flatEvent['method'],
-                'static' => $flatEvent['static'],
-                'async' => $flatEvent['async'],
+            $events[(string) $flatEvent['event']][] = [ /** @phpstan-ignore-line */
+                'class' => $flatEvent['class'], /** @phpstan-ignore-line */
+                'method' => $flatEvent['method'], /** @phpstan-ignore-line */
+                'static' => $flatEvent['static'], /** @phpstan-ignore-line */
+                'async' => $flatEvent['async'], /** @phpstan-ignore-line */
             ];
         }
 
         return $events;
     }
 }
+// phpcs:enable

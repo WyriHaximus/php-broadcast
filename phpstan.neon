@@ -1,8 +1,6 @@
 parameters:
 	excludePaths:
 		- src/Generated/*
-	ignoreErrors:
-		- '#Variable \$classReflector might not be defined.#'
 	ergebnis:
 		classesAllowedToBeExtended:
 			- WyriHaximus\Broadcast\Generated\AbstractListenerProvider
