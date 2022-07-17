@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast\Dummy;
 
-use Exception;
+use RuntimeException;
 use WyriHaximus\Broadcast\Contracts\DoNotHandle;
 use WyriHaximus\Broadcast\Contracts\Listener as ListenerContract;
 
@@ -29,6 +29,6 @@ final class Listener implements ListenerContract
     #[DoNotHandle]
     public function doNotHandle(Event $event): void
     {
-        throw new Exception('Should not be called');
+        throw new RuntimeException('Should not be called');
     }
 }
