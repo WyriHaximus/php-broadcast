@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Tests\Broadcast\Dummy;
 
+use RuntimeException;
 use Throwable;
 use WyriHaximus\Broadcast\Dummy\Event;
 use WyriHaximus\Broadcast\Dummy\Listener;
@@ -17,6 +18,7 @@ final class ListenerTest extends TestCase
     public function doNotHandle(): void
     {
         self::expectException(Throwable::class);
+        self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Should not be called');
 
         (new Listener(static fn (): bool => false))->doNotHandle(new Event());
