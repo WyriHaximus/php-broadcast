@@ -61,10 +61,10 @@ final class InstallerTest extends TestCase
         $io->debug('Checked directory /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a directory.')->shouldBeCalled();
         $io->debug('Checked CA file /etc/ssl/certs/ca-certificates.crt: valid')->shouldBeCalled();
         $io->write('<info>wyrihaximus/broadcast:</info> Locating listeners')->shouldBeCalled();
-        $io->write('<info>wyrihaximus/broadcast:</info> Found 1 event(s)')->shouldBeCalled();
+        $io->write('<info>wyrihaximus/broadcast:</info> Found 2 event(s)')->shouldBeCalled();
         $io->write(Argument::containingString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in '))->shouldBeCalled();
         $io->write(Argument::containingString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in -'))->shouldNotBeCalled();
-        $io->write('<info>wyrihaximus/broadcast:</info> Found 2 listener(s)')->shouldBeCalled();
+        $io->write('<info>wyrihaximus/broadcast:</info> Found 4 listener(s)')->shouldBeCalled();
 
         $io->write('<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>')->shouldBeCalled();
 
@@ -107,11 +107,14 @@ final class InstallerTest extends TestCase
         self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\r);", $fileContents);
         self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\r\n);", $fileContents);
         self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\n);", $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('Event|stdClass', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'class\' => \'WyriHaximus\\\\Broadcast\\\\Dummy\\\\Listener\'', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'method\' => \'handle\'', $fileContents);
+        self::assertStringContainsStringIgnoringCase('\'method\' => \'handleBoth\'', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'static\' => false', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'async\' => false', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'WyriHaximus\\\\Broadcast\\\\Dummy\\\\Event\' => ', $fileContents);
+        self::assertStringContainsStringIgnoringCase('\'stdClass\' => ', $fileContents);
     }
 
     private function recurseCopy(string $src, string $dst): void

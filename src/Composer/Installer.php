@@ -19,6 +19,7 @@ use JetBrains\PHPStormStub\PhpStormStubsMap;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionAttribute;
 use Roave\BetterReflection\Reflection\ReflectionClass;
+use Roave\BetterReflection\Reflection\ReflectionUnionType;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use Roave\BetterReflection\SourceLocator\Type\Composer\Factory\MakeLocatorForComposerJsonAndInstalledJson;
@@ -256,7 +257,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 }
 
                 return $paths;
-            })->map(static function (string $path): string { /** @phpstan-ignore-line */
+            })->map(static function (string $path): string {
                 return rtrim($path, '/');
             })->filter(static function (string $path): bool {
                 return file_exists($path);
@@ -293,11 +294,11 @@ final class Installer implements PluginInterface, EventSubscriberInterface
             }
 
             return [];
-        })->filter(static function (ReflectionClass $class): bool { /** @phpstan-ignore-line */ // phpcs:disabled
+        })->filter(static function (ReflectionClass $class): bool { // phpcs:disabled
             return $class->isInstantiable();
-        })->filter(static function (ReflectionClass $class): bool { /** @phpstan-ignore-line */ // phpcs:disabled
+        })->filter(static function (ReflectionClass $class): bool { // phpcs:disabled
             return $class->implementsInterface(Listener::class) || $class->implementsInterface(AsyncListener::class);
-        })->flatMap(static function (ReflectionClass $class): array { /** @phpstan-ignore-line */ // phpcs:disabled
+        })->flatMap(static function (ReflectionClass $class): array { // phpcs:disabled
             $events = [];
 
             foreach ($class->getMethods() as $method) {
@@ -317,13 +318,22 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                     continue;
                 }
 
-                $events[] = [
-                    'event' => (string) $method->getParameters()[ZERO]->getType(),
-                    'class' => $class->getName(),
-                    'method' => $method->getName(),
-                    'static' => $method->isStatic(),
-                    'async' => $class->implementsInterface(AsyncListener::class),
-                ];
+                $eventTypeHolder = $method->getParameters()[ZERO]->getType();
+                if ($eventTypeHolder instanceof ReflectionUnionType) {
+                    $eventTypes = $eventTypeHolder->getTypes();
+                } else {
+                    $eventTypes = [$eventTypeHolder];
+                }
+
+                foreach ($eventTypes as $eventType) {
+                    $events[] = [
+                        'event' => (string) $eventType,
+                        'class' => $class->getName(),
+                        'method' => $method->getName(),
+                        'static' => $method->isStatic(),
+                        'async' => $class->implementsInterface(AsyncListener::class),
+                    ];
+                }
             }
 
             return $events;

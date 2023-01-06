@@ -83,6 +83,11 @@ final class Consumer implements Listener
         $this->logger->debug('Starting to consume ingested GitHub WebHook events');
     }
 
+    public function handle(GenericEvent|StandardEvent $even): void
+    {
+        // This handler handles both the GenericEvent and StandardEvent events.
+    }
+
     public function stop(Shutdown $event): void
     {
         $this->logger->debug('Stopping to consume ingested GitHub WebHook events');
@@ -108,7 +113,7 @@ continuing, use the `WyriHaximus\Broadcast\Contracts\AsyncListener` marker inter
 
 The MIT License (MIT)
 
-Copyright (c) 2022 Cees-Jan Kiewiet
+Copyright (c) 2023 Cees-Jan Kiewiet
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
