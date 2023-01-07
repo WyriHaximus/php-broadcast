@@ -56,6 +56,7 @@ final class InstallerTest extends TestCase
             'classmap' => ['dummy/event','dummy/listener/Listener.php'],
             'psr-4' => ['WyriHaximus\\Broadcast\\' => 'src'],
         ]);
+        /** @phpstan-ignore-next-line */
         $io = $this->prophesize(IOInterface::class);
         $io->debug('Checked CA file /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a file.')->shouldBeCalled();
         $io->debug('Checked directory /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a directory.')->shouldBeCalled();
@@ -68,6 +69,7 @@ final class InstallerTest extends TestCase
 
         $io->write('<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>')->shouldBeCalled();
 
+        /** @phpstan-ignore-next-line */
         $repository        = $this->prophesize(InstalledRepositoryInterface::class);
         $repositoryManager = new RepositoryManager($io->reveal(), $composerConfig, Factory::createHttpDownloader($io->reveal(), $composerConfig));
         $repositoryManager->setLocalRepository($repository->reveal());

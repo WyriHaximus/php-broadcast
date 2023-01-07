@@ -65,9 +65,10 @@ final class DispatcherTest extends AsyncTestCase
     {
         $exception = new HappyArborDayException();
         self::expectException($exception::class);
-        $throw  = static function () use ($exception): void {
+        $throw = static function () use ($exception): void {
             throw $exception;
         };
+        /** @phpstan-ignore-next-line */
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->error('Unhandled throwable caught: ' . $exception::class, [
             'exception' => (string) $exception,
