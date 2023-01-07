@@ -19,6 +19,7 @@ use JetBrains\PHPStormStub\PhpStormStubsMap;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionAttribute;
 use Roave\BetterReflection\Reflection\ReflectionClass;
+use Roave\BetterReflection\Reflection\ReflectionIntersectionType;
 use Roave\BetterReflection\Reflection\ReflectionUnionType;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
@@ -319,7 +320,9 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 }
 
                 $eventTypeHolder = $method->getParameters()[ZERO]->getType();
-                if ($eventTypeHolder instanceof ReflectionUnionType) {
+                if ($eventTypeHolder instanceof ReflectionIntersectionType) {
+                    continue;
+                } elseif ($eventTypeHolder instanceof ReflectionUnionType) {
                     $eventTypes = $eventTypeHolder->getTypes();
                 } else {
                     $eventTypes = [$eventTypeHolder];
