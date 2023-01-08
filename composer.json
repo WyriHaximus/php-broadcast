@@ -11,20 +11,20 @@
     "psr/log": "^3 || ^2 || ^1.1",
     "react/async": "^4",
     "react/promise": "^2.8",
-    "roave/better-reflection": "^5",
-    "thecodingmachine/safe": "^1.1",
+    "roave/better-reflection": "^6.3",
+    "thecodingmachine/safe": "^2.4 || ^1.1",
     "wyrihaximus/broadcast-contracts": "^1.3",
     "wyrihaximus/constants": "^1.5",
     "wyrihaximus/get-in-packages-composer.jason": "^2",
     "wyrihaximus/iterator-or-array-to-array": "^1.1",
-    "wyrihaximus/list-classes-in-directory": "^1.5.1",
+    "wyrihaximus/list-classes-in-directory": "^1.5.2",
     "wyrihaximus/string-get-in": "^1.0"
   },
   "require-dev": {
     "pimple/pimple": "^3.5",
     "psr/container": "^1",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/async-test-utilities": "^4.2 || ^5.0"
+    "wyrihaximus/async-test-utilities": "^6 || ^5.0.25"
   },
   "autoload": {
     "psr-4": {
@@ -47,7 +47,7 @@
       "mindplay/composer-locator": true
     },
     "platform": {
-      "php": "8.1.1"
+      "php": "8.1.13"
     },
     "sort-packages": true
   },

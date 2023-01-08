@@ -49,7 +49,7 @@ use function Safe\chmod;
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\mkdir;
-use function Safe\sprintf;
+use function sprintf;
 use function str_replace;
 use function strpos;
 use function var_export;
@@ -195,7 +195,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
     }
 
     /**
-     * @return array<string, non-empty-list<array{class: mixed, method: mixed, static: mixed}>>
+     * @return array<string, non-empty-list<array{async: mixed, class: mixed, method: mixed, static: mixed}>>
      */
     private static function getRegisteredListeners(Composer $composer, IOInterface $io): array
     {
