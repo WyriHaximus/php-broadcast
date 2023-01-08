@@ -13,7 +13,10 @@ use function get_class;
  */
 abstract class AbstractListenerProvider implements ListenerProviderInterface
 {
-    /** @var array<string, array<array{class: string, method: string, static: bool}>> */
+    /**
+     * @psalm-suppress InvalidConstantAssignmentValue
+     * @var array<string, array<array{class: string, method: string, static: bool}>>
+     */
     private const LISTENERS = ['%s'];
 
     /**

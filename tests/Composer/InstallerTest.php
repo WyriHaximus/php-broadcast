@@ -20,16 +20,16 @@ use WyriHaximus\TestUtilities\TestCase;
 use function closedir;
 use function dirname;
 use function file_exists;
-use function fileperms;
 use function is_dir;
 use function readdir;
 use function Safe\copy;
 use function Safe\file_get_contents;
+use function Safe\fileperms;
 use function Safe\mkdir;
 use function Safe\opendir;
-use function Safe\sprintf;
-use function Safe\substr;
 use function Safe\unlink;
+use function sprintf;
+use function substr;
 
 use const DIRECTORY_SEPARATOR;
 
