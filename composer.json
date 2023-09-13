@@ -10,7 +10,7 @@
     "psr/event-dispatcher": "^1",
     "psr/log": "^3 || ^2 || ^1.1",
     "react/async": "^4",
-    "react/promise": "^2.8",
+    "react/promise": "^2.8 || ^3.0",
     "roave/better-reflection": "^6.3",
     "thecodingmachine/safe": "^2.4 || ^1.1",
     "wyrihaximus/broadcast-contracts": "^1.3",
