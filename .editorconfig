@@ -13,7 +13,7 @@ indent_size = 2
 [*.yml]
 indent_size = 2
 
-[*.ymal]
+[*.yaml]
 indent_size = 2
 
 [Makefile]

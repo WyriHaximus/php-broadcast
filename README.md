@@ -5,7 +5,6 @@
 ![Continuous Integration](https://github.com/wyrihaximus/php-broadcast/workflows/Continuous%20Integration/badge.svg)
 [![Latest Stable Version](https://poser.pugx.org/wyrihaximus/broadcast/v/stable.png)](https://packagist.org/packages/wyrihaximus/broadcast)
 [![Total Downloads](https://poser.pugx.org/wyrihaximus/broadcast/downloads.png)](https://packagist.org/packages/wyrihaximus/broadcast/stats)
-[![Code Coverage](https://coveralls.io/repos/github/WyriHaximus/php-broadcast/badge.svg?branchmaster)](https://coveralls.io/github/WyriHaximus/php-broadcast?branch=master)
 [![Type Coverage](https://shepherd.dev/github/WyriHaximus/php-broadcast/coverage.svg)](https://shepherd.dev/github/WyriHaximus/php-broadcast)
 [![License](https://poser.pugx.org/wyrihaximus/broadcast/license.png)](https://packagist.org/packages/wyrihaximus/broadcast)
 

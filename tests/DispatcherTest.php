@@ -17,6 +17,7 @@ use WyriHaximus\Broadcast\Dummy\AsyncListener;
 use WyriHaximus\Broadcast\Dummy\Event;
 use WyriHaximus\Broadcast\Dummy\Listener;
 
+use function React\Async\await;
 use function React\Promise\Timer\sleep;
 
 final class DispatcherTest extends AsyncTestCase
@@ -33,7 +34,7 @@ final class DispatcherTest extends AsyncTestCase
 
         Dispatcher::createFromListenerProvider($listenerProvider)->dispatch($message);
 
-        $this->await(sleep(0.001));
+        await(sleep(0.001));
 
         self::assertTrue($flip->flip());
         self::assertTrue($asyncFlip->flip());
@@ -68,7 +69,7 @@ final class DispatcherTest extends AsyncTestCase
         $throw = static function () use ($exception): void {
             throw $exception;
         };
-        /** @phpstan-ignore-next-line */
+
         $logger = $this->prophesize(LoggerInterface::class);
         $logger->error('Unhandled throwable caught: ' . $exception::class, [
             'exception' => (string) $exception,

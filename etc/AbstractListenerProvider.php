@@ -15,7 +15,7 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
 {
     /**
      * @psalm-suppress InvalidConstantAssignmentValue
-     * @var array<string, array<array{class: string, method: string, static: bool}>>
+     * @var array<string, array<array{class: string, method: string, static: bool, async: bool}>>
      */
     private const LISTENERS = ['%s'];
 

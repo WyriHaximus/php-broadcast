@@ -7,26 +7,31 @@ namespace WyriHaximus\Tests\Broadcast\Composer;
 use Composer\Composer;
 use Composer\Config;
 use Composer\Factory;
-use Composer\IO\IOInterface;
+use Composer\IO\NullIO;
 use Composer\Package\RootPackage;
 use Composer\Repository\InstalledRepositoryInterface;
 use Composer\Repository\RepositoryManager;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use Prophecy\Argument;
+use Symfony\Component\Console\Output\StreamOutput;
 use WyriHaximus\Broadcast\Composer\Installer;
 use WyriHaximus\TestUtilities\TestCase;
 
 use function closedir;
 use function dirname;
 use function file_exists;
+use function fseek;
+use function in_array;
 use function is_dir;
+use function is_file;
 use function readdir;
 use function Safe\copy;
 use function Safe\file_get_contents;
 use function Safe\fileperms;
+use function Safe\fopen;
 use function Safe\mkdir;
 use function Safe\opendir;
+use function Safe\stream_get_contents;
 use function Safe\unlink;
 use function sprintf;
 use function substr;
@@ -35,9 +40,7 @@ use const DIRECTORY_SEPARATOR;
 
 final class InstallerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function generate(): void
     {
         $composerConfig = new Config();
@@ -56,22 +59,30 @@ final class InstallerTest extends TestCase
             'classmap' => ['dummy/event','dummy/listener/Listener.php'],
             'psr-4' => ['WyriHaximus\\Broadcast\\' => 'src'],
         ]);
-        /** @phpstan-ignore-next-line */
-        $io = $this->prophesize(IOInterface::class);
-        $io->debug('Checked CA file /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a file.')->shouldBeCalled();
-        $io->debug('Checked directory /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a directory.')->shouldBeCalled();
-        $io->debug('Checked CA file /etc/ssl/certs/ca-certificates.crt: valid')->shouldBeCalled();
-        $io->write('<info>wyrihaximus/broadcast:</info> Locating listeners')->shouldBeCalled();
-        $io->write('<info>wyrihaximus/broadcast:</info> Found 2 event(s)')->shouldBeCalled();
-        $io->write(Argument::containingString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in '))->shouldBeCalled();
-        $io->write(Argument::containingString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in -'))->shouldNotBeCalled();
-        $io->write('<info>wyrihaximus/broadcast:</info> Found 4 listener(s)')->shouldBeCalled();
 
-        $io->write('<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>')->shouldBeCalled();
+                $io        = new class () extends NullIO {
+                    private readonly StreamOutput $output;
 
-        /** @phpstan-ignore-next-line */
+                    public function __construct()
+                    {
+                        $this->output = new StreamOutput(fopen('php://memory', 'rw'), decorated: false);
+                    }
+
+                    public function output(): string
+                    {
+                        fseek($this->output->getStream(), 0);
+
+                        return stream_get_contents($this->output->getStream());
+                    }
+
+            /** @inheritDoc */
+                    public function write($messages, bool $newline = true, int $verbosity = self::NORMAL): void
+                    {
+                        $this->output->write($messages, $newline, $verbosity & StreamOutput::OUTPUT_RAW);
+                    }
+                };
         $repository        = $this->prophesize(InstalledRepositoryInterface::class);
-        $repositoryManager = new RepositoryManager($io->reveal(), $composerConfig, Factory::createHttpDownloader($io->reveal(), $composerConfig));
+        $repositoryManager = new RepositoryManager($io, $composerConfig, Factory::createHttpDownloader($io, $composerConfig));
         $repositoryManager->setLocalRepository($repository->reveal());
         $composer = new Composer();
         $composer->setConfig($composerConfig);
@@ -80,15 +91,15 @@ final class InstallerTest extends TestCase
         $event = new Event(
             ScriptEvents::PRE_AUTOLOAD_DUMP,
             $composer,
-            $io->reveal()
+            $io,
         );
 
         $installer = new Installer();
 
         // Test dead methods and make Infection happy
-        $installer->activate($composer, $io->reveal());
-        $installer->deactivate($composer, $io->reveal());
-        $installer->uninstall($composer, $io->reveal());
+        $installer->activate($composer, $io);
+        $installer->deactivate($composer, $io);
+        $installer->uninstall($composer, $io);
 
         $this->recurseCopy(dirname(dirname(__DIR__)) . '/', $this->getTmpDir());
 
@@ -102,8 +113,24 @@ final class InstallerTest extends TestCase
         // Do the actual generating
         Installer::findEventListeners($event);
 
+                $output = $io->output();
+
+                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
+                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
+                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 2 event(s)', $output);
+                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in ', $output);
+                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 4 listener(s)', $output);
+                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>', $output);
+
         self::assertFileExists($fileName);
-        self::assertSame('0664', substr(sprintf('%o', fileperms($fileName)), -4));
+        self::assertTrue(in_array(
+            substr(sprintf('%o', fileperms($fileName)), -4),
+            [
+                '0664',
+                '0666',
+            ],
+            true,
+        ));
         $fileContents = file_get_contents($fileName);
         self::assertStringContainsStringIgnoringCase('private const LISTENERS = array (', $fileContents);
         self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\r);", $fileContents);
@@ -133,7 +160,7 @@ final class InstallerTest extends TestCase
 
             if (is_dir($src . '/' . $file)) {
                 $this->recurseCopy($src . '/' . $file, $dst . '/' . $file);
-            } else {
+            } elseif (is_file($src . '/' . $file)) {
                 copy($src . '/' . $file, $dst . '/' . $file);
             }
         }

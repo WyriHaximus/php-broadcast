@@ -17,17 +17,11 @@ use function React\Async\await;
  */
 final class ContainerListenerProvider extends AbstractListenerProvider implements ListenerProviderInterface
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
-        $this->container = $container;
     }
 
-    /**
-     * @inheritDoc
-     * @psalm-suppress InvalidReturnType
-     */
+    /** @inheritDoc */
     protected function prepareCallable(array $listeners): iterable
     {
         foreach ($listeners as $listener) {
@@ -41,22 +35,15 @@ final class ContainerListenerProvider extends AbstractListenerProvider implement
                 continue;
             }
 
-            /**
-             * @phpstan-ignore-next-line
-             */
+            /** @phpstan-ignore-next-line */
             yield $this->wrapIfAsync([$this->container->get($listener['class']), $listener['method']], $listener);
         }
     }
 
-    /**
-     * @param array{class: string, method: string, static: bool, async: bool} $listener
-     */
+    /** @param array{class: string, method: string, static: bool, async: bool} $listener */
     private function wrapIfAsync(callable $callable, array $listener): callable
     {
         if ($listener['async']) {
-            /**
-             * @psalm-suppress TooManyArguments
-             */
             return static fn (): mixed => await(async(static fn (): mixed => $callable(...func_get_args()))(...func_get_args()));
         }
 
