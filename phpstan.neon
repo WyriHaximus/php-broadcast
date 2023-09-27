@@ -1,9 +1,0 @@
-parameters:
-	excludePaths:
-		- src/Generated/*
-	ergebnis:
-		classesAllowedToBeExtended:
-			- WyriHaximus\Broadcast\Generated\AbstractListenerProvider
-
-includes:
-	- vendor/wyrihaximus/async-test-utilities/rules.neon

@@ -12,9 +12,7 @@ use WyriHaximus\TestUtilities\TestCase;
 
 final class ListenerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function doNotHandle(): void
     {
         self::expectException(Throwable::class);

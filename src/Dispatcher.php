@@ -15,21 +15,22 @@ use function is_callable;
 
 final class Dispatcher implements EventDispatcherInterface
 {
-    private ListenerProviderInterface $listenerProvider;
-
-    private LoggerInterface $logger;
-
     public static function createFromListenerProvider(ListenerProviderInterface $listenerProvider): self
     {
         return new self($listenerProvider, new NullLogger());
     }
 
-    public function __construct(ListenerProviderInterface $listenerProvider, LoggerInterface $logger)
+    public function __construct(private ListenerProviderInterface $listenerProvider, private LoggerInterface $logger)
     {
-        $this->listenerProvider = $listenerProvider;
-        $this->logger           = $logger;
     }
 
+    /**
+     * @param T $event
+     *
+     * @return T
+     *
+     * @template T of object
+     */
     public function dispatch(object $event): object
     {
         foreach ($this->listenerProvider->getListenersForEvent($event) as $listener) {

@@ -6,7 +6,16 @@
         ]
     },
     "logs": {
-        "text": "infection-log.txt"
+        "text": "./var/infection.log",
+        "summary": "./var/infection-summary.log",
+        "json": "./var/infection.json",
+        "perMutator": "./var/infection-per-mutator.md"
+    },
+    "minMsi": 100,
+    "minCoveredMsi": 100,
+    "ignoreMsiWithNoMutations": true,
+    "phpUnit": {
+        "configDir": "./etc/qa/"
     },
     "mutators": {
         "@default": true,
@@ -29,6 +38,11 @@
         "LogicalNot": {
             "ignore": [
                 "WyriHaximus\\Broadcast\\Composer\\Installer::findEventListeners"
+            ]
+        },
+        "LogicalOrSingleSubExprNegation": {
+            "ignore": [
+                "WyriHaximus\\Broadcast\\Composer\\Installer::getRegisteredListeners"
             ]
         }
     }

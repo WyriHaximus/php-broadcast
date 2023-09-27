@@ -6,97 +6,12 @@ on:
       - 'master'
       - 'refs/heads/v[0-9]+.[0-9]+.[0-9]+'
   pull_request:
+## This workflow needs the `pull-request` permissions to work for the package diffing
+## Refs: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#permissions
+permissions:
+  pull-requests: write
+  contents: read
 jobs:
-  package-name:
-    name: Package Name
-    runs-on: ubuntu-latest
-    outputs:
-      package-name: ${{ steps.package-name.outputs.package-name }}
-    steps:
-      - uses: actions/checkout@v4
-      - id: package-name
-        run: |
-          printf "::set-output name=package-name::[\"%s\"]" $(docker run --rm -v "`pwd`:`pwd`" jess/jq jq -r -c '.name' "${GITHUB_WORKSPACE}/composer.json")
-  supported-versions-matrix:
-    name: Supported Versions Matrix
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.supported-versions-matrix.outputs.version }}
-      upcoming: ${{ steps.supported-versions-matrix.outputs.upcoming }}
-    steps:
-      - uses: actions/checkout@v4
-      - id: supported-versions-matrix
-        uses: WyriHaximus/github-action-composer-php-versions-in-range@v1
-        with:
-          upcomingReleases: true
-  generate-checks-strategy:
-    name: Generate Checks
-    runs-on: ubuntu-latest
-    outputs:
-      check: ${{ steps.generate-checks-strategy.outputs.check }}
-    steps:
-      - uses: actions/checkout@v4
-      - id: generate-checks-strategy
-        name: Generate check
-        run: |
-          printf "Checks found: %s\r\n" $(make task-list-ci)
-          printf "::set-output name=check::%s" $(make task-list-ci)
-  can-require:
-    name: Test we can require "${{ matrix.package-name }}" on PHP ${{ matrix.php }}
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
-        package-name: ${{ fromJson(needs.package-name.outputs.package-name) }}
-    needs:
-      - package-name
-      - supported-versions-matrix
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/wyrihaximusnet/php:${{ matrix.php }}-nts-buster-dev-root
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: checked_out_package
-      - name: Set Up composer.json
-        run: |
-          echo "{\"repositories\": [{\"name\": \"${{ matrix.package-name }}\",\"type\": \"path\",\"url\": \"./checked_out_package\"}]}" > composer.json
-      - name: Require package
-        if: needs.supported-versions-matrix.outputs.upcoming != matrix.php
-        run: |
-          composer config --no-plugins "allow-plugins.*/*" true
-          composer require "${{ matrix.package-name }}:dev-${GITHUB_SHA}" --no-progress --ansi --no-interaction --prefer-dist -o -vvv || composer require "${{ matrix.package-name }}:dev-${GITHUB_REF_NAME}" --no-progress --ansi --no-interaction --prefer-dist -o -vvv
-  qa:
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ${{ fromJson(needs.supported-versions-matrix.outputs.version) }}
-        composer: [locked, highest]
-        check: ${{ fromJson(needs.generate-checks-strategy.outputs.check) }}
-    needs:
-      - supported-versions-matrix
-      - generate-checks-strategy
-    runs-on: ubuntu-latest
-    container:
-      image: wyrihaximusnet/php:${{ matrix.php }}-nts-alpine-slim-dev-root
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Required due to the way Git works, without it this action won't be able to find any or the correct tags
-      - uses: ramsey/composer-install@v2
-        with:
-          dependency-versions: ${{ matrix.composer }}
-      - run: git config --global --add safe.directory $GITHUB_WORKSPACE # Do this ourself because `actions/checkout@v3 doesn't succeed in doing this
-      - name: Fetch Tags
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/* || true
-        if: matrix.check == 'backward-compatibility-check'
-      - run: make ${{ matrix.check }} || true
-        if: needs.supported-versions-matrix.outputs.upcoming == matrix.php
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-          COVERALLS_RUN_LOCALLY: ${{ secrets.COVERALLS_RUN_LOCALLY }}
-      - run: make ${{ matrix.check }}
-        if: needs.supported-versions-matrix.outputs.upcoming != matrix.php
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-          COVERALLS_RUN_LOCALLY: ${{ secrets.COVERALLS_RUN_LOCALLY }}
+  ci:
+    name: Continuous Integration
+    uses: WyriHaximus/github-workflows/.github/workflows/package.yaml@main

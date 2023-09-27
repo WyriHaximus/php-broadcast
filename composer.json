@@ -4,27 +4,28 @@
   "license": "MIT",
   "type": "composer-plugin",
   "require": {
-    "php": "^8.1",
+    "php": "^8.2",
     "composer-plugin-api": "^2",
-    "illuminate/collections": "^8.11 || ^9.0 || ^10.0",
+    "illuminate/collections": "^10",
     "psr/event-dispatcher": "^1",
-    "psr/log": "^3 || ^2 || ^1.1",
-    "react/async": "^4",
-    "react/promise": "^2.8 || ^3.0",
-    "roave/better-reflection": "^6.3",
-    "thecodingmachine/safe": "^2.4 || ^1.1",
+    "psr/log": "^1.1 || ^2 || ^3",
+    "react/async": "^4.1",
+    "react/promise": "^3",
+    "roave/better-reflection": "^6.14",
+    "thecodingmachine/safe": "^2.5",
     "wyrihaximus/broadcast-contracts": "^1.3",
-    "wyrihaximus/constants": "^1.5",
+    "wyrihaximus/constants": "^1.6",
     "wyrihaximus/get-in-packages-composer.jason": "^2",
-    "wyrihaximus/iterator-or-array-to-array": "^1.1",
-    "wyrihaximus/list-classes-in-directory": "^1.5.2",
+    "wyrihaximus/iterator-or-array-to-array": "^1.2",
+    "wyrihaximus/list-classes-in-directory": "^1.6",
     "wyrihaximus/string-get-in": "^1.0"
   },
   "require-dev": {
     "pimple/pimple": "^3.5",
     "psr/container": "^1",
+    "react/promise-timer": "^1.10",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/async-test-utilities": "^7 || ^6 || ^5.0.25"
+    "wyrihaximus/async-test-utilities": "^7.2"
   },
   "autoload": {
     "psr-4": {
@@ -47,14 +48,13 @@
       "mindplay/composer-locator": true
     },
     "platform": {
-      "php": "8.1.13"
+      "php": "8.2.13"
     },
     "sort-packages": true
   },
   "extra": {
     "class": "WyriHaximus\\Broadcast\\Composer\\Installer",
     "unused": [
-      "wyrihaximus/broadcast-contracts",
       "wyrihaximus/get-in-packages-composer.jason"
     ],
     "wyrihaximus": {
@@ -65,10 +65,12 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "composer normalize"
+      "composer normalize",
+      "composer update --lock --no-scripts"
     ],
     "post-update-cmd": [
-      "composer normalize"
+      "composer normalize",
+      "composer update --lock --no-scripts"
     ],
     "pre-autoload-dump": [
       "WyriHaximus\\Broadcast\\Composer\\Installer::findEventListeners"

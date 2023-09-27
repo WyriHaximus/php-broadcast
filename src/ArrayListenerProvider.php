@@ -8,18 +8,14 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 use function array_key_exists;
 
-final class ArrayListenerProvider implements ListenerProviderInterface
+final readonly class ArrayListenerProvider implements ListenerProviderInterface
 {
-    /**
-     * @param array<string, array<int, callable>> $events
-     */
+    /** @param array<string, array<int, callable>> $events */
     public function __construct(private array $events)
     {
     }
 
-    /**
-     * @return iterable<int, callable>
-     */
+    /** @return iterable<int, callable> */
     public function getListenersForEvent(object $event): iterable
     {
         $eventName = $event::class;

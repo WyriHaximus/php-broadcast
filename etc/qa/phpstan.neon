@@ -1,0 +1,14 @@
+parameters:
+	ergebnis:
+		noExtends:
+			classesAllowedToBeExtended:
+				- Composer\IO\NullIO
+				- WyriHaximus\Broadcast\Generated\AbstractListenerProvider
+	ignoreErrors:
+		-
+			message: '#Method WyriHaximus\\Broadcast\\ContainerListenerProvider::__construct\(\) has a parameter \$container with a type declaration of Psr\\Container\\ContainerInterface, but containers should not be injected.#'
+			path: ../../src/ContainerListenerProvider.php
+			count: 1
+
+includes:
+	- ../../vendor/wyrihaximus/async-test-utilities/rules.neon

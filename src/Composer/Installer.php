@@ -101,49 +101,53 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         $io       = $event->getIO();
         $composer = $event->getComposer();
 
+        $rootVendorDir = $composer->getConfig()->get('vendor-dir');
+        if (!is_string($rootVendorDir) || !file_exists($rootVendorDir)) {
+            throw new \RuntimeException('Expecting vendor-dir to to be a string and an existing path.');
+        }
         if (! function_exists('WyriHaximus\iteratorOrArrayToArray')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/iterator-or-array-to-array/src/functions_include.php';
+            require_once $rootVendorDir . '/wyrihaximus/iterator-or-array-to-array/src/functions_include.php';
         }
 
         if (! function_exists('WyriHaximus\listClassesInDirectories')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/list-classes-in-directory/src/functions_include.php';
+            require_once $rootVendorDir . '/wyrihaximus/list-classes-in-directory/src/functions_include.php';
         }
 
         if (! function_exists('WyriHaximus\getIn')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/string-get-in/src/functions_include.php';
+            require_once $rootVendorDir . '/wyrihaximus/string-get-in/src/functions_include.php';
         }
 
         if (! defined('WyriHaximus\Constants\Numeric\ONE')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/constants/src/Numeric/constants_include.php';
+            require_once $rootVendorDir . '/wyrihaximus/constants/src/Numeric/constants_include.php';
         }
 
         if (! defined('WyriHaximus\Constants\Boolean\TRUE')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/wyrihaximus/constants/src/Boolean/constants_include.php';
+            require_once $rootVendorDir . '/wyrihaximus/constants/src/Boolean/constants_include.php';
         }
 
         if (! function_exists('igorw\get_in')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/igorw/get-in/src/get_in.php';
+            require_once $rootVendorDir . '/igorw/get-in/src/get_in.php';
         }
 
         if (! class_exists(PhpStormStubsMap::class)) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/jetbrains/phpstorm-stubs/PhpStormStubsMap.php';
+            require_once $rootVendorDir . '/jetbrains/phpstorm-stubs/PhpStormStubsMap.php';
         }
 
         if (! function_exists('Safe\file_get_contents')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/thecodingmachine/safe/generated/filesystem.php';
+            require_once $rootVendorDir . '/thecodingmachine/safe/generated/filesystem.php';
         }
 
         if (! function_exists('Safe\sprintf')) {
             /** @psalm-suppress UnresolvableInclude */
-            require_once $composer->getConfig()->get('vendor-dir') . '/thecodingmachine/safe/generated/strings.php';
+            require_once $rootVendorDir . '/thecodingmachine/safe/generated/strings.php';
         }
 
         $io->write('<info>wyrihaximus/broadcast:</info> Locating listeners');
@@ -181,26 +185,26 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         Config $composerConfig,
         RootPackageInterface $rootPackage
     ): string {
+        $vendorDir = $composerConfig->get('vendor-dir');
+        if (!is_string($vendorDir) || !file_exists($vendorDir)) {
+            throw new Exception('vendor-dir most be a string'); // @phpstan-ignore-line
+        }
+
         // You're on your own
         if ($rootPackage->getName() === 'wyrihaximus/broadcast') {
-            $vendorDir = $composerConfig->get('vendor-dir');
-            if (! is_string($vendorDir)) {
-                throw new Exception('vendor-dir most be a string'); // @phpstan-ignore-line
-            }
-
             return dirname($vendorDir);
         }
 
-        return $composerConfig->get('vendor-dir') . '/wyrihaximus/broadcast';
+        return $vendorDir . '/wyrihaximus/broadcast';
     }
 
     /**
-     * @return array<string, non-empty-list<array{async: mixed, class: mixed, method: mixed, static: mixed}>>
+     * @return array<string, non-empty-list<array{async: bool, class: string, method: string, static: bool}>>
      */
     private static function getRegisteredListeners(Composer $composer, IOInterface $io): array
     {
         $vendorDir = $composer->getConfig()->get('vendor-dir');
-        if (! is_string($vendorDir)) {
+        if (!is_string($vendorDir) || !file_exists($vendorDir)) {
             throw new Exception('vendor-dir most be a string'); // @phpstan-ignore-line
         }
 
@@ -216,15 +220,17 @@ final class Installer implements PluginInterface, EventSubscriberInterface
 
         $packages   = $composer->getRepositoryManager()->getLocalRepository()->getCanonicalPackages();
         $packages[] = $composer->getPackage();
+        /**
+         * @var non-empty-list<array{async: bool, class: string, method: string, static: bool, event: string}>
+         */
         $flatEvents = (new Collection(
             (new Collection($packages))->filter(static function (PackageInterface $package): bool {
                 return (bool) count($package->getAutoload());
             })->filter(static function (PackageInterface $package): bool {
                 /**
-                 * @psalm-suppress NullableReturnStatement
-                 * @phpstan-ignore-next-line
+                 * @psalm-suppress MixedArgumentTypeCoercion
                  */
-                return getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', FALSE_);
+                return (bool) getIn($package->getExtra(), 'wyrihaximus.broadcast.has-listeners', FALSE_);
             })->filter(static function (PackageInterface $package): bool {
                 return array_key_exists('classmap', $package->getAutoload()) || array_key_exists('psr-4', $package->getAutoload());
             })->flatMap(static function (PackageInterface $package) use ($vendorDir): array {
@@ -280,8 +286,14 @@ final class Installer implements PluginInterface, EventSubscriberInterface
                 /** @psalm-suppress PossiblyUndefinedVariable */
                 return [
                     (static function (ReflectionClass $reflectionClass): ReflectionClass {
+                        /**
+                         * Unit tests will fail if this line isn't here, getMethods will also do the trick
+                         * Assuming any actual class properties reading will trigger it to be loaded
+                         * Which will unit tests cause to succeed and not complain about
+                         * WyriHaximus\Broadcast\Generated\AbstractListenerProvider not being found
+                         * @psalm-suppress UnusedMethodCall
+                         */
                         $reflectionClass->getInterfaces();
-                        $reflectionClass->getMethods();
 
                         return $reflectionClass;
                     })($classReflector->reflectClass($class)),
@@ -346,11 +358,11 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         $events = [];
 
         foreach ($flatEvents as $flatEvent) {
-            $events[(string) $flatEvent['event']][] = [ /** @phpstan-ignore-line */
-                'class' => $flatEvent['class'], /** @phpstan-ignore-line */
-                'method' => $flatEvent['method'], /** @phpstan-ignore-line */
-                'static' => $flatEvent['static'], /** @phpstan-ignore-line */
-                'async' => $flatEvent['async'], /** @phpstan-ignore-line */
+            $events[$flatEvent['event']][] = [
+                'class' => $flatEvent['class'],
+                'method' => $flatEvent['method'],
+                'static' => $flatEvent['static'],
+                'async' => $flatEvent['async'],
             ];
         }
 

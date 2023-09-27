@@ -9,9 +9,7 @@ use WyriHaximus\Broadcast\Contracts\AsyncListener as AsyncListenerContract;
 use function React\Async\await;
 use function React\Promise\resolve;
 
-/**
- * @internal
- */
+/** @internal */
 final class AsyncListener implements AsyncListenerContract
 {
     /** @var callable $handler */

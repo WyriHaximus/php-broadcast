@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast\Dummy;
 
-/**
- * @internal
- */
+/** @internal */
 final class Event
 {
 }
