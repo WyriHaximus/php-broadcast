@@ -102,7 +102,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         $composer = $event->getComposer();
 
         $rootVendorDir = $composer->getConfig()->get('vendor-dir');
-        if (!is_string($rootVendorDir) || !file_exists($rootVendorDir)) {
+        if (!is_string($rootVendorDir) || !file_exists($rootVendorDir)) { /** @phpstan-ignore-line */
             throw new \RuntimeException('Expecting vendor-dir to to be a string and an existing path.');
         }
         if (! function_exists('WyriHaximus\iteratorOrArrayToArray')) {
@@ -186,7 +186,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         RootPackageInterface $rootPackage
     ): string {
         $vendorDir = $composerConfig->get('vendor-dir');
-        if (!is_string($vendorDir) || !file_exists($vendorDir)) {
+        if (!is_string($vendorDir) || !file_exists($vendorDir)) { /** @phpstan-ignore-line */
             throw new Exception('vendor-dir most be a string'); // @phpstan-ignore-line
         }
 
@@ -204,7 +204,7 @@ final class Installer implements PluginInterface, EventSubscriberInterface
     private static function getRegisteredListeners(Composer $composer, IOInterface $io): array
     {
         $vendorDir = $composer->getConfig()->get('vendor-dir');
-        if (!is_string($vendorDir) || !file_exists($vendorDir)) {
+        if (!is_string($vendorDir) || !file_exists($vendorDir)) { /** @phpstan-ignore-line */
             throw new Exception('vendor-dir most be a string'); // @phpstan-ignore-line
         }
 
@@ -267,16 +267,16 @@ final class Installer implements PluginInterface, EventSubscriberInterface
             })->map(static function (string $path): string {
                 return rtrim($path, '/');
             })->filter(static function (string $path): bool {
-                return file_exists($path);
+                return file_exists($path); /** @phpstan-ignore-line */
             })->toArray()
         ))->flatMap(static function (string $path): array { /** @phpstan-ignore-line */
             return iteratorOrArrayToArray((static function () use ($path): iterable {
                 // phpcs:disable
-                if (is_dir($path)) {
+                if (is_dir($path)) { /** @phpstan-ignore-line */
                     yield from listClassesInDirectories($path);
                 }
 
-                if (is_file($path)) {
+                if (is_file($path)) { /** @phpstan-ignore-line */
                     yield from listClassesInFiles($path);
                 }
                 // phpcs:enable

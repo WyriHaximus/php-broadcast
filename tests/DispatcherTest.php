@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Tests\Broadcast;
 
+use Mockery;
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 use Psr\Log\LoggerInterface;
@@ -70,15 +71,15 @@ final class DispatcherTest extends AsyncTestCase
             throw $exception;
         };
 
-        $logger = $this->prophesize(LoggerInterface::class);
-        $logger->error('Unhandled throwable caught: ' . $exception::class, [
+        $logger = Mockery::mock(LoggerInterface::class);
+        $logger->shouldReceive('error')->with('Unhandled throwable caught: ' . $exception::class, [
             'exception' => (string) $exception,
-        ])->shouldBeCalled();
+        ]);
         $message          = new TestMessage();
         $listenerProvider = new ArrayListenerProvider([
             TestMessage::class => [$throw],
         ]);
 
-        (new Dispatcher($listenerProvider, $logger->reveal()))->dispatch($message);
+        (new Dispatcher($listenerProvider, $logger))->dispatch($message);
     }
 }

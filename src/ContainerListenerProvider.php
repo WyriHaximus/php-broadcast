@@ -27,8 +27,8 @@ final class ContainerListenerProvider extends AbstractListenerProvider implement
         foreach ($listeners as $listener) {
             if ($listener['static']) {
                 /**
-                 * @phpstan-ignore-next-line
                  * @psalm-suppress InvalidArgument
+                 * @phpstan-ignore-next-line
                  */
                 yield $this->wrapIfAsync($listener['class'] . '::' . $listener['method'], $listener);
 

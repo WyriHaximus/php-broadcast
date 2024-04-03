@@ -13,6 +13,7 @@ use Composer\Repository\InstalledRepositoryInterface;
 use Composer\Repository\RepositoryManager;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
+use Mockery;
 use Symfony\Component\Console\Output\StreamOutput;
 use WyriHaximus\Broadcast\Composer\Installer;
 use WyriHaximus\TestUtilities\TestCase;
@@ -60,7 +61,7 @@ final class InstallerTest extends TestCase
             'psr-4' => ['WyriHaximus\\Broadcast\\' => 'src'],
         ]);
 
-                $io        = new class () extends NullIO {
+                $io = new class () extends NullIO {
                     private readonly StreamOutput $output;
 
                     public function __construct()
@@ -81,9 +82,10 @@ final class InstallerTest extends TestCase
                         $this->output->write($messages, $newline, $verbosity & StreamOutput::OUTPUT_RAW);
                     }
                 };
-        $repository        = $this->prophesize(InstalledRepositoryInterface::class);
+        $repository = Mockery::mock(InstalledRepositoryInterface::class);
+        $repository->allows()->getCanonicalPackages();
         $repositoryManager = new RepositoryManager($io, $composerConfig, Factory::createHttpDownloader($io, $composerConfig));
-        $repositoryManager->setLocalRepository($repository->reveal());
+        $repositoryManager->setLocalRepository($repository);
         $composer = new Composer();
         $composer->setConfig($composerConfig);
         $composer->setRepositoryManager($repositoryManager);
@@ -104,7 +106,7 @@ final class InstallerTest extends TestCase
         $this->recurseCopy(dirname(dirname(__DIR__)) . '/', $this->getTmpDir());
 
         $fileName = $this->getTmpDir() . 'src/Generated/AbstractListenerProvider.php';
-        if (file_exists($fileName)) {
+        if (file_exists($fileName)) { /** @phpstan-ignore-line */
             unlink($fileName);
         }
 
@@ -149,7 +151,7 @@ final class InstallerTest extends TestCase
     private function recurseCopy(string $src, string $dst): void
     {
         $dir = opendir($src);
-        if (! file_exists($dst)) {
+        if (! file_exists($dst)) { /** @phpstan-ignore-line */
             mkdir($dst);
         }
 
@@ -158,9 +160,9 @@ final class InstallerTest extends TestCase
                 continue;
             }
 
-            if (is_dir($src . '/' . $file)) {
+            if (is_dir($src . '/' . $file)) { /** @phpstan-ignore-line */
                 $this->recurseCopy($src . '/' . $file, $dst . '/' . $file);
-            } elseif (is_file($src . '/' . $file)) {
+            } elseif (is_file($src . '/' . $file)) { /** @phpstan-ignore-line */
                 copy($src . '/' . $file, $dst . '/' . $file);
             }
         }
