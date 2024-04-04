@@ -6,7 +6,7 @@
   "require": {
     "php": "^8.2",
     "composer-plugin-api": "^2",
-    "illuminate/collections": "^10",
+    "illuminate/collections": "^10 || ^11",
     "psr/event-dispatcher": "^1",
     "psr/log": "^1.1 || ^2 || ^3",
     "react/async": "^4.1",
