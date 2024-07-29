@@ -15,7 +15,7 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
 {
     /**
      * @psalm-suppress InvalidConstantAssignmentValue
-     * @var array<string, array<array{class: string, method: string, static: bool, async: bool}>>
+     * @var array<string, list<array{async: bool, class: string, event: string, method: string, static: bool}>>
      */
     private const LISTENERS = ['%s'];
 
@@ -34,7 +34,7 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
     }
 
     /**
-     * @param array<array{class: string, method: string, static: bool, async: bool}> $listeners
+     * @param list<array{async: bool, class: string, event: string, method: string, static: bool}> $listeners
      *
      * @return iterable<callable>
      */

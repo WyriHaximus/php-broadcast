@@ -35,15 +35,13 @@
         "Foreach_": false,
         "LogicalOr": false,
         "UnwrapRtrim": false,
-        "LogicalNot": {
-            "ignore": [
-                "WyriHaximus\\Broadcast\\Composer\\Installer::findEventListeners"
-            ]
-        },
-        "LogicalOrSingleSubExprNegation": {
-            "ignore": [
-                "WyriHaximus\\Broadcast\\Composer\\Installer::getRegisteredListeners"
-            ]
-        }
+        "LogicalNot": false,
+        "NotIdentical": false,
+        "IfNegation": false,
+        "IncrementInteger": false,
+        "DecrementInteger": false,
+        "PublicVisibility": false,
+        "ProtectedVisibility": false,
+        "LogicalOrSingleSubExprNegation": false
     }
 }
