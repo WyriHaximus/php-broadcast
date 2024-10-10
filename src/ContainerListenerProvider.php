@@ -40,7 +40,7 @@ final class ContainerListenerProvider extends AbstractListenerProvider implement
         }
     }
 
-    /** @param array{class: string, method: string, static: bool, async: bool} $listener */
+    /** @param array{async: bool, class: string, event: string, method: string, static: bool} $listener */
     private function wrapIfAsync(callable $callable, array $listener): callable
     {
         if ($listener['async']) {

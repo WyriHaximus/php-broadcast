@@ -61,29 +61,29 @@ final class InstallerTest extends TestCase
             'psr-4' => ['WyriHaximus\\Broadcast\\' => 'src'],
         ]);
 
-                $io = new class () extends NullIO {
-                    private readonly StreamOutput $output;
+        $io         = new class () extends NullIO {
+            private readonly StreamOutput $output;
 
-                    public function __construct()
-                    {
-                        $this->output = new StreamOutput(fopen('php://memory', 'rw'), decorated: false);
-                    }
+            public function __construct()
+            {
+                $this->output = new StreamOutput(fopen('php://memory', 'rw'), decorated: false);
+            }
 
-                    public function output(): string
-                    {
-                        fseek($this->output->getStream(), 0);
+            public function output(): string
+            {
+                fseek($this->output->getStream(), 0);
 
-                        return stream_get_contents($this->output->getStream());
-                    }
+                return stream_get_contents($this->output->getStream());
+            }
 
             /** @inheritDoc */
-                    public function write($messages, bool $newline = true, int $verbosity = self::NORMAL): void
-                    {
-                        $this->output->write($messages, $newline, $verbosity & StreamOutput::OUTPUT_RAW);
-                    }
-                };
+            public function write($messages, bool $newline = true, int $verbosity = self::NORMAL): void
+            {
+                $this->output->write($messages, $newline, $verbosity & StreamOutput::OUTPUT_RAW);
+            }
+        };
         $repository = Mockery::mock(InstalledRepositoryInterface::class);
-        $repository->allows()->getCanonicalPackages();
+        $repository->allows()->getCanonicalPackages()->andReturn([]);
         $repositoryManager = new RepositoryManager($io, $composerConfig, Factory::createHttpDownloader($io, $composerConfig));
         $repositoryManager->setLocalRepository($repository);
         $composer = new Composer();
@@ -115,14 +115,13 @@ final class InstallerTest extends TestCase
         // Do the actual generating
         Installer::findEventListeners($event);
 
-                $output = $io->output();
+        $output = $io->output();
 
-                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
-                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
-                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 2 event(s)', $output);
-                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in ', $output);
-                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 4 listener(s)', $output);
-                self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Error while reflecting "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>', $output);
+        self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
+        self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
+        self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in ', $output);
+        self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 4 listener(s)', $output);
+        self::assertStringContainsString('<error>wyrihaximus/broadcast:</error> An error occurred: Cannot reflect "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>', $output);
 
         self::assertFileExists($fileName);
         self::assertTrue(in_array(
@@ -146,6 +145,12 @@ final class InstallerTest extends TestCase
         self::assertStringContainsStringIgnoringCase('\'async\' => false', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'WyriHaximus\\\\Broadcast\\\\Dummy\\\\Event\' => ', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'stdClass\' => ', $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandle\'', $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'__construct\'', $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'__destruct\'', $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandleDueToTwoArguments\'', $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandlePrivate\'', $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandleProtected\'', $fileContents);
     }
 
     private function recurseCopy(string $src, string $dst): void
