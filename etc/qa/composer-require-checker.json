@@ -9,8 +9,7 @@
     "WyriHaximus\\iteratorOrArrayToArray", "WyriHaximus\\listClassesInDirectories", "WyriHaximus\\listClassesInFiles",
     "Composer\\Composer", "Composer\\Config", "Composer\\EventDispatcher\\EventSubscriberInterface",
     "Composer\\IO\\IOInterface", "Composer\\Package\\RootPackageInterface", "Composer\\Plugin\\PluginInterface",
-    "Composer\\Script\\Event", "Composer\\Script\\ScriptEvents", "JetBrains\\PHPStormStub\\PhpStormStubsMap",
-    "Psr\\Container\\ContainerInterface"
+    "Composer\\Script\\Event", "Composer\\Script\\ScriptEvents", "JetBrains\\PHPStormStub\\PhpStormStubsMap"
   ],
   "php-core-extensions" : [
     "Core",
