@@ -41,8 +41,8 @@ final class Plugin implements GenerativePlugin
     public function filters(): iterable
     {
         yield new ComposerJsonHasItemWithSpecificValue('wyrihaximus.broadcast.has-listeners', true);
-        yield new IsInstantiable();
         yield new ImplementsInterface(Listener::class, AsyncListener::class);
+        yield new IsInstantiable();
     }
 
     /** @inheritDoc */
