@@ -3,10 +3,10 @@
 ✨ Statically on composer install/update compiled event dispatcher
 
 ![Continuous Integration](https://github.com/wyrihaximus/php-broadcast/workflows/Continuous%20Integration/badge.svg)
-[![Latest Stable Version](https://poser.pugx.org/wyrihaximus/broadcast/v/stable.png)](https://packagist.org/packages/wyrihaximus/broadcast)
-[![Total Downloads](https://poser.pugx.org/wyrihaximus/broadcast/downloads.png)](https://packagist.org/packages/wyrihaximus/broadcast/stats)
+[![Latest Stable Version](https://poser.pugx.org/wyrihaximus/broadcast/v/stable)](https://packagist.org/packages/wyrihaximus/broadcast)
+[![Total Downloads](https://poser.pugx.org/wyrihaximus/broadcast/downloads)](https://packagist.org/packages/wyrihaximus/broadcast/stats)
 [![Type Coverage](https://shepherd.dev/github/WyriHaximus/php-broadcast/coverage.svg)](https://shepherd.dev/github/WyriHaximus/php-broadcast)
-[![License](https://poser.pugx.org/wyrihaximus/broadcast/license.png)](https://packagist.org/packages/wyrihaximus/broadcast)
+[![License](https://poser.pugx.org/wyrihaximus/broadcast/license)](https://packagist.org/packages/wyrihaximus/broadcast)
 
 # Installation
 
