@@ -9,6 +9,55 @@ parameters:
 			message: '#Method WyriHaximus\\Broadcast\\ContainerListenerProvider::__construct\(\) has a parameter \$container with a type declaration of Psr\\Container\\ContainerInterface, but containers should not be injected.#'
 			path: ../../src/ContainerListenerProvider.php
 			count: 1
-
-includes:
-	- ../../vendor/wyrihaximus/async-test-utilities/rules.neon
+		-   # Method is dead and purely there to test the generated code in InstallerTest::generate
+			identifier: shipmonk.deadMethod
+			path: ../../src/Dummy/AsyncListener.php
+			count: 1
+		-   # Methods are dead and are purely there to test the generated code in InstallerTest::generate
+			identifier: shipmonk.deadMethod
+			path: ../../src/Dummy/Listener.php
+			count: 5
+		-   # Methods are dead and are purely there to test the generated code in InstallerTest::generate
+			identifier: method.unused
+			path: ../../src/Dummy/Listener.php
+			count: 1
+		-   # Methods are dead and are purely there to test the generated code in InstallerTest::generate
+			identifier: ergebnis.privateInFinalClass
+			path: ../../src/Dummy/Listener.php
+			count: 1
+		-   # Using blocking method outside event loop scope
+			identifier: wyrihaximus.reactphp.blocking.function.fileGetContents
+			path: ../../src/Composer/Plugin.php
+			count: 1
+		-   # Using blocking method outside event loop scope
+			identifier: wyrihaximus.reactphp.blocking.function.filePutContents
+			path: ../../src/Composer/Plugin.php
+			count: 1
+		-   # This is tested
+			identifier: shipmonk.checkedExceptionInYieldingMethod
+			path: ../../src/ContainerListenerProvider.php
+			count: 1
+		-   # This is tested
+			identifier: shipmonk.checkedExceptionInCallable
+			path: ../../src/ContainerListenerProvider.php
+			count: 1
+		-   # This is tested
+			identifier: argument.type
+			path: ../../src/ContainerListenerProvider.php
+			count: 2
+		-   # Using blocking method outside event loop scope
+			identifier: wyrihaximus.reactphp.blocking.function.fileExists
+			path: ../../tests/Composer/InstallerTest.php
+			count: 2
+		-   # Using blocking method outside event loop scope
+			identifier: wyrihaximus.reactphp.blocking.function.isDir
+			path: ../../tests/Composer/InstallerTest.php
+			count: 1
+		-   # Using blocking method outside event loop scope
+			identifier: wyrihaximus.reactphp.blocking.function.isFile
+			path: ../../tests/Composer/InstallerTest.php
+			count: 1
+		-   # Both cases we specifically test those exceptoins are handled
+			identifier: shipmonk.checkedExceptionInCallable
+			path: ../../tests/DispatcherTest.php
+			count: 2

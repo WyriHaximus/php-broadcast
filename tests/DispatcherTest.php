@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WyriHaximus\Tests\Broadcast;
 
 use Mockery;
+use PHPUnit\Framework\Attributes\Test;
 use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 use Psr\Log\LoggerInterface;
@@ -23,7 +24,8 @@ use function React\Promise\Timer\sleep;
 
 final class DispatcherTest extends AsyncTestCase
 {
-    public function testMessageNoErrors(): void
+    #[Test]
+    public function messageNoErrors(): void
     {
         $container                       = new Container();
         $flip                            = new Flip();
@@ -41,7 +43,8 @@ final class DispatcherTest extends AsyncTestCase
         self::assertTrue($asyncFlip->flip());
     }
 
-    public function testMessageErrorOnFirstSecondStillRunsNoErrorHandler(): void
+    #[Test]
+    public function messageErrorOnFirstSecondStillRunsNoErrorHandler(): void
     {
         $exception = new LatchcombException();
         self::expectException($exception::class);
@@ -63,7 +66,8 @@ final class DispatcherTest extends AsyncTestCase
         self::assertTrue($flip->flip());
     }
 
-    public function testMessageOnErrorLogs(): void
+    #[Test]
+    public function messageOnErrorLogs(): void
     {
         $exception = new HappyArborDayException();
         self::expectException($exception::class);

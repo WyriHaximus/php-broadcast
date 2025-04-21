@@ -23,7 +23,7 @@ else
 		-v "`pwd`:`pwd`" \
 		-v "${COMPOSER_CACHE_DIR}:${COMPOSER_CONTAINER_CACHE_DIR}" \
 		-w "`pwd`" \
-		${CONTAINER_NAME}
+		"${CONTAINER_NAME}"
 endif
 
 ifneq (,$(findstring icrosoft,$(shell cat /proc/version)))
@@ -35,65 +35,76 @@ endif
 all: ## Runs everything ####
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -v "####" | awk 'BEGIN {FS = ":.*?## "}; {printf "%s\n", $$1}' | xargs --open-tty $(MAKE)
 
-syntax-php: ## Lint PHP syntax
+
+syntax-php: ## Lint PHP syntax ##*LH*##
 	$(DOCKER_RUN) vendor/bin/parallel-lint --exclude vendor .
 
 cs-fix: ## Fix any automatically fixable code style issues ###
 	$(DOCKER_RUN) vendor/bin/phpcbf --parallel=$(THREADS) --cache=./var/.phpcs.cache.json --standard=./etc/qa/phpcs.xml || $(DOCKER_RUN) vendor/bin/phpcbf --parallel=$(THREADS) --cache=./var/.phpcs.cache.json --standard=./etc/qa/phpcs.xml || $(DOCKER_RUN) vendor/bin/phpcbf --parallel=$(THREADS) --cache=./var/.phpcs.cache.json --standard=./etc/qa/phpcs.xml -vvvv
 
-cs: ## Check the code for code style issues
+cs: ## Check the code for code style issues ##*LCH*##
 	$(DOCKER_RUN) vendor/bin/phpcs --parallel=$(THREADS) --cache=./var/.phpcs.cache.json --standard=./etc/qa/phpcs.xml
 
-stan: ## Run static analysis (PHPStan)
+stan: ## Run static analysis (PHPStan) ##*LCH*##
 	$(DOCKER_RUN) vendor/bin/phpstan analyse src tests --level max --ansi -c ./etc/qa/phpstan.neon
 
-psalm: ## Run static analysis (Psalm)
-	$(DOCKER_RUN) vendor/bin/psalm --threads=$(THREADS) --shepherd --stats --config=./etc/qa/psalm.xml
-
-unit-testing: ## Run tests
+unit-testing: ## Run tests ##*A*##
 	$(DOCKER_RUN) vendor/bin/phpunit --colors=always -c ./etc/qa/phpunit.xml --coverage-text --coverage-html ./var/tests-unit-coverage-html --coverage-clover ./var/tests-unit-clover-coverage.xml
 	$(DOCKER_RUN) test -n "$(COVERALLS_REPO_TOKEN)" && test -n "$(COVERALLS_RUN_LOCALLY)" && test -f ./var/tests-unit-clover-coverage.xml && vendor/bin/php-coveralls -v --coverage_clover ./build/logs/clover.xml --json_path ./var/tests-unit-clover-coverage-upload.json || true
 
-unit-testing-raw: ## Run tests ####
+unit-testing-raw: ## Run tests ##*D*## ####
 	php vendor/phpunit/phpunit/phpunit --colors=always -c ./etc/qa/phpunit.xml --coverage-text --coverage-html ./var/tests-unit-coverage-html --coverage-clover ./var/tests-unit-clover-coverage.xml
 	test -n "$(COVERALLS_REPO_TOKEN)" && test -n "$(COVERALLS_RUN_LOCALLY)" && test -f ./var/tests-unit-clover-coverage.xml && ./vendor/bin/php-coveralls -v --coverage_clover ./build/logs/clover.xml --json_path ./var/tests-unit-clover-coverage-upload.json || true
 
-mutation-testing: ## Run mutation testing
-	$(DOCKER_RUN) vendor/bin/roave-infection-static-analysis-plugin --ansi --log-verbosity=all --threads=$(THREADS) --psalm-config etc/qa/psalm.xml || (cat ./var/infection.log && false)
+mutation-testing: ## Run mutation testing ##*LCH*##
+	$(DOCKER_RUN) vendor/bin/infection --ansi --log-verbosity=all --threads=$(THREADS) || (cat ./var/infection.log && false)
 
 mutation-testing-raw: ## Run mutation testing ####
-	php vendor/roave/infection-static-analysis-plugin/bin/roave-infection-static-analysis-plugin --ansi --log-verbosity=all --threads=$(THREADS) --psalm-config etc/qa/psalm.xml || (cat ./var/infection.log && false)
+	vendor/bin/infection --ansi --log-verbosity=all --threads=$(THREADS) || (cat ./var/infection.log && false)
 
-composer-require-checker: ## Ensure we require every package used in this package directly
+composer-require-checker: ## Ensure we require every package used in this package directly ##*C*##
 	$(DOCKER_RUN) vendor/bin/composer-require-checker --ignore-parse-errors --ansi -vvv --config-file=./etc/qa/composer-require-checker.json
 
-composer-unused: ## Ensure we don't require any package we don't use in this package directly
+composer-unused: ## Ensure we don't require any package we don't use in this package directly ##*C*##
 	$(DOCKER_RUN) vendor/bin/composer-unused --ansi --configuration=./etc/qa/composer-unused.php
 
-composer-install: ## Install dependencies
-	$(DOCKER_RUN) composer install --no-progress --ansi --no-interaction --prefer-dist -o
+libyear: ### Calculate how many libyear this package is behind with dependencies
+	$(DOCKER_RUN) vendor/bin/libyear
 
-backward-compatibility-check: ## Check code for backwards incompatible changes
+backward-compatibility-check: ## Check code for backwards incompatible changes ##*C*##
 	$(MAKE) backward-compatibility-check-raw || true
 
 backward-compatibility-check-raw: ## Check code for backwards incompatible changes, doesn't ignore the failure ###
 	$(DOCKER_RUN) vendor/bin/roave-backward-compatibility-check
 
-shell: ## Provides Shell access in the expected environment ####
-	$(DOCKER_RUN) bash
-
-install: ## Install dependencies ####
+install: ### Install dependencies ####
 	$(DOCKER_RUN) composer install
 
-update: ## Update dependencies ####
+update: ### Update dependencies ####
 	$(DOCKER_RUN) composer update -W
 
-outdated: ## Show outdated dependencies ####
+outdated: ### Show outdated dependencies ####
 	$(DOCKER_RUN) composer outdated
 
-task-list-ci: ## CI: Generate a JSON array of jobs to run, matches the commands run when running `make (|all)` ####
-	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -v "###" | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%s\n", $$1}' | jq --raw-input --slurp -c 'split("\n")| .[0:-1]'
+shell: ## Provides Shell access in the expected environment ####
+	$(DOCKER_RUN) bash
 
 help: ## Show this help ####
 	@printf "\033[33mUsage:\033[0m\n  make [target]\n\n\033[33mTargets:\033[0m\n"
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[32m%-32s\033[0m %s\n", $$1, $$2}' | tr -d '#'
+
+task-list-ci-all: ## CI: Generate a JSON array of jobs to run on all variations
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E "##\*A\*##" | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%s\n", $$1}' | jq --raw-input --slurp -c 'split("\n")| .[0:-1]'
+
+task-list-ci-dos: ## CI: Generate a JSON array of jobs to run Directly on the OS variations
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E "##\*D\*##" | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%s\n", $$1}' | jq --raw-input --slurp -c 'split("\n")| .[0:-1]'
+
+task-list-ci-low: ## CI: Generate a JSON array of jobs to run against the lowest dependencies on the primary threading target
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E "##\*(L|LC|LCH|LH)\*##" | grep -v "###" | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%s\n", $$1}' | jq --raw-input --slurp -c 'split("\n")| .[0:-1]'
+
+task-list-ci-locked: ## CI: Generate a JSON array of jobs to run against the locked dependencies on the primary threading target
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E "##\*(C|LC|LCH|CH)\*##" | grep -v "###" | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%s\n", $$1}' | jq --raw-input --slurp -c 'split("\n")| .[0:-1]'
+
+task-list-ci-high: ## CI: Generate a JSON array of jobs to run against the highest dependencies on the primary threading target
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | grep -E "##\*(H|LH|LCH|LC)\*##" | grep -v "###" | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%s\n", $$1}' | jq --raw-input --slurp -c 'split("\n")| .[0:-1]'
+
