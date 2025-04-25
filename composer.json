@@ -40,7 +40,9 @@
       "ergebnis/composer-normalize": true,
       "icanhazstring/composer-unused": true,
       "infection/extension-installer": true,
-      "mindplay/composer-locator": true
+      "mindplay/composer-locator": true,
+      "phpstan/extension-installer": true,
+      "wyrihaximus/makefiles": true
     },
     "platform": {
       "php": "8.2.13"
