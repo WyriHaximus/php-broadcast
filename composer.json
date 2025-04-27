@@ -4,8 +4,8 @@
   "license": "MIT",
   "type": "composer-plugin",
   "require": {
-    "php": "^8.2",
-    "ext-json": "^8.2",
+    "php": "^8.3",
+    "ext-json": "^8.3",
     "composer-plugin-api": "^2",
     "psr/container": "^1 || ^2",
     "psr/event-dispatcher": "^1",
@@ -43,7 +43,7 @@
       "mindplay/composer-locator": true
     },
     "platform": {
-      "php": "8.2.13"
+      "php": "8.3.13"
     },
     "sort-packages": true
   },

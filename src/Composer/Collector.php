@@ -18,7 +18,7 @@ use function in_array;
 
 final class Collector implements ItemCollector
 {
-    private const THE_NUMBER_OF_PARAMETERS_REQUIRED_FOR_A_METHOD_TO_BE_AN_EVENT_HANDLER_IS_ONE = 1;
+    private const int THE_NUMBER_OF_PARAMETERS_REQUIRED_FOR_A_METHOD_TO_BE_AN_EVENT_HANDLER_IS_ONE = 1;
 
     /** @return iterable<ItemContract> */
     public function collect(ReflectionClass $class): iterable
