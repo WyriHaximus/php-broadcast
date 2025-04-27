@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-// phpcs:disable
 namespace WyriHaximus\Broadcast\Generated;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
@@ -17,7 +16,7 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
      * @psalm-suppress InvalidConstantAssignmentValue
      * @var array<string, list<array{async: bool, class: string, event: string, method: string, static: bool}>>
      */
-    private const LISTENERS = array (
+    private const array LISTENERS = array (
   'WyriHaximus\\Broadcast\\Dummy\\Event' => 
   array (
     0 => 
@@ -79,4 +78,3 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
      */
     abstract protected function prepareCallable(array $listeners): iterable;
 }
-// phpcs:enable
