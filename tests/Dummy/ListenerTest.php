@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Tests\Broadcast\Dummy;
 
+use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use Throwable;
 use WyriHaximus\Broadcast\Dummy\Event;
@@ -12,7 +13,7 @@ use WyriHaximus\TestUtilities\TestCase;
 
 final class ListenerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function doNotHandle(): void
     {
         self::expectException(Throwable::class);

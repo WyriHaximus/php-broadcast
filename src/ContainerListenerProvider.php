@@ -26,16 +26,12 @@ final class ContainerListenerProvider extends AbstractListenerProvider implement
     {
         foreach ($listeners as $listener) {
             if ($listener['static']) {
-                /**
-                 * @psalm-suppress InvalidArgument
-                 * @phpstan-ignore-next-line
-                 */
+                /** @psalm-suppress InvalidArgument */
                 yield $this->wrapIfAsync($listener['class'] . '::' . $listener['method'], $listener);
 
                 continue;
             }
 
-            /** @phpstan-ignore-next-line */
             yield $this->wrapIfAsync([$this->container->get($listener['class']), $listener['method']], $listener);
         }
     }

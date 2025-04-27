@@ -42,6 +42,10 @@
         "DecrementInteger": false,
         "PublicVisibility": false,
         "ProtectedVisibility": false,
-        "LogicalOrSingleSubExprNegation": false
+        "LogicalOrSingleSubExprNegation": false,
+        "UnwrapArrayMap": false,
+        "ArrayItem": false,
+        "TrueValue": false,
+        "UnwrapStrReplace": false
     }
 }

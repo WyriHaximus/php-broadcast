@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+// phpcs:disable
 namespace WyriHaximus\Broadcast\Generated;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
@@ -39,3 +40,4 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
      */
     abstract protected function prepareCallable(array $listeners): iterable;
 }
+// phpcs:enable

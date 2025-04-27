@@ -43,16 +43,12 @@ final class Listener implements ListenerContract
         throw new RuntimeException('Should not be called');
     }
 
-    /** @phpstan-ignore-next-line */
     protected function doNotHandleProtected(Event $event): void
     {
         throw new RuntimeException('Should not be called');
     }
 
-    /**
-     * @psalm-suppress UnusedParam
-     * @phpstan-ignore-next-line
-     */
+    /** @psalm-suppress UnusedParam */
     private function doNotHandlePrivate(Event $event): void
     {
         throw new RuntimeException('Should not be called');

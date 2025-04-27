@@ -14,8 +14,11 @@ use Composer\Repository\RepositoryManager;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Mockery;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Console\Output\StreamOutput;
 use WyriHaximus\Broadcast\Composer\Installer;
+use WyriHaximus\Broadcast\Dummy\Listener;
 use WyriHaximus\TestUtilities\TestCase;
 
 use function closedir;
@@ -39,9 +42,12 @@ use function substr;
 
 use const DIRECTORY_SEPARATOR;
 
+#[CoversMethod(Listener::class, 'handleBoth')]
+#[CoversMethod(Listener::class, 'doNotHandleDueToTwoArguments')]
+#[CoversMethod(Listener::class, 'doNotHandleProtected')]
 final class InstallerTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function generate(): void
     {
         $composerConfig = new Config();
@@ -106,7 +112,7 @@ final class InstallerTest extends TestCase
         $this->recurseCopy(dirname(dirname(__DIR__)) . '/', $this->getTmpDir());
 
         $fileName = $this->getTmpDir() . 'src/Generated/AbstractListenerProvider.php';
-        if (file_exists($fileName)) { /** @phpstan-ignore-line */
+        if (file_exists($fileName)) {
             unlink($fileName);
         }
 
@@ -133,7 +139,7 @@ final class InstallerTest extends TestCase
             true,
         ));
         $fileContents = file_get_contents($fileName);
-        self::assertStringContainsStringIgnoringCase('private const LISTENERS = array (', $fileContents);
+        self::assertStringContainsStringIgnoringCase('private const array LISTENERS = array (', $fileContents);
         self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\r);", $fileContents);
         self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\r\n);", $fileContents);
         self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\n);", $fileContents);
@@ -156,7 +162,7 @@ final class InstallerTest extends TestCase
     private function recurseCopy(string $src, string $dst): void
     {
         $dir = opendir($src);
-        if (! file_exists($dst)) { /** @phpstan-ignore-line */
+        if (! file_exists($dst)) {
             mkdir($dst);
         }
 
@@ -165,9 +171,9 @@ final class InstallerTest extends TestCase
                 continue;
             }
 
-            if (is_dir($src . '/' . $file)) { /** @phpstan-ignore-line */
+            if (is_dir($src . '/' . $file)) {
                 $this->recurseCopy($src . '/' . $file, $dst . '/' . $file);
-            } elseif (is_file($src . '/' . $file)) { /** @phpstan-ignore-line */
+            } elseif (is_file($src . '/' . $file)) {
                 copy($src . '/' . $file, $dst . '/' . $file);
             }
         }
