@@ -31,7 +31,7 @@ final class Listener implements ListenerContract
     }
 
     #[DoNotHandle]
-    public function doNotHandle(Event $event): void
+    public function doNotHandle(Event $event): never
     {
         throw new RuntimeException('Should not be called');
     }
@@ -39,17 +39,17 @@ final class Listener implements ListenerContract
     public function doNotHandleDueToTwoArguments(
         Event $event,
         stdClass $std,
-    ): void {
+    ): never {
         throw new RuntimeException('Should not be called');
     }
 
-    protected function doNotHandleProtected(Event $event): void
+    protected function doNotHandleProtected(Event $event): never
     {
         throw new RuntimeException('Should not be called');
     }
 
     /** @psalm-suppress UnusedParam */
-    private function doNotHandlePrivate(Event $event): void
+    private function doNotHandlePrivate(Event $event): never
     {
         throw new RuntimeException('Should not be called');
     }

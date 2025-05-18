@@ -17,53 +17,53 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
      * @psalm-suppress InvalidConstantAssignmentValue
      * @var array<string, list<array{async: bool, class: string, event: string, method: string, static: bool}>>
      */
-    private const array LISTENERS = array (
+    private const array LISTENERS =  [
   'WyriHaximus\\Broadcast\\Dummy\\Event' => 
-  array (
+   [
     0 => 
-    array (
+     [
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
       'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
       'method' => 'handle',
       'static' => false,
       'async' => false,
-    ),
+    ],
     1 => 
-    array (
+     [
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
       'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
       'method' => 'handleBoth',
       'static' => false,
       'async' => false,
-    ),
+    ],
     2 => 
-    array (
+     [
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
       'class' => 'WyriHaximus\\Broadcast\\Dummy\\AsyncListener',
       'method' => 'handle',
       'static' => false,
       'async' => true,
-    ),
-  ),
+    ],
+  ],
   'stdClass' => 
-  array (
+   [
     0 => 
-    array (
+     [
       'event' => 'stdClass',
       'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
       'method' => 'handleBoth',
       'static' => false,
       'async' => false,
-    ),
-  ),
-);
+    ],
+  ],
+];
 
     /**
      * @return iterable<callable>
      */
     final public function getListenersForEvent(object $event): iterable
     {
-        $className = get_class($event);
+        $className = $event::class;
         if (array_key_exists($className, self::LISTENERS)) {
             /** @psalm-suppress EmptyArrayAccess */
             yield from $this->prepareCallable(self::LISTENERS[$className]);

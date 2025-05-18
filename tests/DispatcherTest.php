@@ -48,7 +48,7 @@ final class DispatcherTest extends AsyncTestCase
     {
         $exception = new LatchcombException();
         self::expectException($exception::class);
-        $throw = static function () use ($exception): void {
+        $throw = static function () use ($exception): never {
             throw $exception;
         };
 
@@ -71,7 +71,7 @@ final class DispatcherTest extends AsyncTestCase
     {
         $exception = new HappyArborDayException();
         self::expectException($exception::class);
-        $throw = static function () use ($exception): void {
+        $throw = static function () use ($exception): never {
             throw $exception;
         };
 
