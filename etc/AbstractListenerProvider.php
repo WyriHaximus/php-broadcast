@@ -24,7 +24,7 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
      */
     final public function getListenersForEvent(object $event): iterable
     {
-        $className = get_class($event);
+        $className = $event::class;
         if (array_key_exists($className, self::LISTENERS)) {
             /** @psalm-suppress EmptyArrayAccess */
             yield from $this->prepareCallable(self::LISTENERS[$className]);

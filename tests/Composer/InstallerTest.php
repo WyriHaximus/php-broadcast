@@ -109,7 +109,7 @@ final class InstallerTest extends TestCase
         $installer->deactivate($composer, $io);
         $installer->uninstall($composer, $io);
 
-        $this->recurseCopy(dirname(dirname(__DIR__)) . '/', $this->getTmpDir());
+        $this->recurseCopy(dirname(__DIR__, 2) . '/', $this->getTmpDir());
 
         $fileName = $this->getTmpDir() . 'src/Generated/AbstractListenerProvider.php';
         if (file_exists($fileName)) {
