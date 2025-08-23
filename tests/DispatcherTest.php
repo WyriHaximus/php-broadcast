@@ -84,6 +84,6 @@ final class DispatcherTest extends AsyncTestCase
             TestMessage::class => [$throw],
         ]);
 
-        (new Dispatcher($listenerProvider, $logger))->dispatch($message);
+        new Dispatcher($listenerProvider, $logger)->dispatch($message);
     }
 }
