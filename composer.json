@@ -20,7 +20,7 @@
     "pimple/pimple": "^3.5",
     "react/promise-timer": "^1.11",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/async-test-utilities": "^10.3.0",
+    "wyrihaximus/async-test-utilities": "^10.4.0",
     "wyrihaximus/makefiles": "^0.7.5",
     "wyrihaximus/phpstan-react": "^2.0.0"
   },
