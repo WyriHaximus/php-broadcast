@@ -7,5 +7,5 @@ use WyriHaximus\TestUtilities\RectorConfig;
 return RectorConfig::configure(
     dirname(__DIR__, 2),
 )->withSkipPath(
-    dirname(__DIR__, 2) . \DIRECTORY_SEPARATOR . 'src' . \DIRECTORY_SEPARATOR . 'Generated' . \DIRECTORY_SEPARATOR,
+    dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Generated' . DIRECTORY_SEPARATOR,
 );
