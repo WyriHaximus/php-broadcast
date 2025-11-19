@@ -9,8 +9,6 @@ parameters:
 			classesAllowedToBeExtended:
 				- Composer\IO\NullIO
 				- WyriHaximus\Broadcast\Generated\AbstractListenerProvider
-	excludePaths:
-		- ../../etc/AbstractListenerProvider.php
 	ignoreErrors:
 		-
 			message: '#Method WyriHaximus\\Broadcast\\ContainerListenerProvider::__construct\(\) has a parameter \$container with a type declaration of Psr\\Container\\ContainerInterface, but containers should not be injected.#'
@@ -31,14 +29,6 @@ parameters:
 		-   # Methods are dead and are purely there to test the generated code in InstallerTest::generate
 			identifier: ergebnis.privateInFinalClass
 			path: ../../src/Dummy/Listener.php
-			count: 1
-		-   # Using blocking method outside event loop scope
-			identifier: wyrihaximus.reactphp.blocking.function.fileGetContents
-			path: ../../src/Composer/Plugin.php
-			count: 1
-		-   # Using blocking method outside event loop scope
-			identifier: wyrihaximus.reactphp.blocking.function.filePutContents
-			path: ../../src/Composer/Plugin.php
 			count: 1
 		-   # This is tested
 			identifier: shipmonk.checkedExceptionInYieldingMethod

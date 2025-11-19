@@ -4,22 +4,16 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast\Composer;
 
-use RuntimeException;
 use WyriHaximus\Broadcast\Contracts\AsyncListener;
 use WyriHaximus\Broadcast\Contracts\Listener;
 use WyriHaximus\Composer\GenerativePluginTooling\Filter\Class\ImplementsInterface;
 use WyriHaximus\Composer\GenerativePluginTooling\Filter\Class\IsInstantiable;
 use WyriHaximus\Composer\GenerativePluginTooling\Filter\Package\ComposerJsonHasItemWithSpecificValue;
 use WyriHaximus\Composer\GenerativePluginTooling\GenerativePlugin;
+use WyriHaximus\Composer\GenerativePluginTooling\Helper\TwigFile;
 use WyriHaximus\Composer\GenerativePluginTooling\Item as ItemContract;
 use WyriHaximus\Composer\GenerativePluginTooling\LogStages;
 
-use function chmod;
-use function file_get_contents;
-use function file_put_contents;
-use function is_string;
-use function sprintf;
-use function str_replace;
 use function var_export;
 
 final class Plugin implements GenerativePlugin
@@ -64,23 +58,10 @@ final class Plugin implements GenerativePlugin
             $listeners[$item->event][] = $item->jsonSerialize();
         }
 
-        $template = file_get_contents($rootPath . '/etc/AbstractListenerProvider.php');
-
-        if (! is_string($template)) {
-            throw new RuntimeException('Unable to read template');
-        }
-
-        $classContents = sprintf(
-            str_replace(
-                "['%s']",
-                '%s',
-                $template,
-            ),
-            var_export($listeners, true),
+        TwigFile::render(
+            $rootPath . '/etc/AbstractListenerProvider.php.twig',
+            $rootPath . '/src/Generated/AbstractListenerProvider.php',
+            ['listeners' => var_export($listeners, true)],
         );
-        $installPath   = $rootPath . '/src/Generated/AbstractListenerProvider.php';
-
-        file_put_contents($installPath, $classContents);
-        chmod($installPath, 0664);
     }
 }
