@@ -136,6 +136,7 @@ final class InstallerTest extends TestCase
         self::assertTrue(in_array(
             substr(sprintf('%o', fileperms($fileName)), -4),
             [
+                '0764',
                 '0664',
                 '0666',
             ],
