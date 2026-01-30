@@ -8,6 +8,7 @@ parameters:
 		noExtends:
 			classesAllowedToBeExtended:
 				- Composer\IO\NullIO
+				- ShipMonk\PHPStan\DeadCode\Provider\ReflectionBasedMemberUsageProvider
 				- WyriHaximus\Broadcast\Generated\AbstractListenerProvider
 	ignoreErrors:
 		-

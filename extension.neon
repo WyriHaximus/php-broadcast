@@ -1,0 +1,5 @@
+services:
+    -
+        class: WyriHaximus\Broadcast\PHPSan\ShipMonkDeadCode
+        tags:
+            - shipmonk.deadCode.memberUsageProvider
