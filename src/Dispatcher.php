@@ -13,6 +13,7 @@ use Throwable;
 use function assert;
 use function is_callable;
 
+/** @api */
 final readonly class Dispatcher implements EventDispatcherInterface
 {
     public static function createFromListenerProvider(ListenerProviderInterface $listenerProvider): self
