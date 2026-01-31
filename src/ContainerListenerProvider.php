@@ -17,6 +17,7 @@ use function React\Async\await;
  */
 final class ContainerListenerProvider extends AbstractListenerProvider implements ListenerProviderInterface
 {
+    /** @api */
     public function __construct(private readonly ContainerInterface $container)
     {
     }

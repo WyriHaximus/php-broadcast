@@ -10,7 +10,11 @@ use function array_key_exists;
 
 final readonly class ArrayListenerProvider implements ListenerProviderInterface
 {
-    /** @param array<class-string, array<callable>> $events */
+    /**
+     * @param array<class-string, array<callable>> $events
+     *
+     * @api
+     */
     public function __construct(private array $events)
     {
     }
