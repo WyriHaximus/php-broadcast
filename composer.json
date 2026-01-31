@@ -19,10 +19,14 @@
   "require-dev": {
     "pimple/pimple": "^3.6.0",
     "react/promise-timer": "^1.11",
+    "shipmonk/dead-code-detector": "^0.14.1",
     "the-orville/exceptions": "dev-master",
     "wyrihaximus/async-test-utilities": "^10.7.0",
     "wyrihaximus/makefiles": "^0.7.15",
     "wyrihaximus/phpstan-react": "^2.0.0"
+  },
+  "suggest": {
+    "shipmonk/dead-code-detector": "This package supports ^0.14.1 by hooking in and marking all listeners as alive"
   },
   "autoload": {
     "psr-4": {
@@ -54,6 +58,11 @@
   },
   "extra": {
     "class": "WyriHaximus\\Broadcast\\Composer\\Installer",
+    "phpstan": {
+      "includes": [
+        "extension.neon"
+      ]
+    },
     "wyrihaximus": {
       "broadcast": {
         "has-listeners": true
