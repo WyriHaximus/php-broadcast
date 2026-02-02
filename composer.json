@@ -22,7 +22,7 @@
     "shipmonk/dead-code-detector": "^0.14.1",
     "the-orville/exceptions": "dev-master",
     "wyrihaximus/async-test-utilities": "^12.0.0",
-    "wyrihaximus/makefiles": "^0.7.15",
+    "wyrihaximus/makefiles": "^0.8.1",
     "wyrihaximus/phpstan-react": "^2.0.0"
   },
   "suggest": {
