@@ -23,26 +23,26 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
     0 => 
     array (
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
-      'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
+      'class' => 'WyriHaximus\\Broadcast\\Dummy\\AsyncListener',
       'method' => 'handle',
       'static' => false,
-      'async' => false,
+      'async' => true,
     ),
     1 => 
     array (
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
       'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
-      'method' => 'handleBoth',
+      'method' => 'handle',
       'static' => false,
       'async' => false,
     ),
     2 => 
     array (
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
-      'class' => 'WyriHaximus\\Broadcast\\Dummy\\AsyncListener',
-      'method' => 'handle',
+      'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
+      'method' => 'handleBoth',
       'static' => false,
-      'async' => true,
+      'async' => false,
     ),
   ),
   'stdClass' => 
