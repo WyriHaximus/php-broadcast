@@ -47,7 +47,6 @@ final class Listener implements ListenerContract
         throw new RuntimeException('Should not be called');
     }
 
-    /** @psalm-suppress UnusedParam */
     private function doNotHandlePrivate(Event $event): never
     {
         throw new RuntimeException('Should not be called');
