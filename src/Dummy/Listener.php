@@ -29,6 +29,10 @@ final class Listener implements ListenerContract
         ($this->handler)($event);
     }
 
+    public static function handleBothStaticly(Event|stdClass $event): void
+    {
+    }
+
     #[DoNotHandle]
     public function doNotHandle(Event $event): never
     {

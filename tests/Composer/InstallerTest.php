@@ -38,6 +38,7 @@ use function Safe\opendir;
 use function Safe\stream_get_contents;
 use function Safe\unlink;
 use function sprintf;
+use function str_replace;
 use function substr;
 
 use const DIRECTORY_SEPARATOR;
@@ -129,7 +130,7 @@ final class InstallerTest extends TestCase
         self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
         self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
         self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in ', $output);
-        self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 4 listener(s)', $output);
+        self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 7 listener(s)', $output);
         self::assertStringContainsString('<error>wyrihaximus/broadcast:</error> An error occurred: Cannot reflect "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>', $output);
 
         self::assertFileExists($fileName);
@@ -142,25 +143,18 @@ final class InstallerTest extends TestCase
             ],
             true,
         ));
-        $fileContents = file_get_contents($fileName);
-        self::assertStringContainsStringIgnoringCase('private const array LISTENERS = array (', $fileContents);
-        self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\r);", $fileContents);
-        self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\r\n);", $fileContents);
-        self::assertStringNotContainsStringIgnoringCase("private const LISTENERS = array (\n);", $fileContents);
-        self::assertStringNotContainsStringIgnoringCase('Event|stdClass', $fileContents);
-        self::assertStringContainsStringIgnoringCase('\'class\' => \'WyriHaximus\\\\Broadcast\\\\Dummy\\\\Listener\'', $fileContents);
-        self::assertStringContainsStringIgnoringCase('\'method\' => \'handle\'', $fileContents);
-        self::assertStringContainsStringIgnoringCase('\'method\' => \'handleBoth\'', $fileContents);
-        self::assertStringContainsStringIgnoringCase('\'static\' => false', $fileContents);
-        self::assertStringContainsStringIgnoringCase('\'async\' => false', $fileContents);
-        self::assertStringContainsStringIgnoringCase('\'WyriHaximus\\\\Broadcast\\\\Dummy\\\\Event\' => ', $fileContents);
-        self::assertStringContainsStringIgnoringCase('\'stdClass\' => ', $fileContents);
-        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandle\'', $fileContents);
-        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'__construct\'', $fileContents);
-        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'__destruct\'', $fileContents);
-        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandleDueToTwoArguments\'', $fileContents);
-        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandlePrivate\'', $fileContents);
-        self::assertStringNotContainsStringIgnoringCase('\'method\' => \'doNotHandleProtected\'', $fileContents);
+        $previousFileContents = '';
+        $fileContents         = file_get_contents($fileName);
+        while ($previousFileContents !== $fileContents) {
+            $previousFileContents = $fileContents;
+            $fileContents         = str_replace('  ', ' ', $fileContents);
+        }
+
+        self::assertStringContainsStringIgnoringCase('([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handle\'])', $fileContents);
+        self::assertStringContainsStringIgnoringCase('([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handleBoth\'])', $fileContents);
+        self::assertStringContainsStringIgnoringCase('\'\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly\'', $fileContents);
+        self::assertStringContainsStringIgnoringCase('fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) => $this->container()->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle' . "\n" . ' ($event))($event))', $fileContents);
+        self::assertStringContainsStringIgnoringCase('static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic ($event))($event))', $fileContents);
     }
 
     private function recurseCopy(string $src, string $dst): void

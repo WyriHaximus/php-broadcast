@@ -14,8 +14,6 @@ use WyriHaximus\Composer\GenerativePluginTooling\Helper\TwigFile;
 use WyriHaximus\Composer\GenerativePluginTooling\Item as ItemContract;
 use WyriHaximus\Composer\GenerativePluginTooling\LogStages;
 
-use function var_export;
-
 final class Plugin implements GenerativePlugin
 {
     public static function name(): string
@@ -49,19 +47,19 @@ final class Plugin implements GenerativePlugin
 
     public function compile(string $rootPath, ItemContract ...$items): void
     {
-        $listeners = [];
+        $events = [];
         foreach ($items as $item) {
             if (! ($item instanceof Item)) {
                 continue;
             }
 
-            $listeners[$item->event][] = $item->jsonSerialize();
+            $events[$item->event][] = $item->jsonSerialize();
         }
 
         TwigFile::render(
             $rootPath . '/etc/AbstractListenerProvider.php.twig',
             $rootPath . '/src/Generated/AbstractListenerProvider.php',
-            ['listeners' => var_export($listeners, true)],
+            ['events' => $events],
         );
     }
 }
