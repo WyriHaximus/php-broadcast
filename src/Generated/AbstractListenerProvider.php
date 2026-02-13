@@ -14,7 +14,6 @@ use function get_class;
 abstract class AbstractListenerProvider implements ListenerProviderInterface
 {
     /**
-     * @psalm-suppress InvalidConstantAssignmentValue
      * @var array<string, list<array{async: bool, class: string, event: string, method: string, static: bool}>>
      */
     private const array LISTENERS = array (
@@ -23,26 +22,26 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
     0 => 
     array (
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
-      'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
+      'class' => 'WyriHaximus\\Broadcast\\Dummy\\AsyncListener',
       'method' => 'handle',
       'static' => false,
-      'async' => false,
+      'async' => true,
     ),
     1 => 
     array (
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
       'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
-      'method' => 'handleBoth',
+      'method' => 'handle',
       'static' => false,
       'async' => false,
     ),
     2 => 
     array (
       'event' => 'WyriHaximus\\Broadcast\\Dummy\\Event',
-      'class' => 'WyriHaximus\\Broadcast\\Dummy\\AsyncListener',
-      'method' => 'handle',
+      'class' => 'WyriHaximus\\Broadcast\\Dummy\\Listener',
+      'method' => 'handleBoth',
       'static' => false,
-      'async' => true,
+      'async' => false,
     ),
   ),
   'stdClass' => 
@@ -65,7 +64,6 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
     {
         $className = $event::class;
         if (array_key_exists($className, self::LISTENERS)) {
-            /** @psalm-suppress EmptyArrayAccess */
             yield from $this->prepareCallable(self::LISTENERS[$className]);
         }
 
