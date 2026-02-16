@@ -25,4 +25,9 @@ final class AsyncListener implements AsyncListenerContract
         await(resolve(true));
         ($this->handler)($event);
     }
+
+    public static function handleStatic(Event $event): void
+    {
+        await(resolve(true));
+    }
 }

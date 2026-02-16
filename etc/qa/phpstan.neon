@@ -23,10 +23,6 @@ parameters:
 			identifier: ergebnis.privateInFinalClass
 			path: ../../src/Dummy/Listener.php
 			count: 1
-		-   # This is tested
-			identifier: argument.type
-			path: ../../src/ContainerListenerProvider.php
-			count: 2
 		-   # Using blocking method outside event loop scope
 			identifier: wyrihaximus.reactphp.blocking.function.fileExists
 			path: ../../tests/Composer/InstallerTest.php
@@ -38,6 +34,14 @@ parameters:
 		-   # Using blocking method outside event loop scope
 			identifier: wyrihaximus.reactphp.blocking.function.isFile
 			path: ../../tests/Composer/InstallerTest.php
+			count: 1
+		-   # PSR-11 could have better types tbh
+			identifier: method.nonObject
+			path: ../../src/Generated/AbstractListenerProvider.php
+			count: 1
+		-   # They are all callables
+			identifier: generator.valueType
+			path: ../../src/Generated/AbstractListenerProvider.php
 			count: 1
 includes:
     - ../../extension.neon
