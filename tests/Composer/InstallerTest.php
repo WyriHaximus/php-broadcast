@@ -155,6 +155,9 @@ final class InstallerTest extends TestCase
         self::assertStringContainsStringIgnoringCase('\'\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly\'', $fileContents);
         self::assertStringContainsStringIgnoringCase('fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) => $this->container()->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle' . "\n" . ' ($event))($event))', $fileContents);
         self::assertStringContainsStringIgnoringCase('static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic ($event))($event))', $fileContents);
+
+        self::assertStringNotContainsStringIgnoringCase('\string::class => [', $fileContents);
+        self::assertStringNotContainsStringIgnoringCase('thisShouldNotBeDetected', $fileContents);
     }
 
     private function recurseCopy(string $src, string $dst): void
