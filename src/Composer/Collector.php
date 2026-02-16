@@ -14,6 +14,7 @@ use WyriHaximus\Composer\GenerativePluginTooling\Item as ItemContract;
 use WyriHaximus\Composer\GenerativePluginTooling\ItemCollector;
 
 use function array_map;
+use function class_exists;
 use function in_array;
 
 final class Collector implements ItemCollector
@@ -56,6 +57,10 @@ final class Collector implements ItemCollector
             }
 
             foreach ($eventTypes as $eventType) {
+                if (! class_exists((string) $eventType)) {
+                    continue;
+                }
+
                 yield new Item(
                     (string) $eventType,
                     $class->getName(),

@@ -24,6 +24,11 @@ final class Listener implements ListenerContract
         ($this->handler)($event);
     }
 
+    public function thisShouldNotBeDetected(string $event): void
+    {
+        ($this->handler)($event);
+    }
+
     public function handleBoth(Event|stdClass $event): void
     {
         ($this->handler)($event);
