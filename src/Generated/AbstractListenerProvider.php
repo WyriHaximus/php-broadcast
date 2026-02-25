@@ -21,12 +21,12 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
         // phpcs:disable
         yield from match ($event::class) {
             \WyriHaximus\Broadcast\Dummy\Event::class => [
-                                                                            ([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handle']),
-                                                                            ([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
-                                                        '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly'                    ,
                                     fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) =>                    $this->container()->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle
                     ($event))($event)),
                                     static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(static fn (\WyriHaximus\Broadcast\Dummy\Event $event) =>                    \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic                    ($event))($event)),
+                                                                            ([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handle']),
+                                                                            ([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
+                                                        '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly'                    ,
                             ],
             \stdClass::class => [
                                                                             ([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
