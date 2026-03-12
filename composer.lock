@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfcde62514029b5fcb9cc8d0ed9ab624",
+    "content-hash": "841aa0b4070663fb8d9d6a8aa87a0fb2",
     "packages": [
         {
             "name": "jetbrains/phpstorm-stubs",
@@ -9521,16 +9521,16 @@
         },
         {
             "name": "wyrihaximus/makefiles",
-            "version": "0.10.2",
+            "version": "0.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/Makefiles.git",
-                "reference": "ff6cd1cc874900d2aa543b4a773bcd108f9e3eeb"
+                "reference": "aae3aa61765f5f570cfe338e26e2e0061383dc23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/Makefiles/zipball/ff6cd1cc874900d2aa543b4a773bcd108f9e3eeb",
-                "reference": "ff6cd1cc874900d2aa543b4a773bcd108f9e3eeb",
+                "url": "https://api.github.com/repos/WyriHaximus/Makefiles/zipball/aae3aa61765f5f570cfe338e26e2e0061383dc23",
+                "reference": "aae3aa61765f5f570cfe338e26e2e0061383dc23",
                 "shasum": ""
             },
             "require": {
@@ -9566,7 +9566,7 @@
             "description": "🧱 Makefile building blocks",
             "support": {
                 "issues": "https://github.com/WyriHaximus/Makefiles/issues",
-                "source": "https://github.com/WyriHaximus/Makefiles/tree/0.10.2"
+                "source": "https://github.com/WyriHaximus/Makefiles/tree/0.10.3"
             },
             "funding": [
                 {
@@ -9574,7 +9574,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-26T19:01:56+00:00"
+            "time": "2026-03-12T06:38:36+00:00"
         },
         {
             "name": "wyrihaximus/phpstan-react",
