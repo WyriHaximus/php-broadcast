@@ -25,7 +25,7 @@ ifeq ("$(IN_DOCKER)","TRUE")
 	DOCKER_SHELL:=
 else
     ifeq ($(DOCKER_AVAILABLE),0)
-        DOCKER_COMMON_OPS:=-v "`pwd`:`pwd`" -w "`pwd`" -v "${COMPOSER_CACHE_DIR}:${COMPOSER_CONTAINER_CACHE_DIR}" -e OTEL_PHP_FIBERS_ENABLED="true"
+        DOCKER_COMMON_OPS:=-v "`pwd`:`pwd`" -w "`pwd`" -v "${COMPOSER_CACHE_DIR}:${COMPOSER_CONTAINER_CACHE_DIR}" -e OTEL_PHP_FIBERS_ENABLED="true" --ulimit nofile=1000000
         ifeq ("$(NEEDS_DOCKER_SOCKET)","TRUE")
             ifneq ("$(wildcard /var/run/docker.sock)","")
                 DOCKER_SOCKET_OPS:=-v "/var/run/docker.sock:/var/run/docker.sock"

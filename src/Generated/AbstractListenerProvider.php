@@ -15,7 +15,9 @@ use function React\Async\await;
  */
 abstract class AbstractListenerProvider implements ListenerProviderInterface
 {
-    /** @return iterable<(callable(object): mixed)> */
+    /**
+     * @return iterable<(callable(object): mixed)>
+     */
     final public function getListenersForEvent(object $event): iterable
     {
         // phpcs:disable
@@ -37,5 +39,5 @@ abstract class AbstractListenerProvider implements ListenerProviderInterface
         // phpcs:enable
     }
 
-    abstract protected function container(): ContainerInterface;
+abstract protected function container(): ContainerInterface;
 }
