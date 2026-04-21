@@ -20,11 +20,9 @@ use WyriHaximus\Composer\GenerativePluginTooling\LogStages;
 
 final class Plugin implements GenerativePlugin
 {
-    private const string PACKAGE_NAME = 'wyrihaximus/broadcast';
-
     public static function name(): string
     {
-        return self::PACKAGE_NAME;
+        return 'wyrihaximus/broadcast';
     }
 
     public static function log(LogStages $stage): string
@@ -41,8 +39,8 @@ final class Plugin implements GenerativePlugin
     public function filters(): iterable
     {
         yield from LogicalOr::create(
-            new ComposerJsonRequiresSpecificPackage(self::PACKAGE_NAME, PackageType::PRODUCTION),
-            new ComposerJsonRequiresSpecificPackage(self::PACKAGE_NAME, PackageType::DEVELOPMENT),
+            new ComposerJsonRequiresSpecificPackage('wyrihaximus/broadcast-contracts', PackageType::PRODUCTION),
+            new ComposerJsonRequiresSpecificPackage('wyrihaximus/broadcast-contracts', PackageType::DEVELOPMENT),
             new ComposerJsonHasItemWithSpecificValue('wyrihaximus.broadcast.has-listeners', true),
         );
 
