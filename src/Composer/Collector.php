@@ -61,7 +61,7 @@ final class Collector implements ItemCollector
                     continue;
                 }
 
-                yield new Item(
+                yield new Listener(
                     (string) $eventType,
                     $class->getName(),
                     $method->getName(),

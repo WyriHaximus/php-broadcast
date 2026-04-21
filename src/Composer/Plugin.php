@@ -4,21 +4,27 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Broadcast\Composer;
 
-use WyriHaximus\Broadcast\Contracts\AsyncListener;
-use WyriHaximus\Broadcast\Contracts\Listener;
+use WyriHaximus\Broadcast\Contracts\AsyncListener as AsyncListenerContract;
+use WyriHaximus\Broadcast\Contracts\Listener as ListenerContract;
 use WyriHaximus\Composer\GenerativePluginTooling\Filter\Class\ImplementsInterface;
 use WyriHaximus\Composer\GenerativePluginTooling\Filter\Class\IsInstantiable;
+use WyriHaximus\Composer\GenerativePluginTooling\Filter\Operators\LogicalOr;
 use WyriHaximus\Composer\GenerativePluginTooling\Filter\Package\ComposerJsonHasItemWithSpecificValue;
+use WyriHaximus\Composer\GenerativePluginTooling\Filter\Package\ComposerJsonRequiresSpecificPackage;
+use WyriHaximus\Composer\GenerativePluginTooling\Filter\Package\PackageType;
 use WyriHaximus\Composer\GenerativePluginTooling\GenerativePlugin;
+use WyriHaximus\Composer\GenerativePluginTooling\Helper\Remove;
 use WyriHaximus\Composer\GenerativePluginTooling\Helper\TwigFile;
 use WyriHaximus\Composer\GenerativePluginTooling\Item as ItemContract;
 use WyriHaximus\Composer\GenerativePluginTooling\LogStages;
 
 final class Plugin implements GenerativePlugin
 {
+    private const string PACKAGE_NAME = 'wyrihaximus/broadcast';
+
     public static function name(): string
     {
-        return 'wyrihaximus/broadcast';
+        return self::PACKAGE_NAME;
     }
 
     public static function log(LogStages $stage): string
@@ -34,8 +40,13 @@ final class Plugin implements GenerativePlugin
     /** @inheritDoc */
     public function filters(): iterable
     {
-        yield new ComposerJsonHasItemWithSpecificValue('wyrihaximus.broadcast.has-listeners', true);
-        yield new ImplementsInterface(Listener::class, AsyncListener::class);
+        yield from LogicalOr::create(
+            new ComposerJsonRequiresSpecificPackage(self::PACKAGE_NAME, PackageType::PRODUCTION),
+            new ComposerJsonRequiresSpecificPackage(self::PACKAGE_NAME, PackageType::DEVELOPMENT),
+            new ComposerJsonHasItemWithSpecificValue('wyrihaximus.broadcast.has-listeners', true),
+        );
+
+        yield new ImplementsInterface(ListenerContract::class, AsyncListenerContract::class);
         yield new IsInstantiable();
     }
 
@@ -47,9 +58,11 @@ final class Plugin implements GenerativePlugin
 
     public function compile(string $rootPath, ItemContract ...$items): void
     {
+        Remove::directoryContents($rootPath . '/src/Generated/');
+
         $events = [];
         foreach ($items as $item) {
-            if (! ($item instanceof Item)) {
+            if (! ($item instanceof Listener)) {
                 continue;
             }
 

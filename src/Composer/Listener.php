@@ -7,7 +7,7 @@ namespace WyriHaximus\Broadcast\Composer;
 use JsonSerializable;
 use WyriHaximus\Composer\GenerativePluginTooling\Item as ItemContract;
 
-final readonly class Item implements ItemContract, JsonSerializable
+final readonly class Listener implements ItemContract, JsonSerializable
 {
     /** @param class-string $class */
     public function __construct(
