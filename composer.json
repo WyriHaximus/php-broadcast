@@ -21,8 +21,8 @@
     "react/promise-timer": "^1.11.0",
     "shipmonk/dead-code-detector": "^0.14.1",
     "the-orville/exceptions": "dev-master",
-    "wyrihaximus/async-test-utilities": "^12.0.0",
-    "wyrihaximus/makefiles": "^0.10.3",
+    "wyrihaximus/async-test-utilities": "^12.2.0",
+    "wyrihaximus/makefiles": "^0.10.4",
     "wyrihaximus/phpstan-react": "^2.0.0"
   },
   "suggest": {
