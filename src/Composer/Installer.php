@@ -11,18 +11,14 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use WyriHaximus\Composer\GenerativePluginTooling\GenerativePluginExecutioner;
+use WyriHaximus\Composer\GenerativePluginTooling\Helper\Order;
 
-use const PHP_INT_MIN;
-
-// phpcs:disable
 final class Installer implements PluginInterface, EventSubscriberInterface
 {
-    /**
-     * @return array<string, array<string|int>>
-     */
+    /** @return array<string, array<string|int>> */
     public static function getSubscribedEvents(): array
     {
-        return [ScriptEvents::PRE_AUTOLOAD_DUMP => ['findEventListeners', PHP_INT_MIN]];
+        return [ScriptEvents::PRE_AUTOLOAD_DUMP => ['findEventListeners', Order::EVERYONE_ALSO_MUST_TO_GO_BEFORE_ME + 1]];
     }
 
     public function activate(Composer $composer, IOInterface $io): void
@@ -50,4 +46,3 @@ final class Installer implements PluginInterface, EventSubscriberInterface
         GenerativePluginExecutioner::execute($event->getComposer(), $event->getIO(), new Plugin());
     }
 }
-// phpcs:enable
