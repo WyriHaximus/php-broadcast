@@ -18,10 +18,13 @@ composer require wyrihaximus/broadcast
 
 # Usage
 
-Any package setting the following in their `composer.json` will have its autoloading directories and files scanned
+Any package that requires `wyrihaximus/broadcast-contracts` will have its autoloading directories and files scanned
 for any classes that implements `WyriHaximus\Broadcast\Contracts\Listener`. Each public method with a concrete object
 type hint on classes implementing `WyriHaximus\Broadcast\Contracts\Listener` will be registered as an event listener
 for that object in the type hint.
+
+You can still set the following in your `composer.json` to have listeners be picked up, but that is deprecated and
+will be removed in the next major version:
 
 ```json
 {
@@ -112,7 +115,7 @@ continuing, use the `WyriHaximus\Broadcast\Contracts\AsyncListener` marker inter
 
 The MIT License (MIT)
 
-Copyright (c) 2023 Cees-Jan Kiewiet
+Copyright (c) 2026 Cees-Jan Kiewiet
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
