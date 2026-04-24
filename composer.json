@@ -19,7 +19,7 @@
   "require-dev": {
     "pimple/pimple": "^3.6.0",
     "react/promise-timer": "^1.11.0",
-    "shipmonk/dead-code-detector": "^0.14.1 || ^0.15.0",
+    "shipmonk/dead-code-detector": "^0.14.1 || ^0.15.0 || ^1.0.0",
     "the-orville/exceptions": "dev-master",
     "wyrihaximus/async-test-utilities": "^12.2.0",
     "wyrihaximus/makefiles": "^0.10.4",
