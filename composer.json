@@ -19,14 +19,14 @@
   "require-dev": {
     "pimple/pimple": "^3.6.0",
     "react/promise-timer": "^1.11.0",
-    "shipmonk/dead-code-detector": "^0.14.1",
+    "shipmonk/dead-code-detector": "^0.14.1 || ^0.15.0",
     "the-orville/exceptions": "dev-master",
     "wyrihaximus/async-test-utilities": "^12.2.0",
     "wyrihaximus/makefiles": "^0.10.4",
     "wyrihaximus/phpstan-react": "^2.0.0"
   },
   "suggest": {
-    "shipmonk/dead-code-detector": "This package supports ^0.14.1 by hooking in and marking all listeners as alive"
+    "shipmonk/dead-code-detector": "This package supports ^0.15, ^0.14.1 by hooking in and marking all listeners as alive"
   },
   "autoload": {
     "psr-4": {
