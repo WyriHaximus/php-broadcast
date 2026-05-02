@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73ab660b1d2762194642c8ed86677146",
+    "content-hash": "07033ab257cf378fd8cc473a070c1858",
     "packages": [
         {
             "name": "jetbrains/phpstorm-stubs",
@@ -9522,16 +9522,16 @@
         },
         {
             "name": "wyrihaximus/makefiles",
-            "version": "0.10.4",
+            "version": "0.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/Makefiles.git",
-                "reference": "1f78e24e998cdfd5557ce04125b9add6a26c05cb"
+                "reference": "6da56e4fc9f0f70a5bb5a8d4d22908c72756636c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/Makefiles/zipball/1f78e24e998cdfd5557ce04125b9add6a26c05cb",
-                "reference": "1f78e24e998cdfd5557ce04125b9add6a26c05cb",
+                "url": "https://api.github.com/repos/WyriHaximus/Makefiles/zipball/6da56e4fc9f0f70a5bb5a8d4d22908c72756636c",
+                "reference": "6da56e4fc9f0f70a5bb5a8d4d22908c72756636c",
                 "shasum": ""
             },
             "require": {
@@ -9543,7 +9543,7 @@
                 "infection/infection": "<0.32.0"
             },
             "require-dev": {
-                "wyrihaximus/test-utilities": "^12.1.0"
+                "wyrihaximus/test-utilities": "^12.2.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -9567,7 +9567,7 @@
             "description": "🧱 Makefile building blocks",
             "support": {
                 "issues": "https://github.com/WyriHaximus/Makefiles/issues",
-                "source": "https://github.com/WyriHaximus/Makefiles/tree/0.10.4"
+                "source": "https://github.com/WyriHaximus/Makefiles/tree/0.10.6"
             },
             "funding": [
                 {
@@ -9575,7 +9575,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-18T16:54:49+00:00"
+            "time": "2026-05-02T10:38:56+00:00"
         },
         {
             "name": "wyrihaximus/phpstan-react",
