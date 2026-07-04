@@ -16,30 +16,32 @@ use Composer\Script\ScriptEvents;
 use Mockery;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Test;
+use RuntimeException;
 use Symfony\Component\Console\Output\StreamOutput;
 use WyriHaximus\Broadcast\Composer\Installer;
 use WyriHaximus\Broadcast\Dummy\Listener;
 use WyriHaximus\TestUtilities\TestCase;
 
 use function closedir;
+use function copy;
 use function dirname;
 use function file_exists;
+use function file_get_contents;
+use function fileperms;
+use function fopen;
 use function fseek;
 use function in_array;
 use function is_dir;
 use function is_file;
+use function is_resource;
+use function mkdir;
+use function opendir;
 use function readdir;
-use function Safe\copy;
-use function Safe\file_get_contents;
-use function Safe\fileperms;
-use function Safe\fopen;
-use function Safe\mkdir;
-use function Safe\opendir;
-use function Safe\stream_get_contents;
-use function Safe\unlink;
 use function sprintf;
 use function str_replace;
+use function stream_get_contents;
 use function substr;
+use function unlink;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -73,20 +75,24 @@ final class InstallerTest extends TestCase
 
             public function __construct()
             {
-                $this->output = new StreamOutput(fopen('php://memory', 'rw'), decorated: false);
+                /** @phpstan-ignore wyrihaximus.reactphp.blocking.function.fopen */
+                $stream = fopen('php://memory', 'rw');
+                if (! is_resource($stream)) {
+                    throw new RuntimeException('Failed to open stream');
+                }
+
+                $this->output = new StreamOutput($stream, decorated: false);
             }
 
             public function output(): string
             {
                 fseek($this->output->getStream(), 0);
 
-                return stream_get_contents($this->output->getStream());
+                /** @phpstan-ignore ternary.shortNotAllowed */
+                return stream_get_contents($this->output->getStream()) ?: '';
             }
 
-            /**
-             * @inheritDoc
-             * @phpstan-ignore typeCoverage.paramTypeCoverage
-             */
+            /** @inheritDoc */
             public function write($messages, bool $newline = true, int $verbosity = self::NORMAL): void
             {
                 $this->output->write($messages, $newline, $verbosity & StreamOutput::OUTPUT_RAW);
@@ -135,7 +141,8 @@ final class InstallerTest extends TestCase
 
         self::assertFileExists($fileName);
         self::assertTrue(in_array(
-            substr(sprintf('%o', fileperms($fileName)), -4),
+            /** @phpstan-ignore ternary.shortNotAllowed */
+            substr(sprintf('%o', fileperms($fileName) ?: 0), -4),
             [
                 '0764',
                 '0664',
@@ -144,7 +151,8 @@ final class InstallerTest extends TestCase
             true,
         ));
         $previousFileContents = '';
-        $fileContents         = file_get_contents($fileName);
+        /** @phpstan-ignore wyrihaximus.reactphp.blocking.function.fileGetContents,ternary.shortNotAllowed */
+        $fileContents = file_get_contents($fileName) ?: '';
         while ($previousFileContents !== $fileContents) {
             $previousFileContents = $fileContents;
             $fileContents         = str_replace('  ', ' ', $fileContents);
@@ -163,7 +171,12 @@ final class InstallerTest extends TestCase
     private function recurseCopy(string $src, string $dst): void
     {
         $dir = opendir($src);
+        if ($dir === false) {
+            return;
+        }
+
         if (! file_exists($dst)) {
+            /** @phpstan-ignore wyrihaximus.reactphp.blocking.function.mkdir */
             mkdir($dst);
         }
 
