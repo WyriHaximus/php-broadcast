@@ -51,11 +51,13 @@ final class Listener implements ListenerContract
         throw new RuntimeException('Should not be called');
     }
 
+    /** @phpstan-ignore ergebnis.privateInFinalClass */
     protected function doNotHandleProtected(Event $event): never
     {
         throw new RuntimeException('Should not be called');
     }
 
+    /** @phpstan-ignore method.unused */
     private function doNotHandlePrivate(Event $event): never
     {
         throw new RuntimeException('Should not be called');
