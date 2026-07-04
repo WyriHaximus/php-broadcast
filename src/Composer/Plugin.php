@@ -18,6 +18,8 @@ use WyriHaximus\Composer\GenerativePluginTooling\Helper\TwigFile;
 use WyriHaximus\Composer\GenerativePluginTooling\Item as ItemContract;
 use WyriHaximus\Composer\GenerativePluginTooling\LogStages;
 
+use function ksort;
+
 final class Plugin implements GenerativePlugin
 {
     public static function name(): string
@@ -56,7 +58,7 @@ final class Plugin implements GenerativePlugin
 
     public function compile(string $rootPath, ItemContract ...$items): void
     {
-        Remove::directoryContents($rootPath . '/src/Generated/');
+        Remove::file($rootPath . '/src/ContainerListenerProvider.php');
 
         $events = [];
         foreach ($items as $item) {
@@ -67,9 +69,11 @@ final class Plugin implements GenerativePlugin
             $events[$item->event][] = $item->jsonSerialize();
         }
 
+        ksort($events);
+
         TwigFile::render(
-            $rootPath . '/etc/AbstractListenerProvider.php.twig',
-            $rootPath . '/src/Generated/AbstractListenerProvider.php',
+            $rootPath . '/etc/ContainerListenerProvider.php.twig',
+            $rootPath . '/src/ContainerListenerProvider.php',
             ['events' => $events],
         );
     }

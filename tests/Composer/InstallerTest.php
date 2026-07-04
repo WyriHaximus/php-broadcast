@@ -41,7 +41,6 @@ use function sprintf;
 use function str_replace;
 use function stream_get_contents;
 use function substr;
-use function unlink;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -121,12 +120,7 @@ final class InstallerTest extends TestCase
 
         $this->recurseCopy(dirname(__DIR__, 2) . '/', $this->getTmpDir());
 
-        $fileName = $this->getTmpDir() . 'src/Generated/AbstractListenerProvider.php';
-        if (file_exists($fileName)) {
-            unlink($fileName);
-        }
-
-        self::assertFileDoesNotExist($fileName);
+        $fileName = $this->getTmpDir() . 'src/ContainerListenerProvider.php';
 
         // Do the actual generating
         Installer::findEventListeners($event);
@@ -137,7 +131,6 @@ final class InstallerTest extends TestCase
         self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Locating listeners', $output);
         self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Generated static abstract listeners provider in ', $output);
         self::assertStringContainsString('<info>wyrihaximus/broadcast:</info> Found 7 listener(s)', $output);
-        self::assertStringContainsString('<error>wyrihaximus/broadcast:</error> An error occurred: Cannot reflect "<fg=cyan>WyriHaximus\Broadcast\ContainerListenerProvider</>": <fg=yellow>Roave\BetterReflection\Reflection\ReflectionClass "WyriHaximus\Broadcast\Generated\AbstractListenerProvider" could not be found in the located source</>', $output);
 
         self::assertFileExists($fileName);
         self::assertTrue(in_array(
@@ -158,10 +151,10 @@ final class InstallerTest extends TestCase
             $fileContents         = str_replace('  ', ' ', $fileContents);
         }
 
-        self::assertStringContainsStringIgnoringCase('([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handle\'])', $fileContents);
-        self::assertStringContainsStringIgnoringCase('([$this->container()->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handleBoth\'])', $fileContents);
+        self::assertStringContainsStringIgnoringCase('([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handle\'])', $fileContents);
+        self::assertStringContainsStringIgnoringCase('([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handleBoth\'])', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly\'', $fileContents);
-        self::assertStringContainsStringIgnoringCase('fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) => $this->container()->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle' . "\n" . ' ($event))($event))', $fileContents);
+        self::assertStringContainsStringIgnoringCase('fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) => $this->container->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle' . "\n" . ' ($event))($event))', $fileContents);
         self::assertStringContainsStringIgnoringCase('static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic ($event))($event))', $fileContents);
 
         self::assertStringNotContainsStringIgnoringCase('\string::class => [', $fileContents);
@@ -175,6 +168,7 @@ final class InstallerTest extends TestCase
             return;
         }
 
+        /** @phpstan-ignore wyrihaximus.reactphp.blocking.function.fileExists */
         if (! file_exists($dst)) {
             /** @phpstan-ignore wyrihaximus.reactphp.blocking.function.mkdir */
             mkdir($dst);
@@ -185,8 +179,10 @@ final class InstallerTest extends TestCase
                 continue;
             }
 
+            /** @phpstan-ignore wyrihaximus.reactphp.blocking.function.isDir */
             if (is_dir($src . '/' . $file)) {
                 $this->recurseCopy($src . '/' . $file, $dst . '/' . $file);
+                /** @phpstan-ignore wyrihaximus.reactphp.blocking.function.isFile */
             } elseif (is_file($src . '/' . $file)) {
                 copy($src . '/' . $file, $dst . '/' . $file);
             }
