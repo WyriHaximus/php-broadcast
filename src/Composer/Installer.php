@@ -38,8 +38,6 @@ final class Installer implements PluginInterface, EventSubscriberInterface
 
     /**
      * Called before every dump autoload, generates a fresh PHP class.
-     *
-     * @api
      */
     public static function findEventListeners(Event $event): void
     {

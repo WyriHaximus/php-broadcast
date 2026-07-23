@@ -58,7 +58,7 @@ final class Plugin implements GenerativePlugin
 
     public function compile(string $rootPath, ItemContract ...$items): void
     {
-        Remove::file($rootPath . '/src/ContainerListenerProvider.php');
+        Remove::fileOnlyIfItExists($rootPath . '/src/ContainerListenerProvider.php');
 
         $events = [];
         foreach ($items as $item) {
