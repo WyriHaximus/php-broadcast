@@ -18,7 +18,7 @@ final class ListenerTest extends TestCase
     {
         self::expectException(Throwable::class);
         self::expectException(RuntimeException::class);
-        self::expectExceptionMessage('Should not be called');
+        self::expectExceptionMessageIsOrContains('Should not be called');
 
         new Listener(static fn (): bool => false)->doNotHandle(new Event());
     }
