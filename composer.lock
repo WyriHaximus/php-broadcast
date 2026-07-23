@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86ff0be914e73b5bfedf6f9b6daa3b64",
+    "content-hash": "808e7b7eff99695a9efe6f9d02365d2a",
     "packages": [
         {
             "name": "jetbrains/phpstorm-stubs",
-            "version": "v2026.1",
+            "version": "v2026.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JetBrains/phpstorm-stubs",
-                "reference": "2cdd054c4109dfb76667c9198bf9427606354243"
+                "reference": "709e512210784a7c0a677b3a89d35def844a59b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/2cdd054c4109dfb76667c9198bf9427606354243",
-                "reference": "2cdd054c4109dfb76667c9198bf9427606354243",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-stubs/zipball/709e512210784a7c0a677b3a89d35def844a59b9",
+                "reference": "709e512210784a7c0a677b3a89d35def844a59b9",
                 "shasum": ""
             },
             "require-dev": {
@@ -48,7 +48,7 @@
                 "stubs",
                 "type"
             ],
-            "time": "2026-02-19T20:12:01+00:00"
+            "time": "2026-06-12T13:19:10+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -482,30 +482,30 @@
         },
         {
             "name": "roave/better-reflection",
-            "version": "6.71.0",
+            "version": "6.72.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/BetterReflection.git",
-                "reference": "3ec176d4a161b4e8764edc625d69ff624ca390b1"
+                "reference": "b34deeed26ec22233b1a776591ef45abc154a17d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/3ec176d4a161b4e8764edc625d69ff624ca390b1",
-                "reference": "3ec176d4a161b4e8764edc625d69ff624ca390b1",
+                "url": "https://api.github.com/repos/Roave/BetterReflection/zipball/b34deeed26ec22233b1a776591ef45abc154a17d",
+                "reference": "b34deeed26ec22233b1a776591ef45abc154a17d",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "jetbrains/phpstorm-stubs": "2026.1",
-                "nikic/php-parser": "^5.7.0",
+                "jetbrains/phpstorm-stubs": "2026.2",
+                "nikic/php-parser": "^5.8.0",
                 "php": "~8.4.1 || ~8.5.0"
             },
             "conflict": {
                 "thecodingmachine/safe": "<1.1.3"
             },
             "require-dev": {
-                "phpbench/phpbench": "^1.6.1",
-                "phpunit/phpunit": "^13.1.8"
+                "phpbench/phpbench": "^1.7.0",
+                "phpunit/phpunit": "^13.2.4"
             },
             "suggest": {
                 "composer/composer": "Required to use the ComposerSourceLocator"
@@ -545,9 +545,9 @@
             "description": "Better Reflection - an improved code reflection API",
             "support": {
                 "issues": "https://github.com/Roave/BetterReflection/issues",
-                "source": "https://github.com/Roave/BetterReflection/tree/6.71.0"
+                "source": "https://github.com/Roave/BetterReflection/tree/6.72.0"
             },
-            "time": "2026-05-02T10:56:00+00:00"
+            "time": "2026-07-22T18:50:32+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -790,16 +790,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.24.0",
+            "version": "v3.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "a6769aefb305efef849dc25c9fd1653358c148f0"
+                "reference": "597c12ed286fb9d1701a36684ce6e0cbe28ebc8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a6769aefb305efef849dc25c9fd1653358c148f0",
-                "reference": "a6769aefb305efef849dc25c9fd1653358c148f0",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/597c12ed286fb9d1701a36684ce6e0cbe28ebc8b",
+                "reference": "597c12ed286fb9d1701a36684ce6e0cbe28ebc8b",
                 "shasum": ""
             },
             "require": {
@@ -854,7 +854,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.24.0"
+                "source": "https://github.com/twigphp/Twig/tree/v3.28.0"
             },
             "funding": [
                 {
@@ -866,7 +866,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-17T21:31:11+00:00"
+            "time": "2026-07-03T20:44:34+00:00"
         },
         {
             "name": "wyrihaximus/broadcast-contracts",
@@ -910,30 +910,33 @@
         },
         {
             "name": "wyrihaximus/generative-composer-plugin-tooling",
-            "version": "1.6.0",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-generative-composer-plugin-tooling.git",
-                "reference": "b575b49476310fa484d6b2a1115700be3d5b63b2"
+                "reference": "64d64c6e992c0db912459a4f46f92a4f5156453f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-generative-composer-plugin-tooling/zipball/b575b49476310fa484d6b2a1115700be3d5b63b2",
-                "reference": "b575b49476310fa484d6b2a1115700be3d5b63b2",
+                "url": "https://api.github.com/repos/WyriHaximus/php-generative-composer-plugin-tooling/zipball/64d64c6e992c0db912459a4f46f92a4f5156453f",
+                "reference": "64d64c6e992c0db912459a4f46f92a4f5156453f",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^2",
                 "php": "^8.4",
-                "roave/better-reflection": "^6.69.0",
+                "roave/better-reflection": "^6.71.0",
                 "wyrihaximus/list-classes-in-directory": "^1.7",
-                "wyrihaximus/simple-twig": "^2.2.1"
+                "wyrihaximus/simple-twig": "^2.4.0"
             },
             "require-dev": {
-                "wyrihaximus/makefiles": "^0.10.3",
-                "wyrihaximus/test-utilities": "^12.1.0"
+                "wyrihaximus/makefiles": "^0.13.2",
+                "wyrihaximus/test-utilities": "^13.4.0"
             },
-            "type": "library",
+            "type": "composer-plugin",
+            "extra": {
+                "class": "WyriHaximus\\Composer\\GenerativePluginTooling\\Composer\\Cache"
+            },
             "autoload": {
                 "psr-4": {
                     "WyriHaximus\\Composer\\GenerativePluginTooling\\": "src/"
@@ -952,7 +955,7 @@
             "description": "🐦‍🔥 Generative Composer Plugin Tooling",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-generative-composer-plugin-tooling/issues",
-                "source": "https://github.com/WyriHaximus/php-generative-composer-plugin-tooling/tree/1.6.0"
+                "source": "https://github.com/WyriHaximus/php-generative-composer-plugin-tooling/tree/1.8.2"
             },
             "funding": [
                 {
@@ -960,7 +963,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-04-17T18:55:11+00:00"
+            "time": "2026-07-22T17:59:32+00:00"
         },
         {
             "name": "wyrihaximus/list-classes-in-directory",
@@ -1017,24 +1020,25 @@
         },
         {
             "name": "wyrihaximus/simple-twig",
-            "version": "2.2.1",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WyriHaximus/php-simple-twig.git",
-                "reference": "1647efb09c4acb66d36911f480c7881be1ade99e"
+                "reference": "187fa8fcbb4c53414d85c2b5be8fb084fbeeb779"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WyriHaximus/php-simple-twig/zipball/1647efb09c4acb66d36911f480c7881be1ade99e",
-                "reference": "1647efb09c4acb66d36911f480c7881be1ade99e",
+                "url": "https://api.github.com/repos/WyriHaximus/php-simple-twig/zipball/187fa8fcbb4c53414d85c2b5be8fb084fbeeb779",
+                "reference": "187fa8fcbb4c53414d85c2b5be8fb084fbeeb779",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.2",
-                "twig/twig": "^3.14"
+                "php": "^8.4",
+                "twig/twig": "^3.27.0"
             },
             "require-dev": {
-                "wyrihaximus/test-utilities": "^6.0.10"
+                "wyrihaximus/makefiles": "^0.10.6",
+                "wyrihaximus/test-utilities": "^12.2.0"
             },
             "type": "library",
             "autoload": {
@@ -1058,7 +1062,7 @@
             "description": "🌱 Wrapper around Twig making rendering a string template trivial",
             "support": {
                 "issues": "https://github.com/WyriHaximus/php-simple-twig/issues",
-                "source": "https://github.com/WyriHaximus/php-simple-twig/tree/2.2.1"
+                "source": "https://github.com/WyriHaximus/php-simple-twig/tree/2.4.0"
             },
             "funding": [
                 {
@@ -1066,7 +1070,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-12T14:20:51+00:00"
+            "time": "2026-05-29T11:21:53+00:00"
         }
     ],
     "packages-dev": [
