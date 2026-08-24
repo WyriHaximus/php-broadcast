@@ -34,7 +34,7 @@ final readonly class ContainerListenerProvider implements ListenerProviderInterf
                                                                             ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
                                                         '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly'                    ,
                                                         /** @phpstan-ignore method.nonObject */
-                    fn (\WyriHaximus\Broadcast\Dummy\Event $event): mixed => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) =>                    $this->container->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle
+                    fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) =>                    $this->container->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle
                     ($event))($event)),
                                     static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(static fn (\WyriHaximus\Broadcast\Dummy\Event $event) =>                    \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic                    ($event))($event)),
                             ],
