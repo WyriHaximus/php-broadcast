@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Tests\Broadcast\Dummy;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use Throwable;
@@ -11,8 +12,20 @@ use WyriHaximus\Broadcast\Dummy\Event;
 use WyriHaximus\Broadcast\Dummy\Listener;
 use WyriHaximus\TestUtilities\TestCase;
 
+#[CoversClass(Listener::class)]
 final class ListenerTest extends TestCase
 {
+    #[Test]
+    public function thisShouldNotBeDetected(): void
+    {
+        $called = false;
+        new Listener(static function () use (&$called): void {
+            $called = true;
+        })->thisShouldNotBeDetected('event');
+
+        self::assertTrue($called);
+    }
+
     #[Test]
     public function doNotHandle(): void
     {

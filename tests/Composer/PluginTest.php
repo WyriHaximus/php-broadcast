@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace WyriHaximus\Tests\Broadcast\Composer;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use WyriHaximus\Broadcast\Composer\Plugin;
 use WyriHaximus\Composer\GenerativePluginTooling\LogStages;
 use WyriHaximus\TestUtilities\TestCase;
 
+#[CoversClass(Plugin::class)]
 final class PluginTest extends TestCase
 {
+    #[Test]
+    public function broadcastName(): void
+    {
+        self::assertSame('wyrihaximus/broadcast', Plugin::name());
+    }
+
     /** @return iterable<string, array{LogStages, string}> */
     public static function logStagesProvider(): iterable
     {

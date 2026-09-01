@@ -14,12 +14,14 @@ use Composer\Repository\RepositoryManager;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Mockery;
-use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use Symfony\Component\Console\Output\StreamOutput;
+use WyriHaximus\Broadcast\Composer\Collector;
 use WyriHaximus\Broadcast\Composer\Installer;
-use WyriHaximus\Broadcast\Dummy\Listener;
+use WyriHaximus\Broadcast\Composer\Listener as ComposerListener;
+use WyriHaximus\Broadcast\Composer\Plugin;
 use WyriHaximus\TestUtilities\TestCase;
 
 use function closedir;
@@ -44,9 +46,10 @@ use function substr;
 
 use const DIRECTORY_SEPARATOR;
 
-#[CoversMethod(Listener::class, 'handleBoth')]
-#[CoversMethod(Listener::class, 'doNotHandleDueToTwoArguments')]
-#[CoversMethod(Listener::class, 'doNotHandleProtected')]
+#[CoversClass(Collector::class)]
+#[CoversClass(ComposerListener::class)]
+#[CoversClass(Installer::class)]
+#[CoversClass(Plugin::class)]
 final class InstallerTest extends TestCase
 {
     #[Test]
@@ -112,6 +115,8 @@ final class InstallerTest extends TestCase
         );
 
         $installer = new Installer();
+
+        self::assertArrayHasKey(ScriptEvents::PRE_AUTOLOAD_DUMP, Installer::getSubscribedEvents());
 
         // Test dead methods and make Infection happy
         $installer->activate($composer, $io);
