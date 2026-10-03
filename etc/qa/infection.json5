@@ -45,5 +45,6 @@
         "ArrayItem": false,
         "TrueValue": false,
         "UnwrapStrReplace": false
-    }
+    },
+    "threads": 64
 }
