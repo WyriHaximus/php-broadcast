@@ -23,7 +23,7 @@
     "the-orville/exceptions": "dev-master",
     "wyrihaximus/async-test-utilities": "^14.1.0",
     "wyrihaximus/makefiles": "^0.14.7",
-    "wyrihaximus/phpstan-react": "^2.0.0"
+    "wyrihaximus/phpstan-react": "^2.0.0 || ^3.0.0"
   },
   "suggest": {
     "shipmonk/dead-code-detector": "This package supports ^0.15, ^0.14.1 by hooking in and marking all listeners as alive"
