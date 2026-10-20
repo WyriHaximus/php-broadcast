@@ -11,4 +11,10 @@
     <file>../../tests</file>
 
     <rule ref="WyriHaximus-OSS" />
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+        <exclude-pattern>src/ContainerListenerProvider\.php</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Arrays.ArrayDeclaration.ValueNoNewline">
+        <exclude-pattern>src/ContainerListenerProvider\.php</exclude-pattern>
+    </rule>
 </ruleset>

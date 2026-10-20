@@ -26,35 +26,31 @@ final readonly class ContainerListenerProvider implements ListenerProviderInterf
     /** @return iterable<(callable(object): mixed)> */
     final public function getListenersForEvent(object $event): iterable
     {
-        // phpcs:disable
         /** @phpstan-ignore generator.valueType */
         yield from match ($event::class) {
-            {% for event, listeners in events -%}
+{% for event, listeners in events %}
             \{{ event }}::class => [
-                {% for listener in listeners %}
-                    {% if listener.async and not listener.static %}
-                    /** @phpstan-ignore method.nonObject */
-                    {% endif -%}
-                    {% if listener.async -%}
-                    {% if listener.static %}static {% endif %}fn (\{{ event }} $event) => await(async({% if listener.static %}static {% endif %}fn (\{{ event }} $event) =>
-                    {%- endif -%}
-                    {% if listener.static %}
-                    {% if listener.async == false %}'{% endif %}\{{ listener.class }}::{{ listener.method }}{% if listener.async == false %}'{% endif %}
-                    {% else %}
-                    {% if listener.async -%}
-                    $this->container->get(\{{ listener.class }}::class)->{{ listener.method }}
-                    {% else %}
-                    ([$this->container->get(\{{ listener.class }}::class), '{{ listener.method }}'])
-                    {%- endif -%}
-                    {%- endif -%}
-                    {%- if listener.async -%}
-                    ($event))($event))
-                    {%- endif -%},
-                {% endfor %}
+{% for listener in listeners %}
+{% if listener.async %}
+                {% if listener.static %}/** @phpstan-ignore wyrihaximus.reactphp.async.awaitWithoutAsync,return.void */
+                {% else %}/** @phpstan-ignore wyrihaximus.reactphp.async.awaitWithoutAsync */
+                {% endif %}{% if listener.static %}static {% endif %}fn (\{{ event }} $event){% if listener.static %}: mixed{% endif %} => await(
+                    async(
+                        {% if not listener.static %}/** @phpstan-ignore method.nonObject */
+                        {% endif %}{% if listener.static %}static {% endif %}fn (\{{ event }} $event) => {% if listener.static %}\{{ listener.class }}::{{ listener.method }}($event),{% else %}$this->container->get(\{{ listener.class }}::class)->{{ listener.method }}($event),{% endif %}
+                    )($event),
+                ),
+{% else %}
+{% if listener.static %}
+                '\{{ listener.class }}::{{ listener.method }}',
+{% else %}
+                ([$this->container->get(\{{ listener.class }}::class), '{{ listener.method }}']),
+{% endif %}
+{% endif %}
+{% endfor %}
             ],
-            {% endfor -%}
+{% endfor %}
             default => [],
         };
-        // phpcs:enable
     }
 }

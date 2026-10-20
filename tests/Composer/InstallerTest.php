@@ -159,8 +159,8 @@ final class InstallerTest extends TestCase
         self::assertStringContainsStringIgnoringCase('([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handle\'])', $fileContents);
         self::assertStringContainsStringIgnoringCase('([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), \'handleBoth\'])', $fileContents);
         self::assertStringContainsStringIgnoringCase('\'\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly\'', $fileContents);
-        self::assertStringContainsStringIgnoringCase('fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) => $this->container->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle' . "\n" . ' ($event))($event))', $fileContents);
-        self::assertStringContainsStringIgnoringCase('static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic ($event))($event))', $fileContents);
+        self::assertStringContainsStringIgnoringCase('fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(' . "\n" . ' async(' . "\n" . ' /** @phpstan-ignore method.nonObject */' . "\n" . ' fn (\WyriHaximus\Broadcast\Dummy\Event $event) => $this->container->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle($event), )($event),' . "\n" . ' ),', $fileContents);
+        self::assertStringContainsStringIgnoringCase('static fn (\WyriHaximus\Broadcast\Dummy\Event $event): mixed => await(' . "\n" . ' async(' . "\n" . ' static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic($event), )($event),' . "\n" . ' ),', $fileContents);
 
         self::assertStringNotContainsStringIgnoringCase('\string::class => [', $fileContents);
         self::assertStringNotContainsStringIgnoringCase('thisShouldNotBeDetected', $fileContents);
