@@ -57,7 +57,7 @@ final class Listener implements ListenerContract
         throw new RuntimeException('Should not be called');
     }
 
-    /** @phpstan-ignore method.unused */
+    /** @phpstan-ignore method.unused,method.unusedParameter */
     private function doNotHandlePrivate(Event $event): never
     {
         throw new RuntimeException('Should not be called');

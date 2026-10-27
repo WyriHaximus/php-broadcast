@@ -26,24 +26,31 @@ final readonly class ContainerListenerProvider implements ListenerProviderInterf
     /** @return iterable<(callable(object): mixed)> */
     final public function getListenersForEvent(object $event): iterable
     {
-        // phpcs:disable
         /** @phpstan-ignore generator.valueType */
         yield from match ($event::class) {
             \WyriHaximus\Broadcast\Dummy\Event::class => [
-                                                        /** @phpstan-ignore method.nonObject */
-                    fn (\WyriHaximus\Broadcast\Dummy\Event $event): mixed => await(async(fn (\WyriHaximus\Broadcast\Dummy\Event $event) =>                    $this->container->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle
-                    ($event))($event)),
-                                    static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => await(async(static fn (\WyriHaximus\Broadcast\Dummy\Event $event) =>                    \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic                    ($event))($event)),
-                                                                            ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handle']),
-                                                                            ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
-                                                        '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly'                    ,
-                            ],
+                /** @phpstan-ignore wyrihaximus.reactphp.async.awaitWithoutAsync */
+                fn (\WyriHaximus\Broadcast\Dummy\Event $event): mixed => await(
+                    async(
+                        /** @phpstan-ignore method.nonObject */
+                        fn (\WyriHaximus\Broadcast\Dummy\Event $event) => $this->container->get(\WyriHaximus\Broadcast\Dummy\AsyncListener::class)->handle($event),
+                    )($event),
+                ),
+                /** @phpstan-ignore wyrihaximus.reactphp.async.awaitWithoutAsync,return.void */
+                static fn (\WyriHaximus\Broadcast\Dummy\Event $event): mixed => await(
+                    async(
+                        static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic($event),
+                    )($event),
+                ),
+                ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handle']),
+                ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
+                '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly',
+            ],
             \stdClass::class => [
-                                                                            ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
-                                                        '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly'                    ,
-                            ],
+                ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
+                '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly',
+            ],
             default => [],
         };
-        // phpcs:enable
     }
 }
