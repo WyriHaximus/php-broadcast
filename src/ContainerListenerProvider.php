@@ -29,9 +29,6 @@ final readonly class ContainerListenerProvider implements ListenerProviderInterf
         /** @phpstan-ignore generator.valueType */
         yield from match ($event::class) {
             \WyriHaximus\Broadcast\Dummy\Event::class => [
-                ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handle']),
-                ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
-                '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly',
                 /** @phpstan-ignore wyrihaximus.reactphp.async.awaitWithoutAsync */
                 fn (\WyriHaximus\Broadcast\Dummy\Event $event): mixed => await(
                     async(
@@ -45,6 +42,9 @@ final readonly class ContainerListenerProvider implements ListenerProviderInterf
                         static fn (\WyriHaximus\Broadcast\Dummy\Event $event) => \WyriHaximus\Broadcast\Dummy\AsyncListener::handleStatic($event),
                     )($event),
                 ),
+                ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handle']),
+                ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
+                '\WyriHaximus\Broadcast\Dummy\Listener::handleBothStaticly',
             ],
             \stdClass::class => [
                 ([$this->container->get(\WyriHaximus\Broadcast\Dummy\Listener::class), 'handleBoth']),
